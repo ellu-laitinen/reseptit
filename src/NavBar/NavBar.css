@@ -1,0 +1,10 @@
+.toolbar {
+    display: inline-block;
+    /* justify-content: space-around; */
+}
+
+.btn {
+    color: white;
+    background-color: cornflowerblue;
+}
+
