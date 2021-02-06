@@ -1,15 +1,14 @@
-import './App.css';
-import NavBar from './NavBar/NavBar'
+import "./App.css";
+import NavBar from "./NavBar/NavBar";
 
-import Reseptit from './Reseptit/Reseptit'
+import Recipes from "./Recipes/Recipes";
 
 function App() {
   return (
     <div className="App">
-<NavBar/>
+      <NavBar />
 
-<Reseptit/>
-
+      <Recipes />
     </div>
   );
 }
