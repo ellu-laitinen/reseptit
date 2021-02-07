@@ -1,30 +1,26 @@
 [
   {
-    "ingredient1": "ingredient1",
-    "ingredient2": "ingredient2",
-    "ingredient3": "ingredient3",
-    "ingredient4": "ingredient4",
+    "id": 1,
+    "title": "title1",
+    "ingredients": "ingredient1",
     "instructions": "instructions here"
   },
   {
-    "ingredient1": "ingredient1",
-    "ingredient2": "ingredient2",
-    "ingredient3": "ingredient3",
-    "ingredient4": "ingredient4",
+    "id": 2,
+    "title": "title2",
+    "ingredients": "ingredient2",
     "instructions": "instructions here"
   },
   {
-    "ingredient1": "ingredient1",
-    "ingredient2": "ingredient2",
-    "ingredient3": "ingredient3",
-    "ingredient4": "ingredient4",
+    "id": 3,
+    "title": "title3",
+    "ingredients": "ingredient3",
     "instructions": "instructions here"
   },
   {
-    "ingredient1": "ingredient1",
-    "ingredient2": "ingredient2",
-    "ingredient3": "ingredient3",
-    "ingredient4": "ingredient4",
+    "id": 4,
+    "title": "title4",
+    "ingredients": "ingredient4",
     "instructions": "instructions here"
   }
 ]

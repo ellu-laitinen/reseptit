@@ -1,37 +1,20 @@
 import React from "react";
-import { Link, Route, Switch } from "react-router-dom";
-import Card from "@material-ui/core/Card";
-import Typography from "@material-ui/core/Typography";
-import Grid from "@material-ui/core/Grid";
-
+import { Link } from "react-router-dom";
 import data from "../../breakfasts.json";
+import RecipeCard from "../Breakfasts/RecipeCard";
 
-const Aamupalat = () => {
-  const breakfast = data.map((item) => {
+const Breakfasts = () => {
+  const recipeList = data.map((item) => {
     return (
-      <Grid item>
-        <Card>
-          <Typography>
-            <ul>
-              <li> {item.ingredient1}</li>
-              <li> {item.ingredient2}</li>
-              <li> {item.ingredient3}</li>
-            </ul>
-          </Typography>
-
-          <Typography>Katso resepti</Typography>
-        </Card>
-      </Grid>
+      <RecipeCard
+        key={item.id}
+        title={item.title}
+        ingredients={item.ingredients}
+        instructions={item.instructions}
+      />
     );
   });
-
-  return (
-    <Grid container spacing={2}>
-      <Typography variant="h6">Aamupalat</Typography>
-
-      {breakfast}
-    </Grid>
-  );
+  return <div>{recipeList}</div>;
 };
 
-export default Aamupalat;
+export default Breakfasts;
