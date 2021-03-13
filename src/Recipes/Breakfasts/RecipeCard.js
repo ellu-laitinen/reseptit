@@ -13,9 +13,7 @@ const RecipeCard = ({ title, ingredients, instructions, link }) => {
           <Typography variant="h6">{title}</Typography>
           <Typography>{ingredients}</Typography>
           <Typography>{instructions}</Typography>
-          <Typography component="a" href="#">
-            Koko resepti
-          </Typography>
+          <Link to={link}>Koko resepti</Link>
         </Card>
       </Grid>
     </Grid>
