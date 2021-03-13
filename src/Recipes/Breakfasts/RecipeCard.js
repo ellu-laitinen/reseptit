@@ -7,14 +7,16 @@ import "./RecipeCard.scss";
 
 const RecipeCard = ({ title, ingredients, instructions, link }) => {
   return (
-    <Grid container>
+    <Grid container spacing={2} direction="row">
       <Grid item xs={12}>
-        <Typography variant="h6">{title}</Typography>
-        <Typography>{ingredients}</Typography>
-        <Typography>{instructions}</Typography>
-        <Typography component="a" href="#">
-          Koko resepti
-        </Typography>
+        <Card>
+          <Typography variant="h6">{title}</Typography>
+          <Typography>{ingredients}</Typography>
+          <Typography>{instructions}</Typography>
+          <Typography component="a" href="#">
+            Koko resepti
+          </Typography>
+        </Card>
       </Grid>
     </Grid>
   );

@@ -3,13 +3,17 @@ import NavBar from "./NavBar/NavBar";
 
 import Recipes from "./Recipes/Recipes";
 
+import BreakfastContextProvider from "./_Contexts/BreakfastContext";
+
 function App() {
   return (
-    <div className="App">
-      <NavBar />
+    <BreakfastContextProvider>
+      <div className="App">
+        <NavBar />
 
-      <Recipes />
-    </div>
+        <Recipes />
+      </div>
+    </BreakfastContextProvider>
   );
 }
 

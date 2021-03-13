@@ -1,20 +1,24 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-import data from "../../breakfasts.json";
 import RecipeCard from "../Breakfasts/RecipeCard";
+import { Card } from "@material-ui/core";
+import { BreakfastContext } from "../../_Contexts/BreakfastContext";
 
 const Breakfasts = () => {
-  const recipeList = data.map((item) => {
+  const { breakfast } = useContext(BreakfastContext);
+
+  return breakfast.map((item) => {
+    console.log(item.ingredients.map((i) => i));
     return (
       <RecipeCard
-        key={item.id}
         title={item.title}
-        ingredients={item.ingredients}
+        ingredients={item.ingredients.map((i) => (
+          <li>{i}</li>
+        ))}
         instructions={item.instructions}
-      />
+      ></RecipeCard>
     );
   });
-  return <div>{recipeList}</div>;
 };
 
 export default Breakfasts;
