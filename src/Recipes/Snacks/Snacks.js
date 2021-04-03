@@ -1,23 +1,56 @@
-import React, { useContext } from "react";
-import RecipeCard from "../Breakfasts/RecipeCard";
-import { Card } from "@material-ui/core";
-import { SnackContext } from "../../_Contexts/SnackContext";
+import React, { useEffect, useState } from "react";
+import RecipeCard from "../RecipeCard";
+import {
+  Link,
+  useRouteMatch,
+  Switch,
+  Route,
+  BrowserRouter as Router,
+} from "react-router-dom";
+import axios from "axios";
+import { Card, Grid } from "@material-ui/core";
+
+import FullRecipe from "../FullRecipe";
 
 const Snacks = () => {
-  const { snack } = useContext(SnackContext);
+  const [snack, setSnack] = useState([]);
+  let match = useRouteMatch();
 
-  return snack.map((item) => {
-    console.log(item.ingredients.map((i) => i));
+  useEffect(() => {
+    axios.get("http://localhost:3001/snacks").then((response) => {
+      const snackList = response.data;
+      setSnack(snackList);
+    });
+  }, []);
+
+  const recipeList = snack.map((item) => {
     return (
-      <RecipeCard
-        title={item.title}
-        ingredients={item.ingredients.map((i) => (
-          <li>{i}</li>
-        ))}
-        instructions={item.instructions}
-      ></RecipeCard>
+      <Grid item xs={12} sm={4}>
+        <RecipeCard
+          title={item.title}
+          img={item.img}
+          link={`${match.url}/${item.id}`}
+        />
+      </Grid>
     );
   });
+
+  return (
+    <div>
+      <Router>
+        <Switch>
+          <Route path={`/:snacks/:postId`}>
+            <FullRecipe />
+          </Route>
+          <Route path={match.path}>
+            <Grid container spacing={2}>
+              {recipeList}
+            </Grid>
+          </Route>
+        </Switch>
+      </Router>
+    </div>
+  );
 };
 
 export default Snacks;

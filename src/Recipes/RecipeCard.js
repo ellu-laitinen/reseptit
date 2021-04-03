@@ -5,18 +5,21 @@ import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import "./RecipeCard.scss";
 
-const RecipeCard = ({ title, ingredients, instructions, link }) => {
+const RecipeCard = ({ title, img, link }) => {
   return (
-    <Grid container spacing={2} direction="row">
-      <Grid item xs={12}>
-        <Card>
+    <Card>
+      <Grid container spacing={2} direction="column">
+        <Grid item xs={12}>
           <Typography variant="h6">{title}</Typography>
-          <Typography>{ingredients}</Typography>
-          <Typography>{instructions}</Typography>
+        </Grid>
+        <Grid item>
+          <img src={img} alt={img} />
+        </Grid>
+        <Grid item>
           <Link to={link}>Koko resepti</Link>
-        </Card>
+        </Grid>
       </Grid>
-    </Grid>
+    </Card>
   );
 };
 

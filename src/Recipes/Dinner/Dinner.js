@@ -13,19 +13,18 @@ import FullRecipe from "../FullRecipe";
 import axios from "axios";
 import { Grid } from "@material-ui/core";
 
-const Breakfasts = () => {
-  const [breakfast, setBreakfast] = useState([]);
+const Dinner = () => {
+  const [dinner, setDinner] = useState([]);
   let match = useRouteMatch();
 
   useEffect(() => {
-    axios.get("http://localhost:3001/breakfast").then((response) => {
-      const breakfastList = response.data;
-      setBreakfast(breakfastList);
-      console.log(breakfastList);
+    axios.get("http://localhost:3001/dinner").then((response) => {
+      const dinnerList = response.data;
+      setDinner(dinnerList);
     });
   }, []);
 
-  const recipeList = breakfast.map((item) => {
+  const recipeList = dinner.map((item) => {
     return (
       <Grid item xs={12} sm={4}>
         <RecipeCard
@@ -55,4 +54,4 @@ const Breakfasts = () => {
   );
 };
 
-export default Breakfasts;
+export default Dinner;
