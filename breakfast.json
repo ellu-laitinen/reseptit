@@ -1,0 +1,23 @@
+{
+  "breakfast": [
+    {
+      "id": 1,
+      "title": "recipe1",
+      "ingredients": ["eggs", "bacon"],
+
+      "instructions": "paista pannulla"
+    },
+    {
+      "id": 2,
+      "title": "recipe2",
+      "ingredients": ["apples", "oranges", "bananas"],
+      "instructions": "kuori ja pilko"
+    },
+    {
+      "id": 3,
+      "title": "recipe3",
+      "ingredients": ["jogurt"],
+      "instructions": "avaa kansi"
+    }
+  ]
+}

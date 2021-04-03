@@ -6,6 +6,7 @@ import Recipes from "./Recipes/Recipes";
 import BreakfastContextProvider from "./_Contexts/BreakfastContext";
 import AddRecipeContextProvider from "./_Contexts/AddRecipeContext";
 import SnackContextProvider from "./_Contexts/SnackContext";
+import FullRecipe from "./Recipes/Breakfasts/FullRecipe";
 
 function App() {
   return (

@@ -1,35 +1,56 @@
-import React, { useContext } from "react";
-import { Link, useRouteMatch, Switch, Route } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import {
+  Link,
+  useRouteMatch,
+  Switch,
+  Route,
+  BrowserRouter as Router,
+} from "react-router-dom";
 import RecipeCard from "../Breakfasts/RecipeCard";
-import { Card } from "@material-ui/core";
-import { BreakfastContext } from "../../_Contexts/BreakfastContext";
+
 import AddRecipe from "../../AddRecipe";
 import FullRecipe from "./FullRecipe";
+import axios from "axios";
 
 const Breakfasts = () => {
+  const [breakfast, setBreakfast] = useState([]);
   let match = useRouteMatch();
-  const { breakfast } = useContext(BreakfastContext);
 
-  return breakfast.map((item) => {
-    console.log(item.ingredients.map((i) => i));
+  useEffect(() => {
+    axios.get("http://localhost:3001/breakfast").then((response) => {
+      const breakfastList = response.data;
+      setBreakfast(breakfastList);
+      console.log(breakfastList);
+    });
+  }, []);
+
+  const recipeList = breakfast.map((item) => {
     return (
-      <Switch>
-        <Route path="/reseptit/:id">
-          <FullRecipe />
-        </Route>
-        <Route path={match.path}>
-          <RecipeCard
-            title={item.title}
-            ingredients={item.ingredients.map((i) => (
-              <li>{i}</li>
-            ))}
-            instructions={item.instructions}
-            link={`/${item.id}`}
-          ></RecipeCard>
-        </Route>
-      </Switch>
+      <RecipeCard
+        title={item.title}
+        ingredients={item.ingredients.map((j) => (
+          <li>{j}</li>
+        ))}
+        instructions={item.instructions}
+        link={`/${item.id}`}
+      />
     );
   });
+
+  return (
+    <div>
+      <Router>
+        <Switch>
+          <Route path="/:postId">
+            <FullRecipe />
+          </Route>
+          <Route path={match.path}>
+            <div>{recipeList}</div>
+          </Route>
+        </Switch>
+      </Router>
+    </div>
+  );
 };
 
 export default Breakfasts;
