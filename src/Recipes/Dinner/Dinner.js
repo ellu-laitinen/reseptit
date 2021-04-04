@@ -16,13 +16,25 @@ import { Grid } from "@material-ui/core";
 const Dinner = () => {
   const [dinner, setDinner] = useState([]);
   let match = useRouteMatch();
-
+  const category = "dinner";
   useEffect(() => {
-    axios.get("http://localhost:3001/dinner").then((response) => {
+    axios.get(`http://localhost:3001/${category}`).then((response) => {
       const dinnerList = response.data;
       setDinner(dinnerList);
     });
   }, []);
+  const removeHandler = (id) => {
+    console.log(id);
+
+    axios
+      .delete(`http://localhost:3001/${category}/` + id)
+      .then(() => {
+        return axios.get(`http://localhost:3001/${category}`);
+      })
+      .then((response) => {
+        setDinner(response.data);
+      });
+  };
 
   const recipeList = dinner.map((item) => {
     return (
@@ -31,6 +43,7 @@ const Dinner = () => {
           title={item.title}
           img={item.img}
           link={`${match.url}/${item.id}`}
+          remove={() => removeHandler(item.id)}
         />
       </Grid>
     );

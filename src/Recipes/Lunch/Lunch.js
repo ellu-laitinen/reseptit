@@ -23,6 +23,18 @@ const Lunch = () => {
       setLunch(lunchList);
     });
   }, []);
+  const removeHandler = (id) => {
+    console.log(id);
+
+    axios
+      .delete("http://localhost:3001/lunch/" + id)
+      .then(() => {
+        return axios.get("http://localhost:3001/lunch");
+      })
+      .then((response) => {
+        setLunch(response.data);
+      });
+  };
 
   const recipeList = lunch.map((item) => {
     return (
@@ -31,6 +43,7 @@ const Lunch = () => {
           title={item.title}
           img={item.img}
           link={`${match.url}/${item.id}`}
+          remove={()=> removeHandler(item.id)}
         />
       </Grid>
     );

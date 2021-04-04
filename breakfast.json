@@ -3,40 +3,60 @@
     {
       "id": 1,
       "title": "Aamupala1",
-      "ingredients": ["eggs", "bacon"],
-
+      "ingredients": [
+        "eggs",
+        "bacon"
+      ],
       "instructions": "paista pannulla",
       "img": "https://source.unsplash.com/450x200/?bacon "
     },
     {
       "id": 2,
       "title": "Aamupala2",
-      "ingredients": ["apples", "oranges", "bananas"],
+      "ingredients": [
+        "apples",
+        "oranges",
+        "bananas"
+      ],
       "instructions": "kuori ja pilko",
       "img": "https://source.unsplash.com/450x200/?food"
     },
     {
       "id": 3,
       "title": "Aamupala3",
-      "ingredients": ["jogurt"],
+      "ingredients": [
+        "jogurt"
+      ],
       "instructions": "avaa kansi",
       "img": "https://source.unsplash.com/450x225/?yogurt"
+    },
+    {
+      "ingredients": "fvergrgr",
+      "id": 4
+    },
+    {
+      "ingredients": "qwwerw",
+      "id": 5
     }
   ],
   "snacks": [
     {
       "id": 1,
       "title": "Välipala1",
-      "ingredients": ["eggs", "bacon"],
-
+      "ingredients": [
+        "eggs",
+        "bacon"
+      ],
       "instructions": "paista pannulla",
       "img": "https://source.unsplash.com/450x225/?eggs "
     },
     {
       "id": 2,
       "title": "Välipala2",
-      "ingredients": ["banaani", "omena"],
-
+      "ingredients": [
+        "banaani",
+        "omena"
+      ],
       "instructions": "paista pannulla",
       "img": "https://source.unsplash.com/450x225/?banana "
     }
@@ -45,58 +65,62 @@
     {
       "id": 1,
       "title": "Lounas1",
-      "ingredients": ["eggs", "bacon"],
-
+      "ingredients": [
+        "eggs",
+        "bacon"
+      ],
       "instructions": "paista pannulla",
       "img": "https://source.unsplash.com/450x225/?lunch "
     },
     {
       "id": 2,
       "title": "Lounas2",
-      "ingredients": ["banaani", "omena"],
-
+      "ingredients": [
+        "banaani",
+        "omena"
+      ],
       "instructions": "paista pannulla",
       "img": "https://source.unsplash.com/450x225/?soup "
     },
     {
       "id": 3,
       "title": "Lounas3",
-      "ingredients": ["banaani", "omena"],
-
+      "ingredients": [
+        "banaani",
+        "omena"
+      ],
       "instructions": "paista pannulla",
       "img": "https://source.unsplash.com/450x225/?chicken "
     },
     {
       "id": 4,
       "title": "Lounas4",
-      "ingredients": ["banaani", "omena"],
-
+      "ingredients": [
+        "banaani",
+        "omena"
+      ],
       "instructions": "paista pannulla",
       "img": "https://source.unsplash.com/450x225/?pasta "
     },
     {
       "id": 5,
       "title": "Lounas5",
-      "ingredients": ["banaani", "omena"],
-
+      "ingredients": [
+        "banaani",
+        "omena"
+      ],
       "instructions": "paista pannulla",
       "img": "https://source.unsplash.com/450x225/?salmon "
     }
   ],
   "dinner": [
     {
-      "id": 1,
-      "title": "Päiväruoka1",
-      "ingredients": ["eggs", "bacon"],
-
-      "instructions": "paista pannulla",
-      "img": "https://source.unsplash.com/450x225/?dinner "
-    },
-    {
       "id": 2,
       "title": "Päviäruoka2",
-      "ingredients": ["banaani", "omena"],
-
+      "ingredients": [
+        "banaani",
+        "omena"
+      ],
       "instructions": "paista pannulla",
       "img": "https://source.unsplash.com/450x225/?banana "
     }

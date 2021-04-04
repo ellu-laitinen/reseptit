@@ -22,6 +22,18 @@ const Snacks = () => {
       setSnack(snackList);
     });
   }, []);
+  const removeHandler = (id) => {
+    console.log(id);
+
+    axios
+      .delete("http://localhost:3001/snacks/" + id)
+      .then(() => {
+        return axios.get("http://localhost:3001/snacks");
+      })
+      .then((response) => {
+        setSnack(response.data);
+      });
+  };
 
   const recipeList = snack.map((item) => {
     return (
@@ -30,6 +42,7 @@ const Snacks = () => {
           title={item.title}
           img={item.img}
           link={`${match.url}/${item.id}`}
+          remove={()=> removeHandler(item.id)}
         />
       </Grid>
     );

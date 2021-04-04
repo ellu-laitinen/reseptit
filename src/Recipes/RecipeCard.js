@@ -4,8 +4,9 @@ import Card from "@material-ui/core/Card";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import "./RecipeCard.scss";
+import { Button } from "@material-ui/core";
 
-const RecipeCard = ({ title, img, link }) => {
+const RecipeCard = ({ title, img, link, remove }) => {
   return (
     <Card>
       <Grid container spacing={2} direction="column">
@@ -17,6 +18,9 @@ const RecipeCard = ({ title, img, link }) => {
         </Grid>
         <Grid item>
           <Link to={link}>Koko resepti</Link>
+        </Grid>
+        <Grid item>
+          <Button onClick={remove}>Poista resepti</Button>
         </Grid>
       </Grid>
     </Card>

@@ -19,11 +19,23 @@ const Breakfasts = () => {
 
   useEffect(() => {
     axios.get("http://localhost:3001/breakfast").then((response) => {
-      const breakfastList = response.data;
-      setBreakfast(breakfastList);
-      console.log(breakfastList);
+      setBreakfast(response.data);
+      console.log(response.data);
     });
   }, []);
+
+  const removeHandler = (id) => {
+    console.log(id);
+
+    axios
+      .delete("http://localhost:3001/breakfast/" + id)
+      .then(() => {
+        return axios.get("http://localhost:3001/breakfast");
+      })
+      .then((response) => {
+        setBreakfast(response.data);
+      });
+  };
 
   const recipeList = breakfast.map((item) => {
     return (
@@ -32,6 +44,7 @@ const Breakfasts = () => {
           title={item.title}
           img={item.img}
           link={`${match.url}/${item.id}`}
+          remove={() => removeHandler(item.id)}
         />
       </Grid>
     );
