@@ -14,8 +14,8 @@ function App() {
       <Link to="/breakfast">Aamupala</Link>
       <Link to="/snacks">Väli- ja iltapalat</Link>
       <Link to="/lunch">Lounaat</Link>
-      <Link to="/dinner">PÄiväruuat</Link>
-      <Link to="/new">LIsää uusi resepti</Link>
+      <Link to="/dinner">Päiväruuat</Link>
+      <Link to="/new">Lisää uusi resepti</Link>
       <NavBar />
       <Switch>
         <Route path="/breakfast" exact component={Breakfasts}></Route>

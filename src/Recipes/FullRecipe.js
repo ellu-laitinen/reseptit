@@ -27,7 +27,7 @@ const FullRecipe = () => {
   if (loadedRecipe) {
     recipeData = (
       <Card>
-        <p>this is the full recipe {postId}</p>
+        <p>Tässä resepti numero {postId}</p>
 
         <h1>{loadedRecipe.title}</h1>
         {loadedRecipe.ingredients.map((ing) => (
