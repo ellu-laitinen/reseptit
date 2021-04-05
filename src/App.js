@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 import NavBar from "./NavBar/NavBar";
 import AddRecipe from "./AddRecipe";
 import Breakfasts from "./Recipes/Breakfasts/Breakfasts";
+import { withAuthenticator, AmplifySignOut } from "@aws-amplify/ui-react";
 
 import Snacks from "./Recipes/Snacks/Snacks";
 import Lunch from "./Recipes/Lunch/Lunch";
@@ -25,8 +26,9 @@ function App() {
         <Route path="/new" exact component={AddRecipe}></Route>
       </Switch>
       {/*      <AddRecipe /> */}
+      <AmplifySignOut />
     </Router>
   );
 }
 
-export default App;
+export default withAuthenticator(App);
