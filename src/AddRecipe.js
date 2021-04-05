@@ -11,23 +11,47 @@ import {
 } from "@material-ui/core";
 
 const AddRecipe = () => {
+  const [ingredients, setIngredients] = useState([]);
   const [newRecipe, setNewRecipe] = useState({
-    title: "",
-    ingredients: [],
-    instructions: "",
+    title: { value: "" },
+    ingredients: ingredients,
+    instructions: { value: "" },
   });
 
-  const changeHandler = (e) => {
+  const saveData = ({ name, value }) => {
     setNewRecipe({
+      ...newRecipe,
+      [name]: value,
+    });
+  };
+
+  const changeIngHandler = (e) => {
+    setIngredients({
+      ...ingredients,
       [e.target.name]: e.target.value,
     });
   };
 
-  const addIng = () => {
-    setNewRecipe({});
+  const addIng = (e) => {
+    e.preventDefault();
+    saveData({
+      name: "ingredients",
+      value: [...newRecipe.ingredients, ingredients],
+    });
+    console.log(ingredients);
+  };
+  console.log(newRecipe);
+  console.log(ingredients);
+
+  const changeHandler = (e) => {
+    setNewRecipe({
+      ...newRecipe,
+      [e.target.name]: e.target.value,
+    });
   };
 
   const addRecipe = (e) => {
+    e.preventDefault();
     console.log("new recipe added");
     console.log(newRecipe);
     axios
@@ -35,6 +59,17 @@ const AddRecipe = () => {
       .then((response) => {
         console.log(response.data);
       });
+  };
+
+  const removeIng = (ingredients) => {
+    console.log(ingredients);
+    const newIngList = newRecipe.ingredients.filter(
+      (x) => x.ingredients !== ingredients
+    );
+    saveData({
+      name: "ingredients",
+      value: [...newIngList],
+    });
   };
 
   return (
@@ -57,10 +92,16 @@ const AddRecipe = () => {
             size="small"
             type="text"
             name="ingredients"
-            onChange={changeHandler}
+            onChange={changeIngHandler}
           ></TextField>
           <Button onClick={addIng}>Lisää listaan</Button>
         </Grid>
+        {newRecipe.ingredients.map((i) => (
+          <div>
+            <li value={i.ingredients}>{i.ingredients}</li>
+            <button onClick={() => removeIng(i.ingredients)}>poista</button>
+          </div>
+        ))}
         <Grid item>
           <InputLabel>Ohjeet</InputLabel>
           <TextareaAutosize

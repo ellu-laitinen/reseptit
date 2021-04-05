@@ -31,12 +31,46 @@
       "img": "https://source.unsplash.com/450x225/?yogurt"
     },
     {
-      "ingredients": "fvergrgr",
-      "id": 4
+      "title": "dd",
+      "ingredients": [
+        {
+          "ingredients": "ssdfd"
+        },
+        {
+          "ingredients": "bnbn"
+        }
+      ],
+      "instructions": "sds",
+      "id": 5
     },
     {
-      "ingredients": "qwwerw",
-      "id": 5
+      "title": "tämä on testiresepti",
+      "ingredients": [
+        {
+          "ingredients": "osa yksi"
+        },
+        {
+          "ingredients": "osa kaksi"
+        },
+        {
+          "ingredients": "ainesosa kolme"
+        }
+      ],
+      "instructions": "tee jotain. Toimiiko tämä?",
+      "id": 6
+    },
+    {
+      "title": "sdfsdf",
+      "ingredients": [
+        {
+          "ingredients": "fsdfdv"
+        },
+        {
+          "ingredients": "sdvsdv"
+        }
+      ],
+      "instructions": "sdfsdf",
+      "id": 7
     }
   ],
   "snacks": [
@@ -101,16 +135,6 @@
       ],
       "instructions": "paista pannulla",
       "img": "https://source.unsplash.com/450x225/?pasta "
-    },
-    {
-      "id": 5,
-      "title": "Lounas5",
-      "ingredients": [
-        "banaani",
-        "omena"
-      ],
-      "instructions": "paista pannulla",
-      "img": "https://source.unsplash.com/450x225/?salmon "
     }
   ],
   "dinner": [

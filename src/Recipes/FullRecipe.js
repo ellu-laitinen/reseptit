@@ -32,7 +32,7 @@ const FullRecipe = () => {
         <h1>{loadedRecipe.title}</h1>
         {loadedRecipe.ingredients.map((ing) => (
           <ul>
-            <li>{ing}</li>
+            <li>{ing.ingredients}</li>
           </ul>
         ))}
 
