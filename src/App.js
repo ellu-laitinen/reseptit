@@ -24,7 +24,7 @@ function App() {
         <Route path="/dinner" exact component={Dinner}></Route>
         <Route path="/new" exact component={AddRecipe}></Route>
       </Switch>
-      {/*      <AddRecipe /> */}
+      {/*   <AddRecipe /> */}
     </Router>
   );
 }
