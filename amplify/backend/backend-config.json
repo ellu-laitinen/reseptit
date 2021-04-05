@@ -1,10 +1,3 @@
 {
-  "auth": {
-    "reseptita0dbb674": {
-      "service": "Cognito",
-      "providerPlugin": "awscloudformation",
-      "dependsOn": [],
-      "customAuth": false
-    }
-  }
+  "auth": {}
 }
