@@ -12,7 +12,7 @@ import Dinner from "./Recipes/Dinner/Dinner";
 function App() {
   return (
     <Router>
-      <Link to="/breakfast">Aamupala</Link>
+      <Link to="/breakfast">Aamupalat</Link>
       <Link to="/snacks">Väli- ja iltapalat</Link>
       <Link to="/lunch">Lounaat</Link>
       <Link to="/dinner">Päiväruuat</Link>
