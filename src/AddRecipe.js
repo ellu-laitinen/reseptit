@@ -164,14 +164,6 @@ const AddRecipe = () => {
         <Button type="submit" onClick={createNote}>
           Lisää resepti
         </Button>
-        {recipes.map((recipe) => (
-          <div key={recipe.id || recipe.name}>
-            <h2>{recipe.title}</h2>
-            <p>{recipe.ingredients}</p>
-            <p>{recipe.instructions}</p>
-            <Button onClick={() => deleteNote(recipe)}>Poista resepti</Button>
-          </div>
-        ))}
       </Grid>
     </Card>
   );

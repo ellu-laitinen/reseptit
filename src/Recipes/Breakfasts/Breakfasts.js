@@ -7,6 +7,9 @@ import {
   BrowserRouter as Router,
 } from "react-router-dom";
 import RecipeCard from "../RecipeCard";
+import { listRecipes } from "../../graphql/queries";
+import { API } from "aws-amplify";
+import { deleteRecipe as deleteRecipeMutation } from "../../graphql/mutations";
 
 import AddRecipe from "../../AddRecipe";
 import FullRecipe from "../FullRecipe";
@@ -18,6 +21,25 @@ const Breakfasts = () => {
   let match = useRouteMatch();
 
   useEffect(() => {
+    fetchNotes();
+  }, []);
+
+  async function fetchNotes() {
+    const apiData = await API.graphql({ query: listRecipes });
+    setBreakfast(apiData.data.listRecipes.items);
+    console.log(apiData.data.listRecipes.items);
+  }
+
+  async function deleteNote({ id }) {
+    const newBreakfastArray = breakfast.filter((recipe) => recipe.id !== id);
+    setBreakfast(newBreakfastArray);
+    await API.graphql({
+      query: deleteRecipeMutation,
+      variables: { input: { id } },
+    });
+  }
+
+  /*   useEffect(() => {
     axios.get("http://localhost:3001/breakfast").then((response) => {
       setBreakfast(response.data);
       console.log(response.data);
@@ -35,7 +57,7 @@ const Breakfasts = () => {
       .then((response) => {
         setBreakfast(response.data);
       });
-  };
+  }; */
 
   const recipeList = breakfast.map((item) => {
     return (
@@ -44,7 +66,8 @@ const Breakfasts = () => {
           title={item.title}
           img={item.img}
           link={`${match.url}/${item.id}`}
-          remove={() => removeHandler(item.id)}
+          remove={() => deleteNote(item)}
+          // <Button onClick={() => deleteNote(recipe)}>Poista resepti</Button>
         />
       </Grid>
     );
