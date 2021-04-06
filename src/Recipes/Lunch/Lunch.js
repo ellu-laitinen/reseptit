@@ -6,35 +6,60 @@ import {
   Route,
   BrowserRouter as Router,
 } from "react-router-dom";
+import { listLunchs } from "../../graphql/queries";
+import { deleteLunch as deleteLunchMutation } from "../../graphql/mutations";
+import { API } from "aws-amplify";
 import RecipeCard from "../RecipeCard";
 
-import AddRecipe from "../../AddRecipe";
+import AddRecipe from "../../AddRecipe/AddBreakfast";
 import FullRecipe from "../FullRecipe";
 import axios from "axios";
 import { Grid } from "@material-ui/core";
+import AddDinner from "../../AddRecipe/AddDinner";
+import AddLunch from "../../AddRecipe/AddLunch";
 
 const Lunch = () => {
   const [lunch, setLunch] = useState([]);
   let match = useRouteMatch();
 
   useEffect(() => {
-    axios.get("http://localhost:3001/lunch").then((response) => {
-      const lunchList = response.data;
-      setLunch(lunchList);
+    fetchLunches();
+  }, []);
+
+  async function fetchLunches() {
+    const apiData = await API.graphql({ query: listLunchs });
+    setLunch(apiData.data.listLunchs.items);
+    console.log(apiData.data.listLunchs.items);
+  }
+
+  async function deleteLunch({ id }) {
+    const newBreakfastArray = lunch.filter((recipe) => recipe.id !== id);
+    setLunch(newBreakfastArray);
+    await API.graphql({
+      query: deleteLunchMutation,
+      variables: { input: { id } },
+    });
+  }
+
+  /*   const category = "dinner";
+  useEffect(() => {
+    axios.get(`http://localhost:3001/${category}`).then((response) => {
+      const dinnerList = response.data;
+      setLunch(dinnerList);
     });
   }, []);
   const removeHandler = (id) => {
     console.log(id);
 
     axios
-      .delete("http://localhost:3001/lunch/" + id)
+      .delete(`http://localhost:3001/${category}/` + id)
       .then(() => {
-        return axios.get("http://localhost:3001/lunch");
+        return axios.get(`http://localhost:3001/${category}`);
       })
       .then((response) => {
         setLunch(response.data);
       });
-  };
+  }; */
 
   const recipeList = lunch.map((item) => {
     return (
@@ -43,7 +68,7 @@ const Lunch = () => {
           title={item.title}
           img={item.img}
           link={`${match.url}/${item.id}`}
-          remove={()=> removeHandler(item.id)}
+          remove={() => deleteLunch(item)}
         />
       </Grid>
     );
@@ -63,6 +88,7 @@ const Lunch = () => {
           </Route>
         </Switch>
       </Router>
+      <AddLunch />
     </div>
   );
 };

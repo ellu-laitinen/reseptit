@@ -12,7 +12,12 @@ const FullRecipe = () => {
   let { recipe } = useParams();
 
   useEffect(() => {
-    fetchBreakfast();
+    if (queries.getBreakfast) {
+      fetchBreakfast();
+    }
+    if (queries.getDinner) {
+      fetchDinner();
+    }
   }, []);
 
   async function fetchBreakfast() {
@@ -22,6 +27,15 @@ const FullRecipe = () => {
     });
     setLoadedRecipe(apiData.data.getBreakfast);
     console.log(apiData.data.getBreakfast);
+  }
+
+  async function fetchDinner() {
+    const apiData = await API.graphql({
+      query: queries.getDinner,
+      variables: { id: postId },
+    });
+    setLoadedRecipe(apiData.data.getDinner);
+    console.log(apiData.data.getDinner);
   }
 
   /*   useEffect(() => {

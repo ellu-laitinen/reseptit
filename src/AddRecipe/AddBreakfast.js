@@ -9,54 +9,43 @@ import {
   TextField,
   TextareaAutosize,
   Button,
-  Divider,
 } from "@material-ui/core";
-import { listBreakfasts } from "./graphql/queries";
-import {
-  createBreakfast as createBreakfastMutation,
-  deleteBreakfast as deleteBreakfastMutation,
-} from "./graphql/mutations";
+import { listBreakfasts } from "../graphql/queries";
+import { createBreakfast as createBreakfastMutation } from "../graphql/mutations";
 
-const AddRecipe = () => {
+const AddBreakfast = () => {
   // const [ingredients, setIngredients] = useState([]);
   const initialState = {
     title: "",
     ingredients: "",
     instructions: "",
   };
-  const [recipes, setRecipes] = useState([]);
-  const [recipeData, setRecipeData] = useState(initialState);
+  const [breakfasts, setBreakfasts] = useState([]);
+  const [breakfastData, setBreakfastData] = useState(initialState);
 
   useEffect(() => {
     fetchBreakfasts();
   }, []);
 
+  // BREAKFAST
   async function fetchBreakfasts() {
     const apiData = await API.graphql({ query: listBreakfasts });
-    setRecipes(apiData.data.listBreakfasts.items);
+    setBreakfasts(apiData.data.listBreakfasts.items);
   }
-  async function createNote() {
+
+  async function createBreakfast() {
     if (
-      !recipeData.title ||
-      !recipeData.ingredients ||
-      !recipeData.instructions
+      !breakfastData.title ||
+      !breakfastData.ingredients ||
+      !breakfastData.instructions
     )
       return;
     await API.graphql({
       query: createBreakfastMutation,
-      variables: { input: recipeData },
+      variables: { input: breakfastData },
     });
-    setRecipes([...recipes, recipeData]);
-    setRecipeData(initialState);
-  }
-
-  async function deleteBreakfast({ id }) {
-    const newBreakfastArray = recipes.filter((note) => note.id !== id);
-    setRecipes(newBreakfastArray);
-    await API.graphql({
-      query: deleteBreakfastMutation,
-      variables: { input: { id } },
-    });
+    setBreakfasts([...breakfasts, breakfastData]);
+    setBreakfastData(initialState);
   }
 
   /*  const saveData = ({ name, value }) => {
@@ -123,9 +112,9 @@ const AddRecipe = () => {
             size="small"
             type="text"
             name="title"
-            value={recipeData.title}
+            value={breakfastData.title}
             onChange={(e) =>
-              setRecipeData({ ...recipeData, title: e.target.value })
+              setBreakfastData({ ...breakfastData, title: e.target.value })
             }
           ></TextField>
         </Grid>
@@ -136,9 +125,12 @@ const AddRecipe = () => {
             size="small"
             type="text"
             name="ingredients"
-            value={recipeData.ingredients}
+            value={breakfastData.ingredients}
             onChange={(e) =>
-              setRecipeData({ ...recipeData, ingredients: e.target.value })
+              setBreakfastData({
+                ...breakfastData,
+                ingredients: e.target.value,
+              })
             }
           ></TextField>
           {/*  <Button onClick={addIng}>Lisää listaan</Button> */}
@@ -155,13 +147,16 @@ const AddRecipe = () => {
             rowsMin={10}
             type="text"
             name="instructions"
-            value={recipeData.instructions}
+            value={breakfastData.instructions}
             onChange={(e) =>
-              setRecipeData({ ...recipeData, instructions: e.target.value })
+              setBreakfastData({
+                ...breakfastData,
+                instructions: e.target.value,
+              })
             }
           ></TextareaAutosize>
         </Grid>
-        <Button type="submit" onClick={createNote}>
+        <Button type="submit" onClick={createBreakfast}>
           Lisää resepti
         </Button>
       </Grid>
@@ -169,4 +164,4 @@ const AddRecipe = () => {
   );
 };
 
-export default AddRecipe;
+export default AddBreakfast;

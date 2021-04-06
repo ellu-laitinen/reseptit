@@ -11,10 +11,10 @@ import { listBreakfasts } from "../../graphql/queries";
 import { API } from "aws-amplify";
 import { deleteBreakfast as deleteBreakfastMutation } from "../../graphql/mutations";
 
-import AddRecipe from "../../AddRecipe";
 import FullRecipe from "../FullRecipe";
 import axios from "axios";
 import { Grid } from "@material-ui/core";
+import AddBreakfast from "../../AddRecipe/AddBreakfast";
 
 const Breakfasts = () => {
   const [breakfast, setBreakfast] = useState([]);
@@ -87,6 +87,7 @@ const Breakfasts = () => {
           </Route>
         </Switch>
       </Router>
+      <AddBreakfast />
     </div>
   );
 };

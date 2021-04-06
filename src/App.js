@@ -1,7 +1,7 @@
 import "./App.css";
 import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 import NavBar from "./NavBar/NavBar";
-import AddRecipe from "./AddRecipe";
+import AddBreakfast from "./AddRecipe/AddBreakfast";
 import Breakfasts from "./Recipes/Breakfasts/Breakfasts";
 
 import Snacks from "./Recipes/Snacks/Snacks";
@@ -22,7 +22,7 @@ function App() {
         <Route path="/snacks" exact component={Snacks}></Route>
         <Route path="/lunch" exact component={Lunch}></Route>
         <Route path="/dinner" exact component={Dinner}></Route>
-        <Route path="/new" exact component={AddRecipe}></Route>
+        {/* <Route path="/new" exact component={AddRecipe}></Route> */}
       </Switch>
       {/*   <AddRecipe /> */}
     </Router>
