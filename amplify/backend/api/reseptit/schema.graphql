@@ -1,4 +1,22 @@
-type Recipe @model {
+type Breakfast @model {
+  id: ID!
+  title: String!
+  ingredients: String
+  instructions: String
+}
+type Lunch @model {
+  id: ID!
+  title: String!
+  ingredients: String
+  instructions: String
+}
+type Snack @model {
+  id: ID!
+  title: String!
+  ingredients: String
+  instructions: String
+}
+type Dinner @model {
   id: ID!
   title: String!
   ingredients: String

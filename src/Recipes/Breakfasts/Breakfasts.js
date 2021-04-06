@@ -7,9 +7,9 @@ import {
   BrowserRouter as Router,
 } from "react-router-dom";
 import RecipeCard from "../RecipeCard";
-import { listRecipes } from "../../graphql/queries";
+import { listBreakfasts } from "../../graphql/queries";
 import { API } from "aws-amplify";
-import { deleteRecipe as deleteRecipeMutation } from "../../graphql/mutations";
+import { deleteBreakfast as deleteBreakfastMutation } from "../../graphql/mutations";
 
 import AddRecipe from "../../AddRecipe";
 import FullRecipe from "../FullRecipe";
@@ -21,20 +21,20 @@ const Breakfasts = () => {
   let match = useRouteMatch();
 
   useEffect(() => {
-    fetchNotes();
+    fetchBreakfasts();
   }, []);
 
-  async function fetchNotes() {
-    const apiData = await API.graphql({ query: listRecipes });
-    setBreakfast(apiData.data.listRecipes.items);
-    console.log(apiData.data.listRecipes.items);
+  async function fetchBreakfasts() {
+    const apiData = await API.graphql({ query: listBreakfasts });
+    setBreakfast(apiData.data.listBreakfasts.items);
+    console.log(apiData.data.listBreakfasts.items);
   }
 
-  async function deleteNote({ id }) {
+  async function deleteBreakfast({ id }) {
     const newBreakfastArray = breakfast.filter((recipe) => recipe.id !== id);
     setBreakfast(newBreakfastArray);
     await API.graphql({
-      query: deleteRecipeMutation,
+      query: deleteBreakfastMutation,
       variables: { input: { id } },
     });
   }
@@ -66,7 +66,7 @@ const Breakfasts = () => {
           title={item.title}
           img={item.img}
           link={`${match.url}/${item.id}`}
-          remove={() => deleteNote(item)}
+          remove={() => deleteBreakfast(item)}
           // <Button onClick={() => deleteNote(recipe)}>Poista resepti</Button>
         />
       </Grid>

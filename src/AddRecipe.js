@@ -11,10 +11,10 @@ import {
   Button,
   Divider,
 } from "@material-ui/core";
-import { listRecipes } from "./graphql/queries";
+import { listBreakfasts } from "./graphql/queries";
 import {
-  createRecipe as createRecipeMutation,
-  deleteRecipe as deleteRecipeMutation,
+  createBreakfast as createBreakfastMutation,
+  deleteBreakfast as deleteBreakfastMutation,
 } from "./graphql/mutations";
 
 const AddRecipe = () => {
@@ -28,12 +28,12 @@ const AddRecipe = () => {
   const [recipeData, setRecipeData] = useState(initialState);
 
   useEffect(() => {
-    fetchNotes();
+    fetchBreakfasts();
   }, []);
 
-  async function fetchNotes() {
-    const apiData = await API.graphql({ query: listRecipes });
-    setRecipes(apiData.data.listRecipes.items);
+  async function fetchBreakfasts() {
+    const apiData = await API.graphql({ query: listBreakfasts });
+    setRecipes(apiData.data.listBreakfasts.items);
   }
   async function createNote() {
     if (
@@ -43,18 +43,18 @@ const AddRecipe = () => {
     )
       return;
     await API.graphql({
-      query: createRecipeMutation,
+      query: createBreakfastMutation,
       variables: { input: recipeData },
     });
     setRecipes([...recipes, recipeData]);
     setRecipeData(initialState);
   }
 
-  async function deleteNote({ id }) {
-    const newRecipesArray = recipes.filter((note) => note.id !== id);
-    setRecipes(newRecipesArray);
+  async function deleteBreakfast({ id }) {
+    const newBreakfastArray = recipes.filter((note) => note.id !== id);
+    setRecipes(newBreakfastArray);
     await API.graphql({
-      query: deleteRecipeMutation,
+      query: deleteBreakfastMutation,
       variables: { input: { id } },
     });
   }

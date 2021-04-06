@@ -1,12 +1,12 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const createRecipe = /* GraphQL */ `
-  mutation CreateRecipe(
-    $input: CreateRecipeInput!
-    $condition: ModelRecipeConditionInput
+export const createBreakfast = /* GraphQL */ `
+  mutation CreateBreakfast(
+    $input: CreateBreakfastInput!
+    $condition: ModelBreakfastConditionInput
   ) {
-    createRecipe(input: $input, condition: $condition) {
+    createBreakfast(input: $input, condition: $condition) {
       id
       title
       ingredients
@@ -16,12 +16,12 @@ export const createRecipe = /* GraphQL */ `
     }
   }
 `;
-export const updateRecipe = /* GraphQL */ `
-  mutation UpdateRecipe(
-    $input: UpdateRecipeInput!
-    $condition: ModelRecipeConditionInput
+export const updateBreakfast = /* GraphQL */ `
+  mutation UpdateBreakfast(
+    $input: UpdateBreakfastInput!
+    $condition: ModelBreakfastConditionInput
   ) {
-    updateRecipe(input: $input, condition: $condition) {
+    updateBreakfast(input: $input, condition: $condition) {
       id
       title
       ingredients
@@ -31,12 +31,147 @@ export const updateRecipe = /* GraphQL */ `
     }
   }
 `;
-export const deleteRecipe = /* GraphQL */ `
-  mutation DeleteRecipe(
-    $input: DeleteRecipeInput!
-    $condition: ModelRecipeConditionInput
+export const deleteBreakfast = /* GraphQL */ `
+  mutation DeleteBreakfast(
+    $input: DeleteBreakfastInput!
+    $condition: ModelBreakfastConditionInput
   ) {
-    deleteRecipe(input: $input, condition: $condition) {
+    deleteBreakfast(input: $input, condition: $condition) {
+      id
+      title
+      ingredients
+      instructions
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createLunch = /* GraphQL */ `
+  mutation CreateLunch(
+    $input: CreateLunchInput!
+    $condition: ModelLunchConditionInput
+  ) {
+    createLunch(input: $input, condition: $condition) {
+      id
+      title
+      ingredients
+      instructions
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateLunch = /* GraphQL */ `
+  mutation UpdateLunch(
+    $input: UpdateLunchInput!
+    $condition: ModelLunchConditionInput
+  ) {
+    updateLunch(input: $input, condition: $condition) {
+      id
+      title
+      ingredients
+      instructions
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteLunch = /* GraphQL */ `
+  mutation DeleteLunch(
+    $input: DeleteLunchInput!
+    $condition: ModelLunchConditionInput
+  ) {
+    deleteLunch(input: $input, condition: $condition) {
+      id
+      title
+      ingredients
+      instructions
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createSnack = /* GraphQL */ `
+  mutation CreateSnack(
+    $input: CreateSnackInput!
+    $condition: ModelSnackConditionInput
+  ) {
+    createSnack(input: $input, condition: $condition) {
+      id
+      title
+      ingredients
+      instructions
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateSnack = /* GraphQL */ `
+  mutation UpdateSnack(
+    $input: UpdateSnackInput!
+    $condition: ModelSnackConditionInput
+  ) {
+    updateSnack(input: $input, condition: $condition) {
+      id
+      title
+      ingredients
+      instructions
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteSnack = /* GraphQL */ `
+  mutation DeleteSnack(
+    $input: DeleteSnackInput!
+    $condition: ModelSnackConditionInput
+  ) {
+    deleteSnack(input: $input, condition: $condition) {
+      id
+      title
+      ingredients
+      instructions
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createDinner = /* GraphQL */ `
+  mutation CreateDinner(
+    $input: CreateDinnerInput!
+    $condition: ModelDinnerConditionInput
+  ) {
+    createDinner(input: $input, condition: $condition) {
+      id
+      title
+      ingredients
+      instructions
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateDinner = /* GraphQL */ `
+  mutation UpdateDinner(
+    $input: UpdateDinnerInput!
+    $condition: ModelDinnerConditionInput
+  ) {
+    updateDinner(input: $input, condition: $condition) {
+      id
+      title
+      ingredients
+      instructions
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteDinner = /* GraphQL */ `
+  mutation DeleteDinner(
+    $input: DeleteDinnerInput!
+    $condition: ModelDinnerConditionInput
+  ) {
+    deleteDinner(input: $input, condition: $condition) {
       id
       title
       ingredients

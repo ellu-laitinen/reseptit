@@ -12,16 +12,16 @@ const FullRecipe = () => {
   let { recipe } = useParams();
 
   useEffect(() => {
-    fetchNote();
+    fetchBreakfast();
   }, []);
 
-  async function fetchNote() {
+  async function fetchBreakfast() {
     const apiData = await API.graphql({
-      query: queries.getRecipe,
+      query: queries.getBreakfast,
       variables: { id: postId },
     });
-    setLoadedRecipe(apiData.data.getRecipe);
-    console.log(apiData.data.getRecipe);
+    setLoadedRecipe(apiData.data.getBreakfast);
+    console.log(apiData.data.getBreakfast);
   }
 
   /*   useEffect(() => {
@@ -44,8 +44,6 @@ const FullRecipe = () => {
     console.log(loadedRecipe);
     recipeData = (
       <Card>
-        <p>Tässä resepti numero {postId}</p>
-
         <h1>{loadedRecipe.title}</h1>
         {/*   {loadedRecipe.ingredients.map((ing) => (
           <ul>
