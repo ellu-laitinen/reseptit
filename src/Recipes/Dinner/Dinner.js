@@ -40,39 +40,6 @@ const Dinner = () => {
     });
   }
 
-  /*   const category = "dinner";
-  useEffect(() => {
-    axios.get(`http://localhost:3001/${category}`).then((response) => {
-      const dinnerList = response.data;
-      setDinner(dinnerList);
-    });
-  }, []);
-  const removeHandler = (id) => {
-    console.log(id);
-
-    axios
-      .delete(`http://localhost:3001/${category}/` + id)
-      .then(() => {
-        return axios.get(`http://localhost:3001/${category}`);
-      })
-      .then((response) => {
-        setDinner(response.data);
-      });
-  }; */
-
-  const recipeList = dinner.map((item) => {
-    return (
-      <Grid item xs={12} sm={4}>
-        <RecipeCard
-          title={item.title}
-          img={item.img}
-          link={`${match.url}/${item.id}`}
-          remove={() => deleteDinner(item)}
-        />
-      </Grid>
-    );
-  });
-
   return (
     <div>
       <Router>
@@ -82,12 +49,25 @@ const Dinner = () => {
           </Route>
           <Route path={match.path}>
             <Grid container spacing={2}>
-              {recipeList}
+              {dinner.map((item) => {
+                return (
+                  <Grid item xs={12} sm={4}>
+                    <RecipeCard
+                      title={item.title}
+                      img={item.img}
+                      link={`${match.url}/${item.id}`}
+                      remove={() => deleteDinner(item)}
+                    />
+                  </Grid>
+                );
+              })}
+              <Grid item xs={12}>
+                <AddDinner />
+              </Grid>
             </Grid>
           </Route>
         </Switch>
       </Router>
-      <AddDinner />
     </div>
   );
 };

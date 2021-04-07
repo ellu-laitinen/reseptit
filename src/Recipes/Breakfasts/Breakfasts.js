@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
+  useParams,
   Link,
   useRouteMatch,
   Switch,
@@ -19,6 +20,9 @@ import AddBreakfast from "../../AddRecipe/AddBreakfast";
 const Breakfasts = () => {
   const [breakfast, setBreakfast] = useState([]);
   let match = useRouteMatch();
+  let { recipe } = useParams();
+
+  console.log(recipe);
 
   useEffect(() => {
     fetchBreakfasts();
@@ -59,19 +63,6 @@ const Breakfasts = () => {
       });
   }; */
 
-  const recipeList = breakfast.map((item) => {
-    return (
-      <Grid item xs={12} sm={4}>
-        <RecipeCard
-          title={item.title}
-          img={item.img}
-          link={`${match.url}/${item.id}`}
-          remove={() => deleteBreakfast(item)}
-          // <Button onClick={() => deleteNote(recipe)}>Poista resepti</Button>
-        />
-      </Grid>
-    );
-  });
 
   return (
     <div>
@@ -82,12 +73,26 @@ const Breakfasts = () => {
           </Route>
           <Route path={match.path}>
             <Grid container spacing={2}>
-              {recipeList}
+              {breakfast.map((item) => {
+    return (
+      <Grid item xs={12} sm={4}>
+        <RecipeCard
+          title={item.title}
+          img={item.img}
+          link={`${match.url}/${item.id}`}
+          remove={() => deleteBreakfast(item)}
+      
+        />
+      </Grid>
+    );
+  })}
+              <Grid item xs={12}>
+                <AddBreakfast />
+              </Grid>
             </Grid>
           </Route>
         </Switch>
       </Router>
-      <AddBreakfast />
     </div>
   );
 };

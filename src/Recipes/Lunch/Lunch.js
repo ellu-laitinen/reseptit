@@ -11,11 +11,10 @@ import { deleteLunch as deleteLunchMutation } from "../../graphql/mutations";
 import { API } from "aws-amplify";
 import RecipeCard from "../RecipeCard";
 
-import AddRecipe from "../../AddRecipe/AddBreakfast";
 import FullRecipe from "../FullRecipe";
-import axios from "axios";
+
 import { Grid } from "@material-ui/core";
-import AddDinner from "../../AddRecipe/AddDinner";
+
 import AddLunch from "../../AddRecipe/AddLunch";
 
 const Lunch = () => {
@@ -41,39 +40,6 @@ const Lunch = () => {
     });
   }
 
-  /*   const category = "dinner";
-  useEffect(() => {
-    axios.get(`http://localhost:3001/${category}`).then((response) => {
-      const dinnerList = response.data;
-      setLunch(dinnerList);
-    });
-  }, []);
-  const removeHandler = (id) => {
-    console.log(id);
-
-    axios
-      .delete(`http://localhost:3001/${category}/` + id)
-      .then(() => {
-        return axios.get(`http://localhost:3001/${category}`);
-      })
-      .then((response) => {
-        setLunch(response.data);
-      });
-  }; */
-
-  const recipeList = lunch.map((item) => {
-    return (
-      <Grid item xs={12} sm={4}>
-        <RecipeCard
-          title={item.title}
-          img={item.img}
-          link={`${match.url}/${item.id}`}
-          remove={() => deleteLunch(item)}
-        />
-      </Grid>
-    );
-  });
-
   return (
     <div>
       <Router>
@@ -83,12 +49,26 @@ const Lunch = () => {
           </Route>
           <Route path={match.path}>
             <Grid container spacing={2}>
-              {recipeList}
+              {lunch.map((item) => {
+                return (
+                  <Grid item xs={12} sm={4}>
+                    <RecipeCard
+                      title={item.title}
+                      img={item.img}
+                      link={`${match.url}/${item.id}`}
+                      remove={() => deleteLunch(item)}
+                    />
+                  </Grid>
+                );
+              })}
+
+              <Grid item xs={12}>
+                <AddLunch />
+              </Grid>
             </Grid>
           </Route>
         </Switch>
       </Router>
-      <AddLunch />
     </div>
   );
 };

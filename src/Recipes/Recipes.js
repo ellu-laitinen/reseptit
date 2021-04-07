@@ -1,41 +1,89 @@
-/* import React, { useState } from "react"; */
-// import { makeStyles } from '@material-ui/core/styles'
-/* import {
+import React, { useEffect, useState } from "react";
+import {
+  useParams,
+  Link,
+  useRouteMatch,
   Switch,
   Route,
-  useRouteMatch,
   BrowserRouter as Router,
-  Link,
 } from "react-router-dom";
-import Button from "@material-ui/core/Button";
-import AppBar from "@material-ui/core/AppBar";
+import RecipeCard from "./RecipeCard";
+import { listBreakfasts, listDinners } from "../graphql/queries";
+import { API } from "aws-amplify";
+import { deleteBreakfast as deleteBreakfastMutation } from "../graphql/mutations";
 
-import Grid from "@material-ui/core/Grid";
-
-import Breakfasts from "./Breakfasts/Breakfasts";
-import AddRecipe from "../AddRecipe";
-import Snacks from "./Snacks/Snacks";
-import Lunch from "./Lunch/Lunch";
-import Dinner from "./Dinner/Dinner";
+import FullRecipe from "./FullRecipe";
+import axios from "axios";
+import { Grid } from "@material-ui/core";
+import AddBreakfast from "../AddRecipe/AddBreakfast";
 
 const Recipes = () => {
+  const [recipe, setRecipe] = useState([]);
   let match = useRouteMatch();
+  let { category } = useParams();
+
+  console.log(category);
+
+  useEffect(() => {
+    if (category === "breakfast") {
+      fetchBreakfasts();
+    }
+    if (category === "dinner") {
+      fetchDinners();
+    }
+  }, []);
+
+  async function fetchBreakfasts() {
+    const apiData = await API.graphql({ query: listBreakfasts });
+    setRecipe(apiData.data.listBreakfasts.items);
+    console.log(apiData.data.listBreakfasts.items);
+  }
+  async function fetchDinners() {
+    const apiData = await API.graphql({ query: listDinners });
+    setRecipe(apiData.data.listDinners.items);
+    console.log(apiData.data.listDinners.items);
+  }
+
+  /* async function deleteBreakfast({ id }) {
+    const newBreakfastArray = breakfast.filter((recipe) => recipe.id !== id);
+    setBreakfast(newBreakfastArray);
+    await API.graphql({
+      query: deleteBreakfastMutation,
+      variables: { input: { id } },
+    });
+  } */
+
+  const recipeList = recipe.map((item) => {
+    return (
+      <Grid item xs={12} sm={4}>
+        <RecipeCard
+          title={item.title}
+          img={item.img}
+          link={`${match.url}/${item.id}`}
+          // remove={() => deleteBreakfast(item)}
+          // <Button onClick={() => deleteNote(recipe)}>Poista resepti</Button>
+        />
+      </Grid>
+    );
+  });
 
   return (
     <div>
-      <AppBar position="static"></AppBar>
       <Router>
-        <Breakfasts />
-
-        <Lunch />
-
-        <Snacks />
-
-        <Dinner />
+        <Switch>
+          <Route path={"/:category/:postId"}>
+            <FullRecipe />
+          </Route>
+          <Route path={match.path}>
+            <Grid container spacing={2}>
+              {recipeList}
+              <AddBreakfast />
+            </Grid>
+          </Route>
+        </Switch>
       </Router>
-      <AddRecipe />
     </div>
   );
 };
 
-export default Recipes; */
+export default Recipes;

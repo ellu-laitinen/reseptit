@@ -11,39 +11,37 @@ import {
   Button,
   Divider,
 } from "@material-ui/core";
-import { listLunchs } from "../graphql/queries";
-import {
-  createLunch as createLunchMutation,
-  deleteLunch as deleteLunchutation,
-} from "../graphql/mutations";
+import { listSnacks } from "../graphql/queries";
+import { createSnack as createSnackMutation } from "../graphql/mutations";
 
-const AddLunch = () => {
+const AddSnack = () => {
   const initialState = {
     title: "",
     ingredients: "",
     instructions: "",
   };
-  const [lunches, setLunches] = useState([]);
-  const [lunchData, setLunchData] = useState(initialState);
+  const [snacks, setSnacks] = useState([]);
+  const [snackData, setSnackData] = useState(initialState);
 
   useEffect(() => {
-    fetchLunches();
+    fetchSnacks();
   }, []);
 
-  async function fetchLunches() {
-    const apiData = await API.graphql({ query: listLunchs });
-    setLunches(apiData.data.listLunchs.items);
+  // DINNER
+  async function fetchSnacks() {
+    const apiData = await API.graphql({ query: listSnacks });
+    setSnacks(apiData.data.listSnacks.items);
   }
 
-  async function createLunch() {
-    if (!lunchData.title || !lunchData.ingredients || !lunchData.instructions)
+  async function createSnack() {
+    if (!snackData.title || !snackData.ingredients || !snackData.instructions)
       return;
     await API.graphql({
-      query: createLunchMutation,
-      variables: { input: lunchData },
+      query: createSnackMutation,
+      variables: { input: snackData },
     });
-    setLunches([...lunches, lunchData]);
-    setLunchData(initialState);
+    setSnacks([...snacks, snackData]);
+    setSnackData(initialState);
   }
 
   return (
@@ -56,9 +54,9 @@ const AddLunch = () => {
             size="small"
             type="text"
             name="title"
-            value={lunchData.title}
+            value={snackData.title}
             onChange={(e) =>
-              setLunchData({ ...lunchData, title: e.target.value })
+              setSnackData({ ...snackData, title: e.target.value })
             }
           ></TextField>
         </Grid>
@@ -69,10 +67,10 @@ const AddLunch = () => {
             size="small"
             type="text"
             name="ingredients"
-            value={lunchData.ingredients}
+            value={snackData.ingredients}
             onChange={(e) =>
-              setLunchData({
-                ...lunchData,
+              setSnackData({
+                ...snackData,
                 ingredients: e.target.value,
               })
             }
@@ -91,16 +89,16 @@ const AddLunch = () => {
             rowsMin={10}
             type="text"
             name="instructions"
-            value={lunchData.instructions}
+            value={snackData.instructions}
             onChange={(e) =>
-              setLunchData({
-                ...lunchData,
+              setSnackData({
+                ...snackData,
                 instructions: e.target.value,
               })
             }
           ></TextareaAutosize>
         </Grid>
-        <Button type="submit" onClick={createLunch}>
+        <Button type="submit" onClick={createSnack}>
           Lisää resepti
         </Button>
       </Grid>
@@ -108,4 +106,4 @@ const AddLunch = () => {
   );
 };
 
-export default AddLunch;
+export default AddSnack;

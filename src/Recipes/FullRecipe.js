@@ -11,12 +11,20 @@ const FullRecipe = () => {
   let { postId } = useParams();
   let { recipe } = useParams();
 
+  console.log(recipe);
+
   useEffect(() => {
-    if (queries.getBreakfast) {
+    if (recipe === "breakfast") {
       fetchBreakfast();
     }
-    if (queries.getDinner) {
+    if (recipe === "dinner") {
       fetchDinner();
+    }
+    if (recipe === "lunch") {
+      fetchLunch();
+    }
+    if (recipe === "snacks") {
+      fetchSnack();
     }
   }, []);
 
@@ -36,6 +44,22 @@ const FullRecipe = () => {
     });
     setLoadedRecipe(apiData.data.getDinner);
     console.log(apiData.data.getDinner);
+  }
+  async function fetchLunch() {
+    const apiData = await API.graphql({
+      query: queries.getLunch,
+      variables: { id: postId },
+    });
+    setLoadedRecipe(apiData.data.getLunch);
+    console.log(apiData.data.getLunch);
+  }
+  async function fetchSnack() {
+    const apiData = await API.graphql({
+      query: queries.getSnack,
+      variables: { id: postId },
+    });
+    setLoadedRecipe(apiData.data.getSnack);
+    console.log(apiData.data.getSnack);
   }
 
   /*   useEffect(() => {
