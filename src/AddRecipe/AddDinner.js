@@ -12,10 +12,7 @@ import {
   Divider,
 } from "@material-ui/core";
 import { listDinners } from "../graphql/queries";
-import {
-  createDinner as createDinnerMutation,
-  deleteDinner as deleteDinnerMutation,
-} from "../graphql/mutations";
+import { createDinner as createDinnerMutation } from "../graphql/mutations";
 
 const AddDinner = () => {
   const initialState = {

@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { API } from "aws-amplify";
+import { API, Storage } from "aws-amplify";
 import {
   Grid,
   Card,
@@ -27,9 +27,27 @@ const AddBreakfast = () => {
     fetchBreakfasts();
   }, []);
 
+  async function onChange(e) {
+    if (!e.target.files[0]) return;
+    const file = e.target.files[0];
+    setBreakfastData({ ...breakfastData, image: file.name });
+    await Storage.put(file.name, file);
+    fetchBreakfasts();
+  }
+
   // BREAKFAST
   async function fetchBreakfasts() {
     const apiData = await API.graphql({ query: listBreakfasts });
+    const breakfastFromAPI = apiData.data.listBreakfasts.items;
+    await Promise.all(
+      breakfastFromAPI.map(async (recipe) => {
+        if (recipe.image) {
+          const image = await Storage.get(recipe.image);
+          recipe.image = image;
+        }
+        return recipe;
+      })
+    );
     setBreakfasts(apiData.data.listBreakfasts.items);
   }
 
@@ -44,6 +62,10 @@ const AddBreakfast = () => {
       query: createBreakfastMutation,
       variables: { input: breakfastData },
     });
+    if (breakfastData.image) {
+      const image = await Storage.get(breakfastData.image);
+      breakfastData.image = image;
+    }
     setBreakfasts([...breakfasts, breakfastData]);
     setBreakfastData(initialState);
   }
@@ -156,9 +178,10 @@ const AddBreakfast = () => {
             }
           ></TextareaAutosize>
         </Grid>
-        <Button type="submit" onClick={createBreakfast}>
-          Lisää resepti
-        </Button>
+        <Grid item>
+          <input type="file" onChange={onChange} />
+        </Grid>
+        <Button onClick={createBreakfast}>Lisää resepti</Button>
       </Grid>
     </Card>
   );

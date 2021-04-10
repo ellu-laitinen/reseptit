@@ -9,7 +9,7 @@ import {
 } from "react-router-dom";
 import RecipeCard from "../RecipeCard";
 import { listBreakfasts } from "../../graphql/queries";
-import { API } from "aws-amplify";
+import { API, Storage } from "aws-amplify";
 import { deleteBreakfast as deleteBreakfastMutation } from "../../graphql/mutations";
 
 import FullRecipe from "../FullRecipe";
@@ -22,16 +22,24 @@ const Breakfasts = () => {
   let match = useRouteMatch();
   let { recipe } = useParams();
 
-  console.log(recipe);
-
   useEffect(() => {
     fetchBreakfasts();
   }, []);
 
   async function fetchBreakfasts() {
     const apiData = await API.graphql({ query: listBreakfasts });
-    setBreakfast(apiData.data.listBreakfasts.items);
-    console.log(apiData.data.listBreakfasts.items);
+    const breakfastFromAPI = apiData.data.listBreakfasts.items;
+    await Promise.all(
+      breakfastFromAPI.map(async (recipe) => {
+        if (recipe.image) {
+          const image = await Storage.get(recipe.image);
+          recipe.image = image;
+          console.log(recipe.image);
+        }
+      })
+    );
+    setBreakfast(breakfastFromAPI);
+    console.log(breakfastFromAPI);
   }
 
   async function deleteBreakfast({ id }) {
@@ -62,8 +70,7 @@ const Breakfasts = () => {
         setBreakfast(response.data);
       });
   }; */
-
-
+  console.log(breakfast[0]);
   return (
     <div>
       <Router>
@@ -74,18 +81,17 @@ const Breakfasts = () => {
           <Route path={match.path}>
             <Grid container spacing={2}>
               {breakfast.map((item) => {
-    return (
-      <Grid item xs={12} sm={4}>
-        <RecipeCard
-          title={item.title}
-          img={item.img}
-          link={`${match.url}/${item.id}`}
-          remove={() => deleteBreakfast(item)}
-      
-        />
-      </Grid>
-    );
-  })}
+                return (
+                  <Grid item xs={12} sm={4}>
+                    <RecipeCard
+                      title={item.title}
+                      img={item.image}
+                      link={`${match.url}/${item.id}`}
+                      remove={() => deleteBreakfast(item)}
+                    />
+                  </Grid>
+                );
+              })}
               <Grid item xs={12}>
                 <AddBreakfast />
               </Grid>

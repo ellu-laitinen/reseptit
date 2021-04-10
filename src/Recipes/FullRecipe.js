@@ -4,10 +4,10 @@ import { useParams, useRouteMatch } from "react-router-dom";
 import { Card } from "@material-ui/core";
 
 import * as queries from "../graphql/queries";
-import { API } from "aws-amplify";
+import { API, Storage } from "aws-amplify";
 
 const FullRecipe = () => {
-  const [loadedRecipe, setLoadedRecipe] = useState();
+  const [loadedRecipe, setLoadedRecipe] = useState("");
   let { postId } = useParams();
   let { recipe } = useParams();
 
@@ -33,8 +33,15 @@ const FullRecipe = () => {
       query: queries.getBreakfast,
       variables: { id: postId },
     });
-    setLoadedRecipe(apiData.data.getBreakfast);
-    console.log(apiData.data.getBreakfast);
+    const recipeFromAPI = apiData.data.getBreakfast;
+
+    if (recipeFromAPI.image) {
+      console.log(recipeFromAPI);
+      const image = await Storage.get(recipeFromAPI.image);
+      recipeFromAPI.image = image;
+    }
+    setLoadedRecipe(recipeFromAPI);
+    console.log(recipeFromAPI);
   }
 
   async function fetchDinner() {
@@ -91,6 +98,11 @@ const FullRecipe = () => {
 
         <p>{loadedRecipe.ingredients}</p>
         <p>{loadedRecipe.instructions}</p>
+        <img
+          src={loadedRecipe.image}
+          alt={loadedRecipe.title}
+          style={{ width: 400 }}
+        />
       </Card>
     );
   }

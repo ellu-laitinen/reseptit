@@ -8,6 +8,7 @@ export const getBreakfast = /* GraphQL */ `
       title
       ingredients
       instructions
+      image
       createdAt
       updatedAt
     }
@@ -25,6 +26,7 @@ export const listBreakfasts = /* GraphQL */ `
         title
         ingredients
         instructions
+        image
         createdAt
         updatedAt
       }
@@ -39,6 +41,7 @@ export const getLunch = /* GraphQL */ `
       title
       ingredients
       instructions
+      image
       createdAt
       updatedAt
     }
@@ -56,6 +59,7 @@ export const listLunchs = /* GraphQL */ `
         title
         ingredients
         instructions
+        image
         createdAt
         updatedAt
       }
@@ -70,6 +74,7 @@ export const getSnack = /* GraphQL */ `
       title
       ingredients
       instructions
+      image
       createdAt
       updatedAt
     }
@@ -87,6 +92,7 @@ export const listSnacks = /* GraphQL */ `
         title
         ingredients
         instructions
+        image
         createdAt
         updatedAt
       }
@@ -101,6 +107,7 @@ export const getDinner = /* GraphQL */ `
       title
       ingredients
       instructions
+      image
       createdAt
       updatedAt
     }
@@ -118,6 +125,7 @@ export const listDinners = /* GraphQL */ `
         title
         ingredients
         instructions
+        image
         createdAt
         updatedAt
       }

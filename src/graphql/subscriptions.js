@@ -8,6 +8,7 @@ export const onCreateBreakfast = /* GraphQL */ `
       title
       ingredients
       instructions
+      image
       createdAt
       updatedAt
     }
@@ -20,6 +21,7 @@ export const onUpdateBreakfast = /* GraphQL */ `
       title
       ingredients
       instructions
+      image
       createdAt
       updatedAt
     }
@@ -32,6 +34,7 @@ export const onDeleteBreakfast = /* GraphQL */ `
       title
       ingredients
       instructions
+      image
       createdAt
       updatedAt
     }
@@ -44,6 +47,7 @@ export const onCreateLunch = /* GraphQL */ `
       title
       ingredients
       instructions
+      image
       createdAt
       updatedAt
     }
@@ -56,6 +60,7 @@ export const onUpdateLunch = /* GraphQL */ `
       title
       ingredients
       instructions
+      image
       createdAt
       updatedAt
     }
@@ -68,6 +73,7 @@ export const onDeleteLunch = /* GraphQL */ `
       title
       ingredients
       instructions
+      image
       createdAt
       updatedAt
     }
@@ -80,6 +86,7 @@ export const onCreateSnack = /* GraphQL */ `
       title
       ingredients
       instructions
+      image
       createdAt
       updatedAt
     }
@@ -92,6 +99,7 @@ export const onUpdateSnack = /* GraphQL */ `
       title
       ingredients
       instructions
+      image
       createdAt
       updatedAt
     }
@@ -104,6 +112,7 @@ export const onDeleteSnack = /* GraphQL */ `
       title
       ingredients
       instructions
+      image
       createdAt
       updatedAt
     }
@@ -116,6 +125,7 @@ export const onCreateDinner = /* GraphQL */ `
       title
       ingredients
       instructions
+      image
       createdAt
       updatedAt
     }
@@ -128,6 +138,7 @@ export const onUpdateDinner = /* GraphQL */ `
       title
       ingredients
       instructions
+      image
       createdAt
       updatedAt
     }
@@ -140,6 +151,7 @@ export const onDeleteDinner = /* GraphQL */ `
       title
       ingredients
       instructions
+      image
       createdAt
       updatedAt
     }

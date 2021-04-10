@@ -14,7 +14,7 @@ const RecipeCard = ({ title, img, link, remove }) => {
           <Typography variant="h6">{title}</Typography>
         </Grid>
         <Grid item>
-          <img src={img} alt={img} />
+          <img src={img} alt={img} style={{ width: 300 }} />
         </Grid>
         <Grid item>
           <Link to={link}>Koko resepti</Link>

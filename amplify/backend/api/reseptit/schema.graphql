@@ -3,22 +3,26 @@ type Breakfast @model {
   title: String!
   ingredients: String
   instructions: String
+  image: String
 }
 type Lunch @model {
   id: ID!
   title: String!
   ingredients: String
   instructions: String
+  image: String
 }
 type Snack @model {
   id: ID!
   title: String!
   ingredients: String
   instructions: String
+  image: String
 }
 type Dinner @model {
   id: ID!
   title: String!
   ingredients: String
   instructions: String
+  image: String
 }

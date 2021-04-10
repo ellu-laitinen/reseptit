@@ -11,6 +11,7 @@ export const createBreakfast = /* GraphQL */ `
       title
       ingredients
       instructions
+      image
       createdAt
       updatedAt
     }
@@ -26,6 +27,7 @@ export const updateBreakfast = /* GraphQL */ `
       title
       ingredients
       instructions
+      image
       createdAt
       updatedAt
     }
@@ -41,6 +43,7 @@ export const deleteBreakfast = /* GraphQL */ `
       title
       ingredients
       instructions
+      image
       createdAt
       updatedAt
     }
@@ -56,6 +59,7 @@ export const createLunch = /* GraphQL */ `
       title
       ingredients
       instructions
+      image
       createdAt
       updatedAt
     }
@@ -71,6 +75,7 @@ export const updateLunch = /* GraphQL */ `
       title
       ingredients
       instructions
+      image
       createdAt
       updatedAt
     }
@@ -86,6 +91,7 @@ export const deleteLunch = /* GraphQL */ `
       title
       ingredients
       instructions
+      image
       createdAt
       updatedAt
     }
@@ -101,6 +107,7 @@ export const createSnack = /* GraphQL */ `
       title
       ingredients
       instructions
+      image
       createdAt
       updatedAt
     }
@@ -116,6 +123,7 @@ export const updateSnack = /* GraphQL */ `
       title
       ingredients
       instructions
+      image
       createdAt
       updatedAt
     }
@@ -131,6 +139,7 @@ export const deleteSnack = /* GraphQL */ `
       title
       ingredients
       instructions
+      image
       createdAt
       updatedAt
     }
@@ -146,6 +155,7 @@ export const createDinner = /* GraphQL */ `
       title
       ingredients
       instructions
+      image
       createdAt
       updatedAt
     }
@@ -161,6 +171,7 @@ export const updateDinner = /* GraphQL */ `
       title
       ingredients
       instructions
+      image
       createdAt
       updatedAt
     }
@@ -176,6 +187,7 @@ export const deleteDinner = /* GraphQL */ `
       title
       ingredients
       instructions
+      image
       createdAt
       updatedAt
     }
