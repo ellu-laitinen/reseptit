@@ -25,6 +25,7 @@ const AddBreakfast = () => {
 
   useEffect(() => {
     fetchBreakfasts();
+    console.log("fetch1");
   }, []);
 
   async function onChange(e) {
@@ -34,6 +35,13 @@ const AddBreakfast = () => {
     await Storage.put(file.name, file);
     fetchBreakfasts();
   }
+
+  const recipeHandler = (e) => {
+    setBreakfastData({
+      ...breakfastData,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   // BREAKFAST
   async function fetchBreakfasts() {
@@ -135,9 +143,7 @@ const AddBreakfast = () => {
             type="text"
             name="title"
             value={breakfastData.title}
-            onChange={(e) =>
-              setBreakfastData({ ...breakfastData, title: e.target.value })
-            }
+            onChange={recipeHandler}
           ></TextField>
         </Grid>
         <Grid item>
@@ -148,12 +154,7 @@ const AddBreakfast = () => {
             type="text"
             name="ingredients"
             value={breakfastData.ingredients}
-            onChange={(e) =>
-              setBreakfastData({
-                ...breakfastData,
-                ingredients: e.target.value,
-              })
-            }
+            onChange={recipeHandler}
           ></TextField>
           {/*  <Button onClick={addIng}>Lisää listaan</Button> */}
         </Grid>
@@ -170,12 +171,7 @@ const AddBreakfast = () => {
             type="text"
             name="instructions"
             value={breakfastData.instructions}
-            onChange={(e) =>
-              setBreakfastData({
-                ...breakfastData,
-                instructions: e.target.value,
-              })
-            }
+            onChange={recipeHandler}
           ></TextareaAutosize>
         </Grid>
         <Grid item>

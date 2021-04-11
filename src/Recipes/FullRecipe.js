@@ -5,6 +5,7 @@ import { Card } from "@material-ui/core";
 
 import * as queries from "../graphql/queries";
 import { API, Storage } from "aws-amplify";
+import RecipeCard from "./RecipeCard";
 
 const FullRecipe = () => {
   const [loadedRecipe, setLoadedRecipe] = useState("");
@@ -12,9 +13,11 @@ const FullRecipe = () => {
   let { recipe } = useParams();
 
   console.log(recipe);
+  console.log(postId);
 
   useEffect(() => {
     if (recipe === "breakfast") {
+      console.log(recipe);
       fetchBreakfast();
     }
     if (recipe === "dinner") {
@@ -29,12 +32,14 @@ const FullRecipe = () => {
   }, []);
 
   async function fetchBreakfast() {
+    console.log("fetching breakfasts");
     const apiData = await API.graphql({
       query: queries.getBreakfast,
       variables: { id: postId },
     });
+    console.log(apiData);
     const recipeFromAPI = apiData.data.getBreakfast;
-
+    console.log(recipeFromAPI);
     if (recipeFromAPI.image) {
       console.log(recipeFromAPI);
       const image = await Storage.get(recipeFromAPI.image);
@@ -52,6 +57,7 @@ const FullRecipe = () => {
     setLoadedRecipe(apiData.data.getDinner);
     console.log(apiData.data.getDinner);
   }
+
   async function fetchLunch() {
     const apiData = await API.graphql({
       query: queries.getLunch,
@@ -60,6 +66,7 @@ const FullRecipe = () => {
     setLoadedRecipe(apiData.data.getLunch);
     console.log(apiData.data.getLunch);
   }
+
   async function fetchSnack() {
     const apiData = await API.graphql({
       query: queries.getSnack,
@@ -79,35 +86,26 @@ const FullRecipe = () => {
         });
     }
   }); */
-  console.log(postId);
-  let recipeData = undefined;
 
-  if (postId) {
-    recipeData = <h1>loading</h1>;
-  }
-  if (loadedRecipe) {
-    console.log(loadedRecipe);
-    recipeData = (
-      <Card>
-        <h1>{loadedRecipe.title}</h1>
-        {/*   {loadedRecipe.ingredients.map((ing) => (
+  console.log(loadedRecipe);
+  return (
+    <Card>
+      <h1>{loadedRecipe.title}</h1>
+      {/*   {loadedRecipe.ingredients.map((ing) => (
           <ul>
             <li>{ing.ingredients}</li>
           </ul>
         ))} */}
 
-        <p>{loadedRecipe.ingredients}</p>
-        <p>{loadedRecipe.instructions}</p>
-        <img
-          src={loadedRecipe.image}
-          alt={loadedRecipe.title}
-          style={{ width: 400 }}
-        />
-      </Card>
-    );
-  }
-
-  return recipeData;
+      <p>{loadedRecipe.ingredients}</p>
+      <p>{loadedRecipe.instructions}</p>
+      <img
+        src={loadedRecipe.image}
+        alt={loadedRecipe.title}
+        style={{ width: 400 }}
+      />
+    </Card>
+  );
 };
 
 export default FullRecipe;

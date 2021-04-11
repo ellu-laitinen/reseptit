@@ -46,6 +46,7 @@ const AddDinner = () => {
     });
     setDinners([...dinners, dinnerData]);
     setDinnerData(initialState);
+    console.log(dinnerData);
   }
 
   return (

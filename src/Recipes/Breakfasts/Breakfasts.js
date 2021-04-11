@@ -10,22 +10,34 @@ import {
 import RecipeCard from "../RecipeCard";
 import { listBreakfasts } from "../../graphql/queries";
 import { API, Storage } from "aws-amplify";
-import { deleteBreakfast as deleteBreakfastMutation } from "../../graphql/mutations";
+import {
+  deleteBreakfast as deleteBreakfastMutation,
+  createBreakfast as createBreakfastMutation,
+} from "../../graphql/mutations";
 
 import FullRecipe from "../FullRecipe";
 import axios from "axios";
 import { Grid } from "@material-ui/core";
 import AddBreakfast from "../../AddRecipe/AddBreakfast";
+import AddRecipe from "../../AddRecipe/AddRecipe";
 
 const Breakfasts = () => {
   const [breakfast, setBreakfast] = useState([]);
   let match = useRouteMatch();
-  let { recipe } = useParams();
+  /* let { recipe } = useParams(); */
+
+  const initialState = {
+    title: "",
+    ingredients: "",
+    instructions: "",
+  };
+  const [breakfastData, setBreakfastData] = useState(initialState);
 
   useEffect(() => {
     fetchBreakfasts();
   }, []);
 
+  // get all recipes
   async function fetchBreakfasts() {
     const apiData = await API.graphql({ query: listBreakfasts });
     const breakfastFromAPI = apiData.data.listBreakfasts.items;
@@ -34,14 +46,15 @@ const Breakfasts = () => {
         if (recipe.image) {
           const image = await Storage.get(recipe.image);
           recipe.image = image;
-          console.log(recipe.image);
+          //      console.log(recipe.image);
         }
       })
     );
     setBreakfast(breakfastFromAPI);
-    console.log(breakfastFromAPI);
+    //  console.log(breakfastFromAPI);
   }
 
+  // delete a recipe
   async function deleteBreakfast({ id }) {
     const newBreakfastArray = breakfast.filter((recipe) => recipe.id !== id);
     setBreakfast(newBreakfastArray);
@@ -49,6 +62,27 @@ const Breakfasts = () => {
       query: deleteBreakfastMutation,
       variables: { input: { id } },
     });
+  }
+
+  // create a new recipe
+  async function createBreakfast() {
+    if (
+      !breakfastData.title ||
+      !breakfastData.ingredients ||
+      !breakfastData.instructions
+    )
+      return;
+    await API.graphql({
+      query: createBreakfastMutation,
+      variables: { input: breakfastData },
+    });
+    if (breakfastData.image) {
+      const image = await Storage.get(breakfastData.image);
+      breakfastData.image = image;
+    }
+    setBreakfast([...breakfast, breakfastData]);
+    fetchBreakfasts();
+    setBreakfastData(initialState);
   }
 
   /*   useEffect(() => {
@@ -70,7 +104,7 @@ const Breakfasts = () => {
         setBreakfast(response.data);
       });
   }; */
-  console.log(breakfast[0]);
+  // console.log(breakfast[0]);
   return (
     <div>
       <Router>
@@ -93,7 +127,12 @@ const Breakfasts = () => {
                 );
               })}
               <Grid item xs={12}>
-                <AddBreakfast />
+                <AddRecipe
+                  recipeData={breakfastData}
+                  setRecipeData={setBreakfastData}
+                  createRecipe={createBreakfast}
+                  category={"aamupala"}
+                />
               </Grid>
             </Grid>
           </Route>
