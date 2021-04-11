@@ -61,16 +61,16 @@ const Snacks = () => {
   async function createSnack() {
     if (!snackData.title || !snackData.ingredients || !snackData.instructions)
       return;
-    await API.graphql({
+    let savedSnack = await API.graphql({
       query: createSnackMutation,
       variables: { input: snackData },
     });
-    if (snackData.image) {
-      const image = await Storage.get(snackData.image);
-      snackData.image = image;
+    if (savedSnack.image) {
+      const image = await Storage.get(savedSnack.image);
+      savedSnack.image = image;
     }
-    setSnacks([...snacks, snackData]);
-    fetchSnacks();
+    setSnacks([...snacks, savedSnack.data.createSnack]);
+
     setSnackData(initialState);
   }
 

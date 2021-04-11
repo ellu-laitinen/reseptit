@@ -23,11 +23,13 @@ const Breakfasts = () => {
   const [breakfast, setBreakfast] = useState([]);
   let match = useRouteMatch();
 
+  // FORM
   const initialState = {
     title: "",
     ingredients: "",
     instructions: "",
   };
+
   const [breakfastData, setBreakfastData] = useState(initialState);
 
   useEffect(() => {
@@ -53,12 +55,12 @@ const Breakfasts = () => {
 
   // delete a recipe
   async function deleteBreakfast({ id }) {
-    const newBreakfastArray = breakfast.filter((recipe) => recipe.id !== id);
     // filter: take every recipe from the existing array ->
     // check if the id's match to the id of the chosen recipe ->
-    //if it's NOT a match, it's kept in the nre array
-
+    // if it's NOT a match, it's kept in the new array
+    const newBreakfastArray = breakfast.filter((recipe) => recipe.id !== id);
     setBreakfast(newBreakfastArray);
+    //removes recipe from database
     await API.graphql({
       query: deleteBreakfastMutation,
       variables: { input: { id } },
@@ -67,24 +69,27 @@ const Breakfasts = () => {
 
   // create a new recipe
   async function createBreakfast() {
+    // required fields
     if (
       !breakfastData.title ||
       !breakfastData.ingredients ||
       !breakfastData.instructions
     )
       return;
-    await API.graphql({
+
+    let savedBreakfast = await API.graphql({
       query: createBreakfastMutation,
       variables: { input: breakfastData },
     });
-    if (breakfastData.image) {
-      const image = await Storage.get(breakfastData.image);
-      breakfastData.image = image;
-    }
-    setBreakfast([...breakfast, breakfastData]);
 
-    // fetch all breakfasts again -> user is able to view FullRecipe of the newest recipe
-    fetchBreakfasts();
+    if (savedBreakfast.image) {
+      const image = await Storage.get(savedBreakfast.image);
+      savedBreakfast.image = image;
+    }
+
+    setBreakfast([...breakfast, savedBreakfast.data.createBreakfast]);
+
+    // empty the form fields
     setBreakfastData(initialState);
   }
 
@@ -108,6 +113,7 @@ const Breakfasts = () => {
       });
   }; */
   // console.log(breakfast[0]);
+
   return (
     <div>
       <Router>

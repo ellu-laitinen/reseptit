@@ -63,16 +63,17 @@ const Lunch = () => {
   async function createLunch() {
     if (!lunchData.title || !lunchData.ingredients || !lunchData.instructions)
       return;
-    await API.graphql({
+
+    let savedLunch = await API.graphql({
       query: createLunchMutation,
       variables: { input: lunchData },
     });
-    if (lunchData.image) {
-      const image = await Storage.get(lunchData.image);
-      lunchData.image = image;
+    if (savedLunch.image) {
+      const savedImage = await Storage.get(savedLunch.image);
+      savedLunch.image = savedImage;
     }
-    setLunch([...lunch, lunchData]);
-    fetchLunches();
+    setLunch([...lunch, savedLunch.data.createLunch]);
+
     setLunchData(initialState);
   }
 

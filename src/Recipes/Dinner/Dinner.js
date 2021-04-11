@@ -68,7 +68,7 @@ const Dinner = () => {
       !dinnerData.instructions
     )
       return;
-    await API.graphql({
+    let savedDinner = await API.graphql({
       query: createDinnerMutation,
       variables: { input: dinnerData },
     });
@@ -76,8 +76,8 @@ const Dinner = () => {
       const image = await Storage.get(dinnerData.image);
       dinnerData.image = image;
     }
-    setDinner([...dinner, dinnerData]);
-    fetchDinners();
+    setDinner([...dinner, savedDinner.data.createDinner]);
+
     setDinnerData(initialState);
   }
 
