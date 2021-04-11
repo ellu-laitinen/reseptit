@@ -16,7 +16,7 @@ import RecipeCard from "../RecipeCard";
 
 import FullRecipe from "../FullRecipe";
 
-import { Grid } from "@material-ui/core";
+import { Grid, Typography } from "@material-ui/core";
 
 import AddRecipe from "../AddRecipe";
 
@@ -80,11 +80,14 @@ const Lunch = () => {
     <div>
       <Router>
         <Switch>
-          <Route path={"/:recipe/:postId"}>
+          <Route path={"/:category/:postId"}>
             <FullRecipe />
           </Route>
           <Route path={match.path}>
             <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <Typography variant="h5">Lounaat</Typography>
+              </Grid>
               {lunch.map((item) => {
                 return (
                   <Grid item xs={12} sm={4}>

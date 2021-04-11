@@ -7,24 +7,27 @@ import { API, Storage } from "aws-amplify";
 
 const FullRecipe = () => {
   const [loadedRecipe, setLoadedRecipe] = useState("");
-  let { postId } = useParams();
-  let { recipe } = useParams();
 
-  console.log(recipe);
+  // useParams checks the parameters of the URL that match,
+  // e.g.  /:category/:postId
+  let { postId } = useParams();
+  let { category } = useParams();
+
+  console.log(category);
   console.log(postId);
 
   useEffect(() => {
-    if (recipe === "breakfast") {
-      console.log(recipe);
+    if (category === "breakfast") {
+      console.log(category);
       fetchBreakfast();
     }
-    if (recipe === "dinner") {
+    if (category === "dinner") {
       fetchDinner();
     }
-    if (recipe === "lunch") {
+    if (category === "lunch") {
       fetchLunch();
     }
-    if (recipe === "snacks") {
+    if (category === "snacks") {
       fetchSnack();
     }
   }, []);

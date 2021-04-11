@@ -16,7 +16,7 @@ import {
 } from "../../graphql/mutations";
 
 import FullRecipe from "../FullRecipe";
-import { Grid } from "@material-ui/core";
+import { Grid, Typography } from "@material-ui/core";
 import AddRecipe from "../AddRecipe";
 
 const Breakfasts = () => {
@@ -34,7 +34,7 @@ const Breakfasts = () => {
     fetchBreakfasts();
   }, []);
 
-  // get all recipes
+  // get all brekfasts
   async function fetchBreakfasts() {
     const apiData = await API.graphql({ query: listBreakfasts });
     const breakfastFromAPI = apiData.data.listBreakfasts.items;
@@ -54,6 +54,10 @@ const Breakfasts = () => {
   // delete a recipe
   async function deleteBreakfast({ id }) {
     const newBreakfastArray = breakfast.filter((recipe) => recipe.id !== id);
+    // filter: take every recipe from the existing array ->
+    // check if the id's match to the id of the chosen recipe ->
+    //if it's NOT a match, it's kept in the nre array
+
     setBreakfast(newBreakfastArray);
     await API.graphql({
       query: deleteBreakfastMutation,
@@ -78,6 +82,8 @@ const Breakfasts = () => {
       breakfastData.image = image;
     }
     setBreakfast([...breakfast, breakfastData]);
+
+    // fetch all breakfasts again -> user is able to view FullRecipe of the newest recipe
     fetchBreakfasts();
     setBreakfastData(initialState);
   }
@@ -106,11 +112,15 @@ const Breakfasts = () => {
     <div>
       <Router>
         <Switch>
-          <Route path={"/:recipe/:postId"}>
+          <Route path={"/:category/:postId"}>
             <FullRecipe />
           </Route>
+
           <Route path={match.path}>
             <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <Typography variant="h5">Aamupalat</Typography>
+              </Grid>
               {breakfast.map((item) => {
                 return (
                   <Grid item xs={12} sm={4}>

@@ -13,7 +13,7 @@ import {
   createSnack as createSnackMutation,
 } from "../../graphql/mutations";
 import { API, Storage } from "aws-amplify";
-import { Card, Grid } from "@material-ui/core";
+import { Typography, Grid } from "@material-ui/core";
 
 import FullRecipe from "../FullRecipe";
 import AddRecipe from "../AddRecipe";
@@ -78,11 +78,14 @@ const Snacks = () => {
     <div>
       <Router>
         <Switch>
-          <Route path={`/:recipe/:postId`}>
+          <Route path={`/:category/:postId`}>
             <FullRecipe />
           </Route>
           <Route path={match.path}>
             <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <Typography variant="h5">Ilta- ja välipalat</Typography>
+              </Grid>
               {snacks.map((item) => {
                 return (
                   <Grid item xs={12} sm={4}>
