@@ -7,19 +7,28 @@ import {
   BrowserRouter as Router,
 } from "react-router-dom";
 import { listLunchs } from "../../graphql/queries";
-import { deleteLunch as deleteLunchMutation } from "../../graphql/mutations";
-import { API } from "aws-amplify";
+import {
+  deleteLunch as deleteLunchMutation,
+  createLunch as createLunchMutation,
+} from "../../graphql/mutations";
+import { API, Storage } from "aws-amplify";
 import RecipeCard from "../RecipeCard";
 
 import FullRecipe from "../FullRecipe";
 
 import { Grid } from "@material-ui/core";
 
-import AddLunch from "../../AddRecipe/AddLunch";
+import AddRecipe from "../../AddRecipe/AddRecipe";
 
 const Lunch = () => {
   const [lunch, setLunch] = useState([]);
   let match = useRouteMatch();
+  const initialState = {
+    title: "",
+    ingredients: "",
+    instructions: "",
+  };
+  const [lunchData, setLunchData] = useState(initialState);
 
   useEffect(() => {
     fetchLunches();
@@ -27,17 +36,44 @@ const Lunch = () => {
 
   async function fetchLunches() {
     const apiData = await API.graphql({ query: listLunchs });
-    setLunch(apiData.data.listLunchs.items);
+    const lunchFromAPI = apiData.data.listLunchs.items;
     console.log(apiData.data.listLunchs.items);
+    await Promise.all(
+      lunchFromAPI.map(async (recipe) => {
+        if (recipe.image) {
+          const image = await Storage.get(recipe.image);
+          recipe.image = image;
+          //      console.log(recipe.image);
+        }
+      })
+    );
+    setLunch(lunchFromAPI);
   }
 
   async function deleteLunch({ id }) {
-    const newBreakfastArray = lunch.filter((recipe) => recipe.id !== id);
-    setLunch(newBreakfastArray);
+    const newLunchArray = lunch.filter((recipe) => recipe.id !== id);
+    setLunch(newLunchArray);
     await API.graphql({
       query: deleteLunchMutation,
       variables: { input: { id } },
     });
+  }
+
+  // create a new recipe
+  async function createLunch() {
+    if (!lunchData.title || !lunchData.ingredients || !lunchData.instructions)
+      return;
+    await API.graphql({
+      query: createLunchMutation,
+      variables: { input: lunchData },
+    });
+    if (lunchData.image) {
+      const image = await Storage.get(lunchData.image);
+      lunchData.image = image;
+    }
+    setLunch([...lunch, lunchData]);
+    fetchLunches();
+    setLunchData(initialState);
   }
 
   return (
@@ -54,7 +90,7 @@ const Lunch = () => {
                   <Grid item xs={12} sm={4}>
                     <RecipeCard
                       title={item.title}
-                      img={item.img}
+                      img={item.image}
                       link={`${match.url}/${item.id}`}
                       remove={() => deleteLunch(item)}
                     />
@@ -63,7 +99,12 @@ const Lunch = () => {
               })}
 
               <Grid item xs={12}>
-                <AddLunch />
+                <AddRecipe
+                  recipeData={lunchData}
+                  setRecipeData={setLunchData}
+                  createRecipe={createLunch}
+                  category={"lounas"}
+                />
               </Grid>
             </Grid>
           </Route>

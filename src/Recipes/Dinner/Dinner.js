@@ -7,19 +7,27 @@ import {
   BrowserRouter as Router,
 } from "react-router-dom";
 import { listDinners } from "../../graphql/queries";
-import { API } from "aws-amplify";
-import { deleteDinner as deleteDinnerMutation } from "../../graphql/mutations";
+import { API, Storage } from "aws-amplify";
+import {
+  deleteDinner as deleteDinnerMutation,
+  createDinner as createDinnerMutation,
+} from "../../graphql/mutations";
 import RecipeCard from "../RecipeCard";
 
-import AddRecipe from "../../AddRecipe/AddBreakfast";
+import AddRecipe from "../../AddRecipe/AddRecipe";
 import FullRecipe from "../FullRecipe";
-import axios from "axios";
 import { Grid } from "@material-ui/core";
-import AddDinner from "../../AddRecipe/AddDinner";
 
 const Dinner = () => {
   const [dinner, setDinner] = useState([]);
   let match = useRouteMatch();
+
+  const initialState = {
+    title: "",
+    ingredients: "",
+    instructions: "",
+  };
+  const [dinnerData, setDinnerData] = useState(initialState);
 
   useEffect(() => {
     fetchDinners();
@@ -27,17 +35,50 @@ const Dinner = () => {
 
   async function fetchDinners() {
     const apiData = await API.graphql({ query: listDinners });
-    setDinner(apiData.data.listDinners.items);
-    console.log(apiData.data.listDinners.items);
+    const dinnerFromAPI = apiData.data.listDinners.items;
+    await Promise.all(
+      dinnerFromAPI.map(async (recipe) => {
+        if (recipe.image) {
+          const image = await Storage.get(recipe.image);
+          recipe.image = image;
+          //      console.log(recipe.image);
+        }
+      })
+    );
+    setDinner(dinnerFromAPI);
+    //  console.log(breakfastFromAPI);
   }
 
+  // DELETE dinner
+
   async function deleteDinner({ id }) {
-    const newBreakfastArray = dinner.filter((recipe) => recipe.id !== id);
-    setDinner(newBreakfastArray);
+    const newDinnerArray = dinner.filter((recipe) => recipe.id !== id);
+    setDinner(newDinnerArray);
     await API.graphql({
       query: deleteDinnerMutation,
       variables: { input: { id } },
     });
+  }
+
+  // create a new recipe
+  async function createDinner() {
+    if (
+      !dinnerData.title ||
+      !dinnerData.ingredients ||
+      !dinnerData.instructions
+    )
+      return;
+    await API.graphql({
+      query: createDinnerMutation,
+      variables: { input: dinnerData },
+    });
+    if (dinnerData.image) {
+      const image = await Storage.get(dinnerData.image);
+      dinnerData.image = image;
+    }
+    setDinner([...dinner, dinnerData]);
+    fetchDinners();
+    setDinnerData(initialState);
   }
 
   return (
@@ -54,7 +95,7 @@ const Dinner = () => {
                   <Grid item xs={12} sm={4}>
                     <RecipeCard
                       title={item.title}
-                      img={item.img}
+                      img={item.image}
                       link={`${match.url}/${item.id}`}
                       remove={() => deleteDinner(item)}
                     />
@@ -62,7 +103,12 @@ const Dinner = () => {
                 );
               })}
               <Grid item xs={12}>
-                <AddDinner />
+                <AddRecipe
+                  recipeData={dinnerData}
+                  setRecipeData={setDinnerData}
+                  createRecipe={createDinner}
+                  category={"päiväruoka"}
+                />
               </Grid>
             </Grid>
           </Route>

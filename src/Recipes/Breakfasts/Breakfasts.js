@@ -18,7 +18,6 @@ import {
 import FullRecipe from "../FullRecipe";
 import axios from "axios";
 import { Grid } from "@material-ui/core";
-import AddBreakfast from "../../AddRecipe/AddBreakfast";
 import AddRecipe from "../../AddRecipe/AddRecipe";
 
 const Breakfasts = () => {

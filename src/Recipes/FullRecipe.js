@@ -54,6 +54,14 @@ const FullRecipe = () => {
       query: queries.getDinner,
       variables: { id: postId },
     });
+    console.log(apiData);
+    const recipeFromAPI = apiData.data.getDinner;
+    console.log(recipeFromAPI);
+    if (recipeFromAPI.image) {
+      console.log(recipeFromAPI);
+      const image = await Storage.get(recipeFromAPI.image);
+      recipeFromAPI.image = image;
+    }
     setLoadedRecipe(apiData.data.getDinner);
     console.log(apiData.data.getDinner);
   }
@@ -63,6 +71,14 @@ const FullRecipe = () => {
       query: queries.getLunch,
       variables: { id: postId },
     });
+    console.log(apiData);
+    const recipeFromAPI = apiData.data.getLunch;
+    console.log(recipeFromAPI);
+    if (recipeFromAPI.image) {
+      console.log(recipeFromAPI);
+      const image = await Storage.get(recipeFromAPI.image);
+      recipeFromAPI.image = image;
+    }
     setLoadedRecipe(apiData.data.getLunch);
     console.log(apiData.data.getLunch);
   }
@@ -72,6 +88,14 @@ const FullRecipe = () => {
       query: queries.getSnack,
       variables: { id: postId },
     });
+    console.log(apiData);
+    const recipeFromAPI = apiData.data.getSnack;
+    console.log(recipeFromAPI);
+    if (recipeFromAPI.image) {
+      console.log(recipeFromAPI);
+      const image = await Storage.get(recipeFromAPI.image);
+      recipeFromAPI.image = image;
+    }
     setLoadedRecipe(apiData.data.getSnack);
     console.log(apiData.data.getSnack);
   }

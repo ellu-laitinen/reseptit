@@ -8,17 +8,25 @@ import {
   BrowserRouter as Router,
 } from "react-router-dom";
 import { listSnacks } from "../../graphql/queries";
-import { deleteSnack as deleteSnacksMutation } from "../../graphql/mutations";
-import { API } from "aws-amplify";
-import axios from "axios";
+import {
+  deleteSnack as deleteSnacksMutation,
+  createSnack as createSnackMutation,
+} from "../../graphql/mutations";
+import { API, Storage } from "aws-amplify";
 import { Card, Grid } from "@material-ui/core";
 
 import FullRecipe from "../FullRecipe";
-import AddSnack from "../../AddRecipe/AddSnack";
+import AddRecipe from "../../AddRecipe/AddRecipe";
 
 const Snacks = () => {
   const [snacks, setSnacks] = useState([]);
   let match = useRouteMatch();
+  const initialState = {
+    title: "",
+    ingredients: "",
+    instructions: "",
+  };
+  const [snackData, setSnackData] = useState(initialState);
 
   useEffect(() => {
     fetchSnacks();
@@ -26,7 +34,17 @@ const Snacks = () => {
 
   async function fetchSnacks() {
     const apiData = await API.graphql({ query: listSnacks });
-    setSnacks(apiData.data.listSnacks.items);
+    const snackFromAPI = apiData.data.listSnacks.items;
+    await Promise.all(
+      snackFromAPI.map(async (recipe) => {
+        if (recipe.image) {
+          const image = await Storage.get(recipe.image);
+          recipe.image = image;
+          //      console.log(recipe.image);
+        }
+      })
+    );
+    setSnacks(snackFromAPI);
     console.log(apiData.data.listSnacks.items);
   }
 
@@ -37,6 +55,23 @@ const Snacks = () => {
       query: deleteSnacksMutation,
       variables: { input: { id } },
     });
+  }
+
+  // create a new recipe
+  async function createSnack() {
+    if (!snackData.title || !snackData.ingredients || !snackData.instructions)
+      return;
+    await API.graphql({
+      query: createSnackMutation,
+      variables: { input: snackData },
+    });
+    if (snackData.image) {
+      const image = await Storage.get(snackData.image);
+      snackData.image = image;
+    }
+    setSnacks([...snacks, snackData]);
+    fetchSnacks();
+    setSnackData(initialState);
   }
 
   return (
@@ -53,7 +88,7 @@ const Snacks = () => {
                   <Grid item xs={12} sm={4}>
                     <RecipeCard
                       title={item.title}
-                      img={item.img}
+                      img={item.image}
                       link={`${match.url}/${item.id}`}
                       remove={() => deleteSnack(item)}
                     />
@@ -61,7 +96,12 @@ const Snacks = () => {
                 );
               })}
               <Grid item xs={12}>
-                <AddSnack />
+                <AddRecipe
+                  recipeData={snackData}
+                  setRecipeData={setSnackData}
+                  createRecipe={createSnack}
+                  category={"välipala"}
+                />
               </Grid>
             </Grid>
           </Route>
