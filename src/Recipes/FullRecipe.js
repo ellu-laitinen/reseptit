@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { useParams, useRouteMatch } from "react-router-dom";
-import { Card } from "@material-ui/core";
+import { Card, Grid, Typography } from "@material-ui/core";
 
 import * as queries from "../graphql/queries";
 import { API, Storage } from "aws-amplify";
-import RecipeCard from "./RecipeCard";
 
 const FullRecipe = () => {
   const [loadedRecipe, setLoadedRecipe] = useState("");
@@ -114,20 +112,31 @@ const FullRecipe = () => {
   console.log(loadedRecipe);
   return (
     <Card>
-      <h1>{loadedRecipe.title}</h1>
-      {/*   {loadedRecipe.ingredients.map((ing) => (
+      <Grid container direction="column" spacing={4}>
+        <Grid item>
+          <Typography variant="h4">{loadedRecipe.title}</Typography>
+        </Grid>
+        <Grid item>
+          <img
+            src={loadedRecipe.image}
+            alt={loadedRecipe.title}
+            style={{ width: 400 }}
+          />
+        </Grid>
+        <Grid item>
+          {/*   {loadedRecipe.ingredients.map((ing) => (
           <ul>
             <li>{ing.ingredients}</li>
           </ul>
         ))} */}
-
-      <p>{loadedRecipe.ingredients}</p>
-      <p>{loadedRecipe.instructions}</p>
-      <img
-        src={loadedRecipe.image}
-        alt={loadedRecipe.title}
-        style={{ width: 400 }}
-      />
+          <Typography>Ainesosat:</Typography>
+          <Typography>{loadedRecipe.ingredients}</Typography>
+        </Grid>
+        <Grid item>
+          <Typography>Ohje:</Typography>
+          <Typography>{loadedRecipe.instructions}</Typography>
+        </Grid>
+      </Grid>
     </Card>
   );
 };

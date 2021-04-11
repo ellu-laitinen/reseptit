@@ -8,9 +8,17 @@ import {
   TextField,
   TextareaAutosize,
   Button,
+  makeStyles,
 } from "@material-ui/core";
 
+const useStyles = makeStyles({
+  button: {
+    color: "black",
+    backgroundColor: "lightgrey",
+  },
+});
 const AddRecipe = ({ recipeData, setRecipeData, createRecipe, category }) => {
+  const classes = useStyles();
   /*   useEffect(() => {
     fetchRecipes();
     console.log("fetch1");
@@ -67,9 +75,15 @@ const AddRecipe = ({ recipeData, setRecipeData, createRecipe, category }) => {
 
   return (
     <Card style={{ margin: "2rem" }}>
-      <Grid container direction="column" justify="center" alignItems="center">
+      <Grid
+        container
+        direction="column"
+        justify="center"
+        alignItems="center"
+        spacing={2}
+      >
         <Grid item>
-          <Typography>Lisää {category}</Typography>
+          <Typography variant="h6">Lisää {category}</Typography>
         </Grid>
         <Grid item>
           <InputLabel>Reseptin nimi</InputLabel>
@@ -103,6 +117,7 @@ const AddRecipe = ({ recipeData, setRecipeData, createRecipe, category }) => {
         <Grid item>
           <InputLabel>Ohjeet</InputLabel>
           <TextareaAutosize
+            style={{ width: 300 }}
             rowsMin={10}
             type="text"
             name="instructions"
@@ -111,9 +126,19 @@ const AddRecipe = ({ recipeData, setRecipeData, createRecipe, category }) => {
           ></TextareaAutosize>
         </Grid>
         <Grid item>
+          <InputLabel>Lisää kuva:</InputLabel>
+
           <input type="file" onChange={onChange} />
         </Grid>
-        <Button onClick={createRecipe}>Lisää resepti</Button>
+        <Grid item>
+          <Button
+            onClick={createRecipe}
+            variant="outlined"
+            className={classes.button}
+          >
+            Lisää resepti
+          </Button>
+        </Grid>
       </Grid>
     </Card>
   );

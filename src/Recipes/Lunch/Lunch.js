@@ -18,7 +18,7 @@ import FullRecipe from "../FullRecipe";
 
 import { Grid } from "@material-ui/core";
 
-import AddRecipe from "../../AddRecipe/AddRecipe";
+import AddRecipe from "../AddRecipe";
 
 const Lunch = () => {
   const [lunch, setLunch] = useState([]);

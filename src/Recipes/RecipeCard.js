@@ -1,12 +1,29 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Card from "@material-ui/core/Card";
-import Typography from "@material-ui/core/Typography";
-import Grid from "@material-ui/core/Grid";
-import "./RecipeCard.scss";
-import { Button } from "@material-ui/core";
+import { Card, Typography, Grid, Button, makeStyles } from "@material-ui/core";
+import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
+import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
+
+const useStyles = makeStyles({
+  link: {
+    color: "black",
+    textDecoration: "none",
+    "&:hover": {
+      textDecoration: "underline",
+    },
+  },
+  button: {
+    paddingLeft: 0,
+    marginLeft: 0,
+    justifyContent: "flex-start",
+    "&:hover": {
+      backgroundColor: "inherit",
+    },
+  },
+});
 
 const RecipeCard = ({ title, img, link, remove }) => {
+  const classes = useStyles();
   return (
     <Card>
       <Grid container spacing={2} direction="column">
@@ -14,13 +31,19 @@ const RecipeCard = ({ title, img, link, remove }) => {
           <Typography variant="h6">{title}</Typography>
         </Grid>
         <Grid item>
-          <img src={img} alt={img} style={{ width: 300 }} />
+          <img src={img} alt={img} style={{ width: "75%" }} />
         </Grid>
         <Grid item>
-          <Link to={link}>Koko resepti</Link>
+          <Link to={link} className={classes.link}>
+            <Typography>
+              Resepti <ArrowForwardIcon />
+            </Typography>
+          </Link>
         </Grid>
         <Grid item>
-          <Button onClick={remove}>Poista resepti</Button>
+          <Button onClick={remove} color="secondary" className={classes.button}>
+            <DeleteOutlineIcon size="small" />
+          </Button>
         </Grid>
       </Grid>
     </Card>

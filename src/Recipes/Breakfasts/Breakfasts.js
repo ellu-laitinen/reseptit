@@ -16,14 +16,12 @@ import {
 } from "../../graphql/mutations";
 
 import FullRecipe from "../FullRecipe";
-import axios from "axios";
 import { Grid } from "@material-ui/core";
-import AddRecipe from "../../AddRecipe/AddRecipe";
+import AddRecipe from "../AddRecipe";
 
 const Breakfasts = () => {
   const [breakfast, setBreakfast] = useState([]);
   let match = useRouteMatch();
-  /* let { recipe } = useParams(); */
 
   const initialState = {
     title: "",

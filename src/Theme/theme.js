@@ -14,15 +14,22 @@ const theme = createMuiTheme({
 
 theme.overrides = {
   muiButton: {
-    root: {
-      backgroundColor: red[600],
-      color: "white",
+    colorPrimary: {
+      backgroundColor: red[200],
+    },
+    colorSecondary: {
+      paddingLeft: 0,
+    },
+    outlinedPrimary: {
+      color: "black",
     },
   },
   MuiCard: {
     root: {
       backgroundColor: grey[100],
       margin: "1rem",
+      padding: "2rem",
+      boxShadow: "none",
     },
   },
   MuiTextField: {
