@@ -1,6 +1,8 @@
 WORK IN PROCESS!
 
-Up next: styling the app.
+Next steps:
+- option to edit recipes
+- adding more fields for adding ingredients
 
 A little app to store all my favorite food recipes: https://main.dt54r1tqvc1ad.amplifyapp.com/
 
