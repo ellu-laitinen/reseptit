@@ -40,17 +40,20 @@ const Breakfasts = () => {
   async function fetchBreakfasts() {
     const apiData = await API.graphql({ query: listBreakfasts });
     const breakfastFromAPI = apiData.data.listBreakfasts.items;
+    console.log(breakfastFromAPI)
     await Promise.all(
       breakfastFromAPI.map(async (recipe) => {
+        console.log(recipe)
         if (recipe.image) {
           const image = await Storage.get(recipe.image);
           recipe.image = image;
-          //      console.log(recipe.image);
+              console.log(recipe.image);
+              console.log(image)
         }
       })
     );
     setBreakfast(breakfastFromAPI);
-    //  console.log(breakfastFromAPI);
+    console.log(breakfastFromAPI);
   }
 
   // delete a recipe
@@ -82,10 +85,16 @@ const Breakfasts = () => {
       variables: { input: breakfastData },
     });
 
-    if (savedBreakfast.image) {
-      const image = await Storage.get(savedBreakfast.image);
-      savedBreakfast.image = image;
+    if (breakfastData.image) {
+      console.log(breakfastData.image)
+      const image = await Storage.get(breakfastData.image);
+      savedBreakfast.data.createBreakfast.image = image;
+      console.log(image)
     }
+
+    console.log(breakfastData.image)
+    console.log(breakfastData)
+    console.log(savedBreakfast)
 
     setBreakfast([...breakfast, savedBreakfast.data.createBreakfast]);
 

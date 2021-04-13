@@ -65,9 +65,9 @@ const Snacks = () => {
       query: createSnackMutation,
       variables: { input: snackData },
     });
-    if (savedSnack.image) {
-      const image = await Storage.get(savedSnack.image);
-      savedSnack.image = image;
+    if (snackData.image) {
+      const image = await Storage.get(snackData.image);
+      savedSnack.data.createSnack.image = image;
     }
     setSnacks([...snacks, savedSnack.data.createSnack]);
 

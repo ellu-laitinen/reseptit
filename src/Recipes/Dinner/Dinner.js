@@ -74,7 +74,7 @@ const Dinner = () => {
     });
     if (dinnerData.image) {
       const image = await Storage.get(dinnerData.image);
-      dinnerData.image = image;
+      savedDinner.data.createDinner.image = image;
     }
     setDinner([...dinner, savedDinner.data.createDinner]);
 

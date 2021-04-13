@@ -68,9 +68,9 @@ const Lunch = () => {
       query: createLunchMutation,
       variables: { input: lunchData },
     });
-    if (savedLunch.image) {
-      const savedImage = await Storage.get(savedLunch.image);
-      savedLunch.image = savedImage;
+    if (lunchData.image) {
+      const savedImage = await Storage.get(lunchData.image);
+      savedLunch.data.createLunch.image = savedImage;
     }
     setLunch([...lunch, savedLunch.data.createLunch]);
 
