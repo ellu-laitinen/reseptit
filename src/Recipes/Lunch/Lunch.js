@@ -22,6 +22,7 @@ import AddRecipe from "../AddRecipe";
 
 const Lunch = () => {
   const [lunch, setLunch] = useState([]);
+  const [ingredients, setIngredients] = useState([])
   let match = useRouteMatch();
   const initialState = {
     title: "",
@@ -29,6 +30,35 @@ const Lunch = () => {
     instructions: "",
   };
   const [lunchData, setLunchData] = useState(initialState);
+  const saveData = ({name, value}) => {
+    setLunchData({
+      ...lunchData,
+      [name]: value //stringify here separates all letters into individual strings, no errors
+    })
+  }
+
+  const changeIngHandler = (e) => {
+    setIngredients({
+     
+      [e.target.name]:e.target.value
+    })
+  }
+  const addIng = (e) =>  {
+
+    e.preventDefault();
+    saveData({
+      name:"ingredients",
+      value: [...lunchData.ingredients, ingredients.ingredients]  //stringify here: error, can't parse
+    })
+
+  /*   const ings = breakfastData.ingredients.map((i) => {
+      return (
+        i.ingredients
+      )
+      
+    }) */
+
+  }
 
   useEffect(() => {
     fetchLunches();
@@ -63,7 +93,7 @@ const Lunch = () => {
   async function createLunch() {
     if (!lunchData.title || !lunchData.ingredients || !lunchData.instructions)
       return;
-
+      lunchData.ingredients = JSON.stringify(lunchData.ingredients)
     let savedLunch = await API.graphql({
       query: createLunchMutation,
       variables: { input: lunchData },
@@ -108,6 +138,9 @@ const Lunch = () => {
                   setRecipeData={setLunchData}
                   createRecipe={createLunch}
                   category={"lounas"}
+                  addIng={addIng}
+                  changeIngHandler={changeIngHandler}
+               
                 />
               </Grid>
             </Grid>

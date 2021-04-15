@@ -1,7 +1,7 @@
 type Breakfast @model {
   id: ID!
   title: String!
-  ingredients: String
+  ingredients: AWSJSON
   instructions: String
   image: String
 }
