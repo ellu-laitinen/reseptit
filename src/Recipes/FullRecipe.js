@@ -40,15 +40,26 @@ const FullRecipe = () => {
     });
     console.log(apiData);
     const recipeFromAPI = apiData.data.getBreakfast;
-    console.log(recipeFromAPI);
+
+/*     console.log(JSON.parse(recipeFromAPI.ingredients));
+   recipeFromAPI.ingredients = JSON.parse(recipeFromAPI.ingredients)
+  recipeFromAPI.ingredients.forEach(function(item){
+     console.log(item)
+   }) */
+   recipeFromAPI.ingredients =  JSON.parse(recipeFromAPI.ingredients)
     if (recipeFromAPI.image) {
       console.log(recipeFromAPI);
       const image = await Storage.get(recipeFromAPI.image);
       recipeFromAPI.image = image;
     }
     setLoadedRecipe(recipeFromAPI);
+  
     console.log(recipeFromAPI);
   }
+
+  console.log(loadedRecipe)
+ //loadedRecipe.ingredients.forEach((i) => console.log(i))
+
 
   async function fetchDinner() {
     const apiData = await API.graphql({
@@ -58,6 +69,7 @@ const FullRecipe = () => {
     console.log(apiData);
     const recipeFromAPI = apiData.data.getDinner;
     console.log(recipeFromAPI);
+    recipeFromAPI.ingredients =  JSON.parse(recipeFromAPI.ingredients)
     if (recipeFromAPI.image) {
       console.log(recipeFromAPI);
       const image = await Storage.get(recipeFromAPI.image);
@@ -75,6 +87,7 @@ const FullRecipe = () => {
     console.log(apiData);
     const recipeFromAPI = apiData.data.getLunch;
     console.log(recipeFromAPI);
+    recipeFromAPI.ingredients =  JSON.parse(recipeFromAPI.ingredients)
     if (recipeFromAPI.image) {
       console.log(recipeFromAPI);
       const image = await Storage.get(recipeFromAPI.image);
@@ -92,6 +105,7 @@ const FullRecipe = () => {
     console.log(apiData);
     const recipeFromAPI = apiData.data.getSnack;
     console.log(recipeFromAPI);
+    recipeFromAPI.ingredients =  JSON.parse(recipeFromAPI.ingredients)
     if (recipeFromAPI.image) {
       console.log(recipeFromAPI);
       const image = await Storage.get(recipeFromAPI.image);
@@ -112,7 +126,7 @@ const FullRecipe = () => {
     }
   }); */
 
-  console.log(loadedRecipe);
+/*   console.log(loadedRecipe.ingredients.map((p)=> console.log(p))); */
   return (
     <Card>
       <Grid container direction="column" spacing={4}>
@@ -133,7 +147,10 @@ const FullRecipe = () => {
           </ul>
         ))} */}
           <Typography>Ainesosat:</Typography>
-          <Typography>{loadedRecipe.ingredients}</Typography>
+          <ul>
+          {loadedRecipe && loadedRecipe.ingredients.map((i) =><li>{i}</li>)}
+          </ul>
+          <Typography></Typography>
         </Grid>
         <Grid item>
           <Typography>Ohje:</Typography>

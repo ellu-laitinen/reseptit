@@ -20,6 +20,8 @@ import { Grid, Typography } from "@material-ui/core";
 
 const Dinner = () => {
   const [dinner, setDinner] = useState([]);
+  const [ingredients, setIngredients] = useState([])
+
   let match = useRouteMatch();
 
   const initialState = {
@@ -28,6 +30,36 @@ const Dinner = () => {
     instructions: "",
   };
   const [dinnerData, setDinnerData] = useState(initialState);
+
+  const saveData = ({name, value}) => {
+    setDinnerData({
+      ...dinnerData,
+      [name]: value //stringify here separates all letters into individual strings, no errors
+    })
+  }
+
+  const changeIngHandler = (e) => {
+    setIngredients({
+     
+      [e.target.name]:e.target.value
+    })
+  }
+  const addIng = (e) =>  {
+
+    e.preventDefault();
+    saveData({
+      name:"ingredients",
+      value: [...dinnerData.ingredients, ingredients.ingredients]  //stringify here: error, can't parse
+    })
+
+  /*   const ings = breakfastData.ingredients.map((i) => {
+      return (
+        i.ingredients
+      )
+      
+    }) */
+
+  }
 
   useEffect(() => {
     fetchDinners();
@@ -68,6 +100,7 @@ const Dinner = () => {
       !dinnerData.instructions
     )
       return;
+      dinnerData.ingredients = JSON.stringify(dinnerData.ingredients)
     let savedDinner = await API.graphql({
       query: createDinnerMutation,
       variables: { input: dinnerData },
@@ -111,6 +144,8 @@ const Dinner = () => {
                   setRecipeData={setDinnerData}
                   createRecipe={createDinner}
                   category={"päiväruoka"}
+                  addIng={addIng}
+                  changeIngHandler={changeIngHandler}
                 />
               </Grid>
             </Grid>

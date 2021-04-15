@@ -21,12 +21,45 @@ import AddRecipe from "../AddRecipe";
 const Snacks = () => {
   const [snacks, setSnacks] = useState([]);
   let match = useRouteMatch();
+
+  const [ingredients, setIngredients] = useState([])
+
   const initialState = {
     title: "",
-    ingredients: "",
+    ingredients: ingredients,
     instructions: "",
   };
   const [snackData, setSnackData] = useState(initialState);
+
+  const saveData = ({name, value}) => {
+    setSnackData({
+      ...snackData,
+      [name]: value //stringify here separates all letters into individual strings, no errors
+    })
+  }
+
+  const changeIngHandler = (e) => {
+    setIngredients({
+     
+      [e.target.name]:e.target.value
+    })
+  }
+  const addIng = (e) =>  {
+
+    e.preventDefault();
+    saveData({
+      name:"ingredients",
+      value: [...snackData.ingredients, ingredients.ingredients]  //stringify here: error, can't parse
+    })
+
+  /*   const ings = breakfastData.ingredients.map((i) => {
+      return (
+        i.ingredients
+      )
+      
+    }) */
+
+  }
 
   useEffect(() => {
     fetchSnacks();
@@ -61,6 +94,7 @@ const Snacks = () => {
   async function createSnack() {
     if (!snackData.title || !snackData.ingredients || !snackData.instructions)
       return;
+      snackData.ingredients = JSON.stringify(snackData.ingredients)
     let savedSnack = await API.graphql({
       query: createSnackMutation,
       variables: { input: snackData },
@@ -72,8 +106,12 @@ const Snacks = () => {
     setSnacks([...snacks, savedSnack.data.createSnack]);
 
     setSnackData(initialState);
+
+
   }
 
+
+  console.log(snackData)
   return (
     <div>
       <Router>
@@ -104,6 +142,9 @@ const Snacks = () => {
                   setRecipeData={setSnackData}
                   createRecipe={createSnack}
                   category={"välipala"}
+                  addIng={addIng}
+                  changeIngHandler={changeIngHandler}
+               
                 />
               </Grid>
             </Grid>

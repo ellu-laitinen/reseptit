@@ -21,16 +21,58 @@ import AddRecipe from "../AddRecipe";
 
 const Breakfasts = () => {
   const [breakfast, setBreakfast] = useState([]);
+  const [ingredients, setIngredients] = useState([])
+  
   let match = useRouteMatch();
 
   // FORM
   const initialState = {
     title: "",
-    ingredients: "",
+    ingredients: ingredients,
     instructions: "",
   };
 
   const [breakfastData, setBreakfastData] = useState(initialState);
+  console.log(breakfastData)
+
+  const saveData = ({name, value}) => {
+    setBreakfastData({
+      ...breakfastData,
+      [name]: value //stringify here separates all letters into individual strings, no errors
+    })
+  }
+  console.log(breakfastData)
+
+
+  const changeIngHandler = (e) => {
+    setIngredients({
+     
+      [e.target.name]:e.target.value
+    })
+  }
+
+
+  const addIng = (e) =>  {
+
+    e.preventDefault();
+    saveData({
+      name:"ingredients",
+      value: [...breakfastData.ingredients, ingredients.ingredients]  //stringify here: error, can't parse
+    })
+
+  /*   const ings = breakfastData.ingredients.map((i) => {
+      return (
+        i.ingredients
+      )
+      
+    }) */
+
+  }
+/*   const ings = breakfastData.ingredients.map((i) => i.ingredients) */
+ /*  console.log(ings) */
+  console.log(ingredients)
+
+
 
   useEffect(() => {
     fetchBreakfasts();
@@ -47,8 +89,8 @@ const Breakfasts = () => {
         if (recipe.image) {
           const image = await Storage.get(recipe.image);
           recipe.image = image;
-              console.log(recipe.image);
-              console.log(image)
+       //       console.log(recipe.image);
+     //         console.log(image)
         }
       })
     );
@@ -79,11 +121,16 @@ const Breakfasts = () => {
       !breakfastData.instructions
     )
       return;
-
+      console.log(breakfastData)
+      breakfastData.ingredients = JSON.stringify(breakfastData.ingredients)
+    
     let savedBreakfast = await API.graphql({
+    
       query: createBreakfastMutation,
-      variables: { input: breakfastData },
+      variables: { input: breakfastData },  
+   
     });
+
 
     if (breakfastData.image) {
       console.log(breakfastData.image)
@@ -91,9 +138,10 @@ const Breakfasts = () => {
       savedBreakfast.data.createBreakfast.image = image;
       console.log(image)
     }
+ 
 
     console.log(breakfastData.image)
-    console.log(breakfastData)
+
     console.log(savedBreakfast)
 
     setBreakfast([...breakfast, savedBreakfast.data.createBreakfast]);
@@ -101,6 +149,7 @@ const Breakfasts = () => {
     // empty the form fields
     setBreakfastData(initialState);
   }
+  //console.log(breakfast)
 
   /*   useEffect(() => {
     axios.get("http://localhost:3001/breakfast").then((response) => {
@@ -123,6 +172,7 @@ const Breakfasts = () => {
   }; */
   // console.log(breakfast[0]);
 
+  // console.log(breakfastData.ingredients.map((i) => i.ingredients))
   return (
     <div>
       <Router>
@@ -154,7 +204,10 @@ const Breakfasts = () => {
                   setRecipeData={setBreakfastData}
                   createRecipe={createBreakfast}
                   category={"aamupala"}
+                  addIng={addIng}
+                  changeIngHandler={changeIngHandler}
                 />
+      
               </Grid>
             </Grid>
           </Route>
