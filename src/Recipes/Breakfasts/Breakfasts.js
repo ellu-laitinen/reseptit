@@ -13,6 +13,7 @@ import { API, Storage } from "aws-amplify";
 import {
   deleteBreakfast as deleteBreakfastMutation,
   createBreakfast as createBreakfastMutation,
+  updateBreakfast as updateBreakfastMutation
 } from "../../graphql/mutations";
 
 import FullRecipe from "../FullRecipe";
@@ -43,33 +44,19 @@ const Breakfasts = () => {
   }
   console.log(breakfastData)
 
-
   const changeIngHandler = (e) => {
-    setIngredients({
-     
+    setIngredients({   
       [e.target.name]:e.target.value
     })
   }
 
-
   const addIng = (e) =>  {
-
     e.preventDefault();
     saveData({
       name:"ingredients",
       value: [...breakfastData.ingredients, ingredients.ingredients]  //stringify here: error, can't parse
     })
-
-  /*   const ings = breakfastData.ingredients.map((i) => {
-      return (
-        i.ingredients
-      )
-      
-    }) */
-
   }
-/*   const ings = breakfastData.ingredients.map((i) => i.ingredients) */
- /*  console.log(ings) */
   console.log(ingredients)
 
 
@@ -125,54 +112,29 @@ const Breakfasts = () => {
       breakfastData.ingredients = JSON.stringify(breakfastData.ingredients)
     
     let savedBreakfast = await API.graphql({
-    
       query: createBreakfastMutation,
       variables: { input: breakfastData },  
-   
     });
-
-
     if (breakfastData.image) {
       console.log(breakfastData.image)
       const image = await Storage.get(breakfastData.image);
       savedBreakfast.data.createBreakfast.image = image;
       console.log(image)
     }
- 
-
     console.log(breakfastData.image)
-
     console.log(savedBreakfast)
-
     setBreakfast([...breakfast, savedBreakfast.data.createBreakfast]);
-
     // empty the form fields
     setBreakfastData(initialState);
   }
   //console.log(breakfast)
 
-  /*   useEffect(() => {
-    axios.get("http://localhost:3001/breakfast").then((response) => {
-      setBreakfast(response.data);
-      console.log(response.data);
-    });
-  }, []);
+  // UPDATE recipe
 
-  const removeHandler = (id) => {
-    console.log(id);
+  async function editBreakfast() {
+    
+  }
 
-    axios
-      .delete("http://localhost:3001/breakfast/" + id)
-      .then(() => {
-        return axios.get("http://localhost:3001/breakfast");
-      })
-      .then((response) => {
-        setBreakfast(response.data);
-      });
-  }; */
-  // console.log(breakfast[0]);
-
-  // console.log(breakfastData.ingredients.map((i) => i.ingredients))
   return (
     <div>
       <Router>
