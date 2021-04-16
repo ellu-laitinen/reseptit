@@ -4,18 +4,22 @@ import * as queries from "../graphql/queries";
 import { API, Storage } from "aws-amplify";
 import { TextField, Button, TextareaAutosize, InputLabel, Grid, Card, Typography} from '@material-ui/core'
 import {   updateBreakfast as updateBreakfastMutation } from '../graphql/mutations';
+import { AddShoppingCart } from '@material-ui/icons';
 
 
 const EditRecipe = () => {
-    const [editRecipe, setEditRecipe] = useState("")
-
+ 
     let { id} = useParams();
-
+    const [loadedRecipe, setLoadedRecipe] = useState("")
+    const [ingredients, setIngredients] = useState([])
+    const [newIngs, setNewIngs] = useState("")
 
     console.log(id);
     useEffect(() => {
         fetchBreakfast()
     }, [])
+
+
 
     async function fetchBreakfast() {
         console.log("fetching breakfasts");
@@ -32,24 +36,73 @@ const EditRecipe = () => {
           const image = await Storage.get(recipeFromAPI.image);
           recipeFromAPI.image = image;
         }
-        setEditRecipe(recipeFromAPI);
+        setLoadedRecipe(recipeFromAPI);
+        setIngredients(recipeFromAPI.ingredients)
       
         console.log(recipeFromAPI);
       }
-      console.log(editRecipe.title)
 
-   
+      console.log(loadedRecipe)
+      console.log(ingredients)
+
+/*    if(loadedRecipe) {
+     console.log(loadedRecipe.ingredients.map((i) => console.log(i)))
+   }  
+  */
+
+
+  async function onChange(e) {
+    if (!e.target.files[0] ) return;
+  
+    const file = e.target.files[0];
+    setLoadedRecipe({ ...loadedRecipe, image: file.name });
+    await Storage.put(file.name, file);
+    /*     fetchRecipes(); */
+  }
+
 
       const recipeHandler = (e) => {
-        setEditRecipe({
-          ...editRecipe,
+        setLoadedRecipe({
+          ...loadedRecipe,
           [e.target.name]: e.target.value,
         });
       };
+      const newRecipe = {
+        id: loadedRecipe.id,
+        title: loadedRecipe.title,
+        ingredients: ingredients,
+        instructions: loadedRecipe.instructions,
+        image: loadedRecipe.image
+      }
+      console.log(newRecipe)
+      console.log(newRecipe.ingredients)
+ /*      console.log(ingredients) */
+
+  
+
+      const ingHandler = (e, index) => {
+        
+        loadedRecipe.ingredients[index]=e.target.value
+   
+console.log(index)
+setIngredients([...loadedRecipe.ingredients])
+      }
 
       async function saveRecipe () {
 
       console.log("new data saved")
+      newRecipe.ingredients = JSON.stringify(newRecipe.ingredients)
+
+     let savedRecipe = await API.graphql({ query: updateBreakfastMutation, variables: {input:newRecipe}})
+    console.log(savedRecipe)
+
+     if(newRecipe.image) {
+       console.log("saving new img")
+        const image = await Storage.get(newRecipe.image)
+        savedRecipe.image = image
+        }
+console.log(newRecipe)
+alert("tallenenttu!")
 
       }
 
@@ -72,51 +125,63 @@ const EditRecipe = () => {
             size="small"
             type="text"
             name="title"
-           value={editRecipe.title}
+           value={loadedRecipe.title}
              onChange={recipeHandler}
           ></TextField>
         </Grid>
- {/*        <Grid item>
+        <Grid item>
           <InputLabel>Ainesosat</InputLabel>
-          <TextField
-            variant="outlined"
-            size="small"
-            type="text"
-            name="ingredients"
-            value={recipeData.ingredients.ingredients}
-            onChange={changeIngHandler}
-          ></TextField>
-           <Button onClick={addIng}>Lisää listaan</Button>
-        </Grid> */}
+        
+          {loadedRecipe && loadedRecipe.ingredients.map((i, index) => {
+            return (
+             
+              <TextField
+              key={index}
+              variant="outlined"
+              size="small"
+              type="text"
+              name="ingredients"
+              value={i}
+              onChange={(e) => ingHandler(e, index) }
+
+            ></TextField>
+
+            )
+          })}
+         
+         
+{/*            <Button onClick={addIng}>Lisää listaan</Button> */}
+        </Grid>
         {/*       {newRecipe.ingredients.map((i) => (
         <div>
           <li value={i.ingredients}>{i.ingredients}</li>
           <button onClick={() => removeIng(i.ingredients)}>poista</button>
         </div>
       ))} */}
- {/*        <Grid item>
+        <Grid item>
           <InputLabel>Ohjeet</InputLabel>
           <TextareaAutosize
             style={{ width: 300 }}
             rowsMin={10}
             type="text"
             name="instructions"
-            value={recipeData.instructions}
+            value={loadedRecipe.instructions}
             onChange={recipeHandler}
           ></TextareaAutosize>
         </Grid>
         <Grid item>
-          <InputLabel>Lisää kuva:</InputLabel>
+          <img src={loadedRecipe.image} alt={loadedRecipe.title} />
+          <InputLabel>Muokkaa kuvaa:</InputLabel>
 
           <input type="file" onChange={onChange} />
-        </Grid>*/}
+        </Grid>
         <Grid item>
           <Button
             onClick={saveRecipe}
      /*        variant="outlined"
             className={classes.button} */
           >
-            Lisää resepti
+            Tallenna muutokset
           </Button>
         </Grid> 
       </Grid>

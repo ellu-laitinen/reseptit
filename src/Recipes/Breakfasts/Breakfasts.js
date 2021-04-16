@@ -131,9 +131,7 @@ const Breakfasts = () => {
 
   // UPDATE recipe
 
-  async function editBreakfast() {
-    
-  }
+
 
   return (
     <div>
