@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useRouteMatch } from "react-router-dom";
-import { Card, Grid, Typography } from "@material-ui/core";
+import { useParams, Switch, useRouteMatch, Link, Route, BrowserRouter as Router } from "react-router-dom";
+import { Card, Grid, Typography, Button } from "@material-ui/core";
 
 import * as queries from "../graphql/queries";
 import { API, Storage } from "aws-amplify";
 
+import EditRecipe from "./EditRecipe";
+
 const FullRecipe = () => {
   const [loadedRecipe, setLoadedRecipe] = useState("");
+  let match= useRouteMatch();
+
+ 
 
   // useParams checks the parameters of the URL that match,
   // e.g.  /:category/:postId
@@ -57,7 +62,8 @@ const FullRecipe = () => {
     console.log(recipeFromAPI);
   }
 
-  console.log(loadedRecipe)
+  console.log("loaded recipe")
+  console.log(loadedRecipe.title)
  //loadedRecipe.ingredients.forEach((i) => console.log(i))
 
 
@@ -127,7 +133,14 @@ const FullRecipe = () => {
   }); */
 
 /*   console.log(loadedRecipe.ingredients.map((p)=> console.log(p))); */
+console.log(match.url)
   return (
+    <Router>
+      <Switch>
+        <Route path= {`${match.url}/edit/:id`}>
+<EditRecipe/>
+        </Route>
+        <Route path={match.path}>
     <Card>
       <Grid container direction="column" spacing={4}>
         <Grid item>
@@ -156,8 +169,17 @@ const FullRecipe = () => {
           <Typography>Ohje:</Typography>
           <Typography>{loadedRecipe.instructions}</Typography>
         </Grid>
+        <Grid item>
+          <Link to={`${match.url}/edit/${loadedRecipe.id}`}>
+          <Button >Muokkaa</Button>
+          </Link>
+          
+        </Grid>
       </Grid>
     </Card>
+    </Route>
+    </Switch>
+    </Router>
   );
 };
 

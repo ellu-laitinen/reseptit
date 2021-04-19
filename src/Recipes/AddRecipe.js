@@ -17,8 +17,14 @@ const useStyles = makeStyles({
     backgroundColor: "lightgrey",
   },
 });
-const AddRecipe = ({ recipeData, setRecipeData, createRecipe, category, addIng, changeIngHandler }) => {
- 
+const AddRecipe = ({
+  recipeData,
+  setRecipeData,
+  createRecipe,
+  category,
+  addIng,
+  changeIngHandler,
+}) => {
   const classes = useStyles();
   /*   useEffect(() => {
     fetchRecipes();
@@ -32,8 +38,6 @@ const AddRecipe = ({ recipeData, setRecipeData, createRecipe, category, addIng, 
     await Storage.put(file.name, file);
     /*     fetchRecipes(); */
   }
-
-
 
   const recipeHandler = (e) => {
     setRecipeData({
@@ -109,7 +113,7 @@ const AddRecipe = ({ recipeData, setRecipeData, createRecipe, category, addIng, 
             value={recipeData.ingredients.ingredients}
             onChange={changeIngHandler}
           ></TextField>
-           <Button onClick={addIng}>Lisää listaan</Button>
+          <Button onClick={addIng}>Lisää listaan</Button>
         </Grid>
         {/*       {newRecipe.ingredients.map((i) => (
         <div>
