@@ -67,7 +67,7 @@ const EditRecipe = () => {
     title: loadedRecipe.title,
     ingredients: ingredients,
     instructions: loadedRecipe.instructions,
-    image:loadedRecipe.image
+ //   image:loadedRecipe.image 
 
   };
   console.log(newRecipe)
@@ -110,15 +110,19 @@ const EditRecipe = () => {
       query: updateBreakfastMutation,
       variables: { input: newRecipe },
     });
-    console.log(savedRecipe);
+    console.log(newRecipe); // img ok
+    console.log(newRecipe.image); // img ok
+    console.log(savedRecipe); //img too long
+    console.log(savedRecipe.data.updateBreakfast.image); //img too long
 
-    if (newRecipe.image) {
+    if (savedRecipe.data.updateBreakfast.image) {
       console.log("saving new img2");
       const image = await Storage.get(newRecipe.image);
       console.log(image)
       savedRecipe.data.updateBreakfast.image = image;
+      console.log(image);
     }
-    console.log(newRecipe);
+
 
     alert("tallenenttu!");
   }

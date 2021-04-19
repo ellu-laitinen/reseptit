@@ -72,12 +72,12 @@ const Breakfasts = () => {
     console.log(breakfastFromAPI)
     await Promise.all(
       breakfastFromAPI.map(async (recipe) => {
-        console.log(recipe.image)
+        console.log(recipe)
         if (recipe.image) {
           const image = await Storage.get(recipe.image);
           recipe.image = image;
-            console.log(recipe.image);
-             console.log(image)
+           console.log(recipe.image);
+         console.log(image)
         }
       })
     );
@@ -128,6 +128,8 @@ const Breakfasts = () => {
     setBreakfastData(initialState);
   }
   //console.log(breakfast)
+
+  // UPDATE recipe
 
 
   return (
