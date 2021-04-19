@@ -12,13 +12,12 @@ import {
   Typography,
 } from "@material-ui/core";
 import { updateBreakfast as updateBreakfastMutation } from "../graphql/mutations";
-import { AddShoppingCart } from "@material-ui/icons";
+import { AddShoppingCart, FileCopyRounded } from "@material-ui/icons";
 
 const EditRecipe = () => {
   let { id } = useParams();
   const [loadedRecipe, setLoadedRecipe] = useState("");
   const [ingredients, setIngredients] = useState([]);
-  const [newIngs, setNewIngs] = useState("");
 
   console.log(id);
   useEffect(() => {
@@ -43,27 +42,17 @@ const EditRecipe = () => {
     setLoadedRecipe(recipeFromAPI);
     setIngredients(recipeFromAPI.ingredients);
 
-    console.log(recipeFromAPI);
+    console.log(recipeFromAPI.image);
   }
 
   console.log(loadedRecipe);
-  console.log(ingredients);
+  console.log(loadedRecipe.image);
 
   /*    if(loadedRecipe) {
      console.log(loadedRecipe.ingredients.map((i) => console.log(i)))
    }  
   */
 
-  async function onChange(e) {
-    console.log(loadedRecipe.image);
-
-    if (!e.target.files[0]) return;
-
-    console.log("saving new image1");
-    const file = e.target.files[0];
-    setLoadedRecipe({ ...loadedRecipe, image: file.name });
-    await Storage.put(file.name, file);
-  }
 
   const recipeHandler = (e) => {
     setLoadedRecipe({
@@ -71,13 +60,35 @@ const EditRecipe = () => {
       [e.target.name]: e.target.value,
     });
   };
+
+
   const newRecipe = {
     id: loadedRecipe.id,
     title: loadedRecipe.title,
     ingredients: ingredients,
     instructions: loadedRecipe.instructions,
-    image: loadedRecipe.image,
+    image:loadedRecipe.image
+
   };
+  console.log(newRecipe)
+
+  
+  async function onChange(e) {
+    console.log(loadedRecipe.image);
+
+    if (!e.target.files[0]) return;
+
+   
+    console.log("saving new image1");
+  
+    const file = e.target.files[0];
+     
+  
+ setLoadedRecipe({ ...newRecipe, image: file.name });
+    await Storage.put(file.name, file);
+    
+  
+  }
   console.log(newRecipe);
   console.log(newRecipe.ingredients);
   /*      console.log(ingredients) */
@@ -89,6 +100,8 @@ const EditRecipe = () => {
     setIngredients([...loadedRecipe.ingredients]);
   };
 
+  
+
   async function saveRecipe() {
     console.log("new data saved");
     newRecipe.ingredients = JSON.stringify(newRecipe.ingredients);
@@ -99,14 +112,31 @@ const EditRecipe = () => {
     });
     console.log(savedRecipe);
 
-    if (newRecipe.image !== loadedRecipe.image) {
+    if (newRecipe.image) {
       console.log("saving new img2");
       const image = await Storage.get(newRecipe.image);
-      savedRecipe.image = image;
+      console.log(image)
+      savedRecipe.data.updateBreakfast.image = image;
     }
     console.log(newRecipe);
+
     alert("tallenenttu!");
   }
+
+  //Remove image
+
+  async function removeImg () {
+const img = await Storage.get(loadedRecipe.image);
+
+// image name/key is too long, must be shortened
+const image =   img.slice(0, 300)
+    
+   await Storage.remove(image)
+   setLoadedRecipe({ ...newRecipe, image:"" });
+
+
+  }
+  console.log(loadedRecipe)
 
   return (
     <Card style={{ margin: "2rem" }}>
@@ -173,6 +203,7 @@ const EditRecipe = () => {
           <input type="file" onChange={onChange} />
         </Grid>
         <Grid item>
+          <Grid item><Button variant="secondary" onClick={removeImg}>Poista kuva</Button></Grid>
           <Button
             onClick={saveRecipe}
             /*        variant="outlined"
