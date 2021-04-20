@@ -44,7 +44,7 @@ const Breakfasts = () => {
   const saveData = ({name, value}) => {
     setBreakfastData({
       ...breakfastData,
-      [name]: value //stringify here separates all letters into individual strings, no errors
+      [name]: value 
     })
   }
   console.log(breakfastData)
@@ -59,7 +59,7 @@ const Breakfasts = () => {
     e.preventDefault();
     saveData({
       name:"ingredients",
-      value: [...breakfastData.ingredients, ingredients.ingredients]  //stringify here: error, can't parse
+      value: [...breakfastData.ingredients, ingredients.ingredients] 
     })
   }
   console.log(ingredients)
@@ -91,7 +91,7 @@ console.log(apiData.data.listBreakfasts.nextToken)
 
     };
     fetchBreakfasts();
-  }, [nextToken]);
+  }, [nextToken]); // re-renders when nextToken changes
 
 
 const getNext = () => {
@@ -131,8 +131,6 @@ setNewNextToken(null)
       !breakfastData.instructions
     )
       return;
-      console.log(breakfastData)
-      breakfastData.ingredients = JSON.stringify(breakfastData.ingredients)
     
     let savedBreakfast = await API.graphql({
       query: createBreakfastMutation,

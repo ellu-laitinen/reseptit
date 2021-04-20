@@ -33,7 +33,7 @@ const EditRecipe = () => {
     console.log(apiData);
     const recipeFromAPI = apiData.data.getBreakfast;
 
-    recipeFromAPI.ingredients = JSON.parse(recipeFromAPI.ingredients);
+
     if (recipeFromAPI.image) {
       console.log(recipeFromAPI);
       const image = await Storage.get(recipeFromAPI.image);
@@ -104,8 +104,6 @@ const EditRecipe = () => {
 
   async function saveRecipe() {
     console.log("new data saved");
-    newRecipe.ingredients = JSON.stringify(newRecipe.ingredients);
-
     await API.graphql({
       query: updateBreakfastMutation,
       variables: { input: newRecipe },
