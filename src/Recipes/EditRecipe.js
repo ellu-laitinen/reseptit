@@ -33,7 +33,7 @@ const EditRecipe = () => {
     console.log(apiData);
     const recipeFromAPI = apiData.data.getBreakfast;
 
-    recipeFromAPI.ingredients = JSON.parse(recipeFromAPI.ingredients);
+
     if (recipeFromAPI.image) {
       console.log(recipeFromAPI);
       const image = await Storage.get(recipeFromAPI.image);
@@ -67,7 +67,7 @@ const EditRecipe = () => {
     title: loadedRecipe.title,
     ingredients: ingredients,
     instructions: loadedRecipe.instructions,
- //   image:loadedRecipe.image 
+  // image:loadedRecipe.image 
 
   };
   console.log(newRecipe)
@@ -104,22 +104,20 @@ const EditRecipe = () => {
 
   async function saveRecipe() {
     console.log("new data saved");
-    newRecipe.ingredients = JSON.stringify(newRecipe.ingredients);
-
-    let savedRecipe = await API.graphql({
+    await API.graphql({
       query: updateBreakfastMutation,
       variables: { input: newRecipe },
     });
     console.log(newRecipe); // img ok
     console.log(newRecipe.image); // img ok
-    console.log(savedRecipe); //img too long
-    console.log(savedRecipe.data.updateBreakfast.image); //img too long
+   // console.log(savedRecipe); //img too long
+   // console.log(savedRecipe.data.updateBreakfast.image); //img too long
 
-    if (savedRecipe.data.updateBreakfast.image) {
+    if (newRecipe.image) {
       console.log("saving new img2");
       const image = await Storage.get(newRecipe.image);
       console.log(image)
-      savedRecipe.data.updateBreakfast.image = image;
+      newRecipe.image = image;
       console.log(image);
     }
 

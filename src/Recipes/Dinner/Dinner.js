@@ -34,7 +34,7 @@ const Dinner = () => {
   const saveData = ({name, value}) => {
     setDinnerData({
       ...dinnerData,
-      [name]: value //stringify here separates all letters into individual strings, no errors
+      [name]: value 
     })
   }
 
@@ -49,15 +49,8 @@ const Dinner = () => {
     e.preventDefault();
     saveData({
       name:"ingredients",
-      value: [...dinnerData.ingredients, ingredients.ingredients]  //stringify here: error, can't parse
+      value: [...dinnerData.ingredients, ingredients.ingredients] 
     })
-
-  /*   const ings = breakfastData.ingredients.map((i) => {
-      return (
-        i.ingredients
-      )
-      
-    }) */
 
   }
 
@@ -100,7 +93,6 @@ const Dinner = () => {
       !dinnerData.instructions
     )
       return;
-      dinnerData.ingredients = JSON.stringify(dinnerData.ingredients)
     let savedDinner = await API.graphql({
       query: createDinnerMutation,
       variables: { input: dinnerData },

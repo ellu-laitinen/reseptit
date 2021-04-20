@@ -17,12 +17,17 @@ import {
 } from "../../graphql/mutations";
 
 import FullRecipe from "../FullRecipe";
-import { Grid, Typography } from "@material-ui/core";
+import { Grid, Typography, Button } from "@material-ui/core";
 import AddRecipe from "../AddRecipe";
 
 const Breakfasts = () => {
   const [breakfast, setBreakfast] = useState([]);
   const [ingredients, setIngredients] = useState([])
+
+  //TOKENS
+  const [nextToken, setNextToken] = useState(undefined)
+  const [newNextToken, setNewNextToken] = useState()
+  const [prevToken, setPrevToken] = useState([])
   
   let match = useRouteMatch();
 
@@ -39,7 +44,7 @@ const Breakfasts = () => {
   const saveData = ({name, value}) => {
     setBreakfastData({
       ...breakfastData,
-      [name]: value //stringify here separates all letters into individual strings, no errors
+      [name]: value 
     })
   }
   console.log(breakfastData)
@@ -54,36 +59,54 @@ const Breakfasts = () => {
     e.preventDefault();
     saveData({
       name:"ingredients",
-      value: [...breakfastData.ingredients, ingredients.ingredients]  //stringify here: error, can't parse
+      value: [...breakfastData.ingredients, ingredients.ingredients] 
     })
   }
   console.log(ingredients)
 
 
+    // get all brekfasts
 
   useEffect(() => {
-    fetchBreakfasts();
-  }, []);
 
-  // get all brekfasts
-  async function fetchBreakfasts() {
-    const apiData = await API.graphql({ query: listBreakfasts });
-    const breakfastFromAPI = apiData.data.listBreakfasts.items;
-    console.log(breakfastFromAPI)
-    await Promise.all(
-      breakfastFromAPI.map(async (recipe) => {
-        console.log(recipe)
-        if (recipe.image) {
-          const image = await Storage.get(recipe.image);
-          recipe.image = image;
-           console.log(recipe.image);
-         console.log(image)
-        }
-      })
-    );
-    setBreakfast(breakfastFromAPI);
-    console.log(breakfastFromAPI);
-  }
+   async function fetchBreakfasts ()  {
+      const apiData = await API.graphql({ query: listBreakfasts, variables: {nextToken, limit:3 } });
+      setNewNextToken(apiData.data.listBreakfasts.nextToken)
+console.log(apiData.data.listBreakfasts.nextToken)
+      const breakfastFromAPI = apiData.data.listBreakfasts.items;
+      console.log(breakfastFromAPI)
+      await Promise.all(
+        breakfastFromAPI.map(async (recipe) => {
+          console.log(recipe)
+          if (recipe.image) {
+            const image = await Storage.get(recipe.image);
+            recipe.image = image;
+         //       console.log(recipe.image);
+       //         console.log(image)
+          }
+        })
+      );
+      setBreakfast(breakfastFromAPI);
+
+
+    };
+    fetchBreakfasts();
+  }, [nextToken]); // re-renders when nextToken changes
+
+
+const getNext = () => {
+  console.log("get next")
+  setPrevToken((prev) => [...prev, nextToken])
+  setNextToken(newNextToken)
+  setNewNextToken(null)
+}
+
+const getPrev = () => {
+  console.log("get previous")
+  setNextToken(prevToken.pop());
+setPrevToken([...prevToken])
+setNewNextToken(null)
+}
 
   // delete a recipe
   async function deleteBreakfast({ id }) {
@@ -108,8 +131,6 @@ const Breakfasts = () => {
       !breakfastData.instructions
     )
       return;
-      console.log(breakfastData)
-      breakfastData.ingredients = JSON.stringify(breakfastData.ingredients)
     
     let savedBreakfast = await API.graphql({
       query: createBreakfastMutation,
@@ -144,6 +165,10 @@ const Breakfasts = () => {
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <Typography variant="h5">Aamupalat</Typography>
+                <Grid item xs={12}>
+                  <Button onClick={getPrev}>Edelliset 5</Button>
+                  <Button onClick={getNext}>Seuraavat 5</Button>
+                </Grid>
               </Grid>
               {breakfast.map((item) => {
                 return (

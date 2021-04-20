@@ -46,12 +46,6 @@ const FullRecipe = () => {
     console.log(apiData);
     const recipeFromAPI = apiData.data.getBreakfast;
 
-/*     console.log(JSON.parse(recipeFromAPI.ingredients));
-   recipeFromAPI.ingredients = JSON.parse(recipeFromAPI.ingredients)
-  recipeFromAPI.ingredients.forEach(function(item){
-     console.log(item)
-   }) */
-   recipeFromAPI.ingredients =  JSON.parse(recipeFromAPI.ingredients)
     if (recipeFromAPI.image) {
       console.log(recipeFromAPI);
       const image = await Storage.get(recipeFromAPI.image);
@@ -75,7 +69,6 @@ const FullRecipe = () => {
     console.log(apiData);
     const recipeFromAPI = apiData.data.getDinner;
     console.log(recipeFromAPI);
-    recipeFromAPI.ingredients =  JSON.parse(recipeFromAPI.ingredients)
     if (recipeFromAPI.image) {
       console.log(recipeFromAPI);
       const image = await Storage.get(recipeFromAPI.image);
@@ -93,7 +86,6 @@ const FullRecipe = () => {
     console.log(apiData);
     const recipeFromAPI = apiData.data.getLunch;
     console.log(recipeFromAPI);
-    recipeFromAPI.ingredients =  JSON.parse(recipeFromAPI.ingredients)
     if (recipeFromAPI.image) {
       console.log(recipeFromAPI);
       const image = await Storage.get(recipeFromAPI.image);
@@ -111,7 +103,6 @@ const FullRecipe = () => {
     console.log(apiData);
     const recipeFromAPI = apiData.data.getSnack;
     console.log(recipeFromAPI);
-    recipeFromAPI.ingredients =  JSON.parse(recipeFromAPI.ingredients)
     if (recipeFromAPI.image) {
       console.log(recipeFromAPI);
       const image = await Storage.get(recipeFromAPI.image);
