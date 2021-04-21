@@ -34,11 +34,11 @@ const EditRecipe = () => {
     const recipeFromAPI = apiData.data.getBreakfast;
 
 
-    if (recipeFromAPI.image) {
+ /*    if (recipeFromAPI.image) {
       console.log(recipeFromAPI);
       const image = await Storage.get(recipeFromAPI.image);
       recipeFromAPI.image = image;
-    }
+    } */
     setLoadedRecipe(recipeFromAPI);
     setIngredients(recipeFromAPI.ingredients);
 
@@ -67,7 +67,7 @@ const EditRecipe = () => {
     title: loadedRecipe.title,
     ingredients: ingredients,
     instructions: loadedRecipe.instructions,
-  // image:loadedRecipe.image 
+   image:loadedRecipe.image 
 
   };
   console.log(newRecipe)
@@ -82,15 +82,14 @@ const EditRecipe = () => {
     console.log("saving new image1");
   
     const file = e.target.files[0];
-     
-  
- setLoadedRecipe({ ...newRecipe, image: file.name });
-    await Storage.put(file.name, file);
-    
-  
+    const key = await Storage.put(file.name, file);
+    const img = await Storage.get(key.key)
+
+    setLoadedRecipe({ ...newRecipe, image: img});
   }
-  console.log(newRecipe);
-  console.log(newRecipe.ingredients);
+
+ /*  console.log(newRecipe);
+  console.log(newRecipe.ingredients); */
   /*      console.log(ingredients) */
 
   const ingHandler = (e, index) => {
@@ -100,10 +99,16 @@ const EditRecipe = () => {
     setIngredients([...loadedRecipe.ingredients]);
   };
 
-  
-
   async function saveRecipe() {
     console.log("new data saved");
+/* 
+    if (newRecipe.image) {
+      console.log("saving new img2");
+      const image = await Storage.get(newRecipe.image);
+      console.log(image)
+      newRecipe.image = image;
+      console.log(image);
+    } */
     await API.graphql({
       query: updateBreakfastMutation,
       variables: { input: newRecipe },
@@ -112,26 +117,16 @@ const EditRecipe = () => {
     console.log(newRecipe.image); // img ok
    // console.log(savedRecipe); //img too long
    // console.log(savedRecipe.data.updateBreakfast.image); //img too long
-
-    if (newRecipe.image) {
-      console.log("saving new img2");
-      const image = await Storage.get(newRecipe.image);
-      console.log(image)
-      newRecipe.image = image;
-      console.log(image);
-    }
-
-
     alert("tallenenttu!");
   }
 
   //Remove image
 
   async function removeImg () {
-const img = await Storage.get(loadedRecipe.image);
+  const img = await Storage.get(loadedRecipe.image);
 
 // image name/key is too long, must be shortened
-const image =   img.slice(0, 300)
+  const image =   img.slice(0, 300)
     
    await Storage.remove(image)
    setLoadedRecipe({ ...newRecipe, image:"" });
