@@ -62,7 +62,7 @@ const Breakfasts = () => {
       value: [...breakfastData.ingredients, ingredients.ingredients] 
     })
   }
-  console.log(ingredients)
+ // console.log(ingredients)
 
 
     // get all brekfasts
@@ -72,18 +72,18 @@ const Breakfasts = () => {
    async function fetchBreakfasts ()  {
       const apiData = await API.graphql({ query: listBreakfasts, variables: {nextToken, limit:3 } });
       setNewNextToken(apiData.data.listBreakfasts.nextToken)
-console.log(apiData.data.listBreakfasts.nextToken)
+// console.log(apiData.data.listBreakfasts.nextToken)
       const breakfastFromAPI = apiData.data.listBreakfasts.items;
-      console.log(breakfastFromAPI)
+   //   console.log(breakfastFromAPI)
       await Promise.all(
         breakfastFromAPI.map(async (recipe) => {
-          console.log(recipe)
-          if (recipe.image) {
+         // console.log(recipe)
+     /*      if (recipe.image) {
             const image = await Storage.get(recipe.image);
             recipe.image = image;
-         //       console.log(recipe.image);
-       //         console.log(image)
-          }
+               console.log(recipe.image);
+               console.log(image)
+          } */
         })
       );
       setBreakfast(breakfastFromAPI);
@@ -102,7 +102,7 @@ const getNext = () => {
 }
 
 const getPrev = () => {
-  console.log("get previous")
+ // console.log("get previous")
   setNextToken(prevToken.pop());
 setPrevToken([...prevToken])
 setNewNextToken(null)
@@ -131,17 +131,18 @@ setNewNextToken(null)
       !breakfastData.instructions
     )
       return;
+      if (breakfastData.image) {
+        console.log(breakfastData.image)
+        const image = await Storage.get(breakfastData.image);
+        breakfastData.image = image;
+        console.log(image)
+      }
     
     let savedBreakfast = await API.graphql({
       query: createBreakfastMutation,
       variables: { input: breakfastData },  
     });
-    if (breakfastData.image) {
-      console.log(breakfastData.image)
-      const image = await Storage.get(breakfastData.image);
-      savedBreakfast.data.createBreakfast.image = image;
-      console.log(image)
-    }
+ 
     console.log(breakfastData.image)
     console.log(savedBreakfast)
     setBreakfast([...breakfast, savedBreakfast.data.createBreakfast]);
