@@ -33,7 +33,6 @@ const EditRecipe = () => {
     console.log(apiData);
     const recipeFromAPI = apiData.data.getBreakfast;
 
-
  /*    if (recipeFromAPI.image) {
       console.log(recipeFromAPI);
       const image = await Storage.get(recipeFromAPI.image);
@@ -42,17 +41,7 @@ const EditRecipe = () => {
     setLoadedRecipe(recipeFromAPI);
     setIngredients(recipeFromAPI.ingredients);
 
-    console.log(recipeFromAPI.image);
   }
-
-  console.log(loadedRecipe);
-  console.log(loadedRecipe.image);
-
-  /*    if(loadedRecipe) {
-     console.log(loadedRecipe.ingredients.map((i) => console.log(i)))
-   }  
-  */
-
 
   const recipeHandler = (e) => {
     setLoadedRecipe({
@@ -60,7 +49,6 @@ const EditRecipe = () => {
       [e.target.name]: e.target.value,
     });
   };
-
 
   const newRecipe = {
     id: loadedRecipe.id,
@@ -77,10 +65,7 @@ const EditRecipe = () => {
     console.log(loadedRecipe.image);
 
     if (!e.target.files[0]) return;
-
-   
     console.log("saving new image1");
-  
     const file = e.target.files[0];
     const key = await Storage.put(file.name, file);
     const img = await Storage.get(key.key)
@@ -88,9 +73,6 @@ const EditRecipe = () => {
     setLoadedRecipe({ ...newRecipe, image: img});
   }
 
- /*  console.log(newRecipe);
-  console.log(newRecipe.ingredients); */
-  /*      console.log(ingredients) */
 
   const ingHandler = (e, index) => {
     loadedRecipe.ingredients[index] = e.target.value;
@@ -113,13 +95,11 @@ const EditRecipe = () => {
       query: updateBreakfastMutation,
       variables: { input: newRecipe },
     });
-    console.log(newRecipe); // img ok
-    console.log(newRecipe.image); // img ok
-   // console.log(savedRecipe); //img too long
-   // console.log(savedRecipe.data.updateBreakfast.image); //img too long
+    console.log(newRecipe); 
+    console.log(newRecipe.image); 
+
     alert("tallenenttu!");
   }
-
   //Remove image
 
   async function removeImg () {
@@ -131,8 +111,8 @@ const EditRecipe = () => {
    await Storage.remove(image)
    setLoadedRecipe({ ...newRecipe, image:"" });
 
-
   }
+  
   console.log(loadedRecipe)
 
   return (

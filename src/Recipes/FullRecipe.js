@@ -112,18 +112,7 @@ const FullRecipe = () => {
     console.log(apiData.data.getSnack);
   }
 
-  /*   useEffect(() => {
-    if (!loadedRecipe) {
-      axios
-        .get("http://localhost:3001/" + recipe + "/" + postId)
-        .then((response) => {
-          console.log(response.data);
-          setLoadedRecipe(response.data);
-        });
-    }
-  }); */
 
-/*   console.log(loadedRecipe.ingredients.map((p)=> console.log(p))); */
 console.log(match.url)
   return (
     <Router>
@@ -144,12 +133,7 @@ console.log(match.url)
             style={{ width: 400 }}
           />
         </Grid>
-        <Grid item>
-          {/*   {loadedRecipe.ingredients.map((ing) => (
-          <ul>
-            <li>{ing.ingredients}</li>
-          </ul>
-        ))} */}
+        <Grid item>        
           <Typography>Ainesosat:</Typography>
           <ul>
           {loadedRecipe && loadedRecipe.ingredients.map((i) =><li>{i}</li>)}

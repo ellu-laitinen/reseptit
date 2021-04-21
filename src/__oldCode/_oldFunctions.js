@@ -1,4 +1,6 @@
-// GET breakfast from AXIOS
+
+
+// GET breakfast with AXIOS
 
   /*   useEffect(() => {
     axios.get("http://localhost:3001/breakfast").then((response) => {
@@ -22,3 +24,20 @@
   // console.log(breakfast[0]);
 
   // console.log(breakfastData.ingredients.map((i) => i.ingredients))
+
+
+
+  /// GET ONE recipe 
+
+    /*   useEffect(() => {
+    if (!loadedRecipe) {
+      axios
+        .get("http://localhost:3001/" + recipe + "/" + postId)
+        .then((response) => {
+          console.log(response.data);
+          setLoadedRecipe(response.data);
+        });
+    }
+  }); */
+
+/*   console.log(loadedRecipe.ingredients.map((p)=> console.log(p))); */
