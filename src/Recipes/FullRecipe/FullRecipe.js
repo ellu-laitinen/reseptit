@@ -2,23 +2,19 @@ import React, { useEffect, useState } from "react";
 import { useParams, Switch, useRouteMatch, Link, Route, BrowserRouter as Router } from "react-router-dom";
 import { Card, Grid, Typography, Button } from "@material-ui/core";
 
-import * as queries from "../graphql/queries";
+import * as queries from "../../graphql/queries";
 import { API, Storage } from "aws-amplify";
 
-import EditRecipe from "./EditRecipe";
+import EditRecipe from "../EditRecipe/EditRecipe";
+import FullRecipeCard from "./FullRecipeCard";
 
 const FullRecipe = () => {
   const [loadedRecipe, setLoadedRecipe] = useState("");
   let match= useRouteMatch();
 
- 
-
   // useParams checks the parameters of the URL that match,
   // e.g.  /:category/:postId
   let { postId, category } = useParams();
-
-  console.log(category);
-  console.log(postId);
 
   // try switch case??
   useEffect(() => {
@@ -53,13 +49,7 @@ const FullRecipe = () => {
     } */
     setLoadedRecipe(recipeFromAPI);
   
-    console.log(recipeFromAPI);
   }
-
-  console.log("loaded recipe")
-  console.log(loadedRecipe.title)
- //loadedRecipe.ingredients.forEach((i) => console.log(i))
-
 
   async function fetchDinner() {
     const apiData = await API.graphql({
@@ -75,7 +65,6 @@ const FullRecipe = () => {
       recipeFromAPI.image = image;
     }
     setLoadedRecipe(apiData.data.getDinner);
-    console.log(apiData.data.getDinner);
   }
 
   async function fetchLunch() {
@@ -121,37 +110,7 @@ console.log(match.url)
 <EditRecipe/>
         </Route>
         <Route path={match.path}>
-    <Card>
-      <Grid container direction="column" spacing={4}>
-        <Grid item>
-          <Typography variant="h4">{loadedRecipe.title}</Typography>
-        </Grid>
-        <Grid item>
-          <img
-            src={loadedRecipe.image}
-            alt={loadedRecipe.title}
-            style={{ width: 400 }}
-          />
-        </Grid>
-        <Grid item>        
-          <Typography>Ainesosat:</Typography>
-          <ul>
-          {loadedRecipe && loadedRecipe.ingredients.map((i) =><li>{i}</li>)}
-          </ul>
-          <Typography></Typography>
-        </Grid>
-        <Grid item>
-          <Typography>Ohje:</Typography>
-          <Typography>{loadedRecipe.instructions}</Typography>
-        </Grid>
-        <Grid item>
-          <Link to={`${match.url}/edit/${loadedRecipe.id}`}>
-          <Button >Muokkaa</Button>
-          </Link>
-          
-        </Grid>
-      </Grid>
-    </Card>
+<FullRecipeCard link={match.url} loadedRecipe={loadedRecipe} />
     </Route>
     </Switch>
     </Router>

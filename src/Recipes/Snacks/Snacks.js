@@ -15,8 +15,9 @@ import {
 import { API, Storage } from "aws-amplify";
 import { Typography, Grid } from "@material-ui/core";
 
-import FullRecipe from "../FullRecipe";
-import AddRecipe from "../AddRecipe";
+
+import FullRecipe from "../FullRecipe/FullRecipe";
+import AddRecipe from "../AddRecipe/AddRecipe";
 
 const Snacks = () => {
   const [snacks, setSnacks] = useState([]);
