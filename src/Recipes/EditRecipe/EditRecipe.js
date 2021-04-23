@@ -2,18 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import * as queries from "../../graphql/queries";
 import { API, Storage } from "aws-amplify";
-import {
-  TextField,
-  Button,
-  TextareaAutosize,
-  InputLabel,
-  Grid,
-  Card,
-  Typography,
-} from "@material-ui/core";
 import { updateBreakfast as updateBreakfastMutation } from "../../graphql/mutations";
 import EditRecipeCard from "./EditRecipeCard";
-import { LocalConvenienceStoreOutlined } from "@material-ui/icons";
 
 const EditRecipe = () => {
   let { id } = useParams();
@@ -76,6 +66,7 @@ const EditRecipe = () => {
 
   const ingHandler = (e, index) => {
     loadedRecipe.ingredients[index] = e.target.value;
+    
 
     console.log(index);
     setIngredients([...loadedRecipe.ingredients]);
@@ -83,10 +74,11 @@ const EditRecipe = () => {
 
   const saveData = ({name, value}) => {
     setNewIngredient({
-...newIngredient,
+    ...newIngredient,
       [name]: value 
     })
   }
+
   const addIngHandler = () => {
     saveData({
       name:"ingredients",
@@ -96,17 +88,25 @@ const EditRecipe = () => {
     setIngredients([...ingredients, newIngredient.ingredient])
   }
 
-  const addIngredient=() => {
-    console.log("add ingredient")
-
+  const changeIngHandler = (e) => {
+    console.log("changeIngHandler")
+    setNewIngredient({
+      [e.target.name]:e.target.value
+    })
   }
 
-  const changeIngHandler = (e) => {
-    setNewIngredient({
-
-      [e.target.name]:e.target.value
-
+  const removeIngHandler = (id) => {
+    console.log("remove")
+  
+    console.log(id)
+    const newIngArray = ingredients.filter(
+      (item) => item !== id)
+    console.log(newIngArray)
+    saveData({
+      name:"ingredients",
+      value: [...newIngArray] 
     })
+    setIngredients(newIngArray)
   }
 
   console.log("newingredient")
@@ -155,7 +155,8 @@ const EditRecipe = () => {
 
   return (
   <EditRecipeCard loadedRecipe={loadedRecipe} recipeHandler={recipeHandler} ingHandler={ingHandler} 
-  onChange={onChange} removeImg={removeImg} addIngHandler={addIngHandler} add saveRecipe={saveRecipe} changeIngHandler={changeIngHandler} />
+  onChange={onChange} removeImg={removeImg} addIngHandler={addIngHandler} add saveRecipe={saveRecipe}
+  removeIngHandler={removeIngHandler} changeIngHandler={changeIngHandler} ingredients={ingredients} />
   );
 };
 

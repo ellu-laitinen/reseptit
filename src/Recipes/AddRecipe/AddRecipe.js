@@ -59,8 +59,6 @@ const AddRecipe = () => {
     });
   };
 
- breakfastData.ingredients && breakfastData.ingredients.map((I) => console.log(I))
-
   const removeIng =(id)=> {
     console.log("remove ing")
     console.log(id)
@@ -71,8 +69,6 @@ const AddRecipe = () => {
       name:"ingredients",
       value: [...newIngArray] 
     })
-
-    console.log(breakfastData.ingredients)
   }
 
   async function createBreakfast() {
@@ -83,7 +79,6 @@ const AddRecipe = () => {
       !breakfastData.instructions
     )
       return;
-  
   
     let savedBreakfast = await API.graphql({
       query: createBreakfastMutation,
@@ -108,13 +103,6 @@ const AddRecipe = () => {
 
     console.log(breakfastData)
   }
-console.log(breakfastData.ingredients)
-
-
-
-
-
-
 
   return (
     <AddRecipeCard recipeData={breakfastData}

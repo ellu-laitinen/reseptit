@@ -30,11 +30,8 @@ const Breakfasts = () => {
   let match = useRouteMatch();
 
  
-
-    // get all brekfasts
-
+  // get all brekfasts
   useEffect(() => {
-
    async function fetchBreakfasts ()  {
       const apiData = await API.graphql({ query: listBreakfasts, variables: {nextToken, limit:3 } });
       setNewNextToken(apiData.data.listBreakfasts.nextToken)
