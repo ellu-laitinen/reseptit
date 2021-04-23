@@ -1,7 +1,13 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Grid, Card, Button, InputLabel, TextField, TextareaAutosize} from '@material-ui/core'
 
-const EditRecipeCard = ({loadedRecipe, recipeHandler, ingHandler, onChange, removeImg, saveRecipe}) => {
+const EditRecipeCard = ({loadedRecipe, recipeHandler, ingHandler, addIngHandler, onChange, changeIngHandler, removeImg, saveRecipe}) => {
+
+  const[addIng, setAddIng] = useState(false)
+
+  const addIngredient=()=> {
+    setAddIng(!addIng)
+  }
     return (
         <Card style={{ margin: "2rem" }}>
         <Grid
@@ -40,6 +46,9 @@ const EditRecipeCard = ({loadedRecipe, recipeHandler, ingHandler, onChange, remo
                   ></TextField>
                 );
               })}
+              <Button onClick={addIngredient}>Lisää uusi ainesosa</Button>
+              {addIng && <Grid item> <TextField size="small" name="ingredient" onChange={ changeIngHandler}/>
+              <Button onClick={addIngHandler}>Lisää</Button>  </Grid>}
   
             {/*            <Button onClick={addIng}>Lisää listaan</Button> */}
           </Grid>

@@ -42,11 +42,11 @@ const FullRecipe = () => {
     console.log(apiData);
     const recipeFromAPI = apiData.data.getBreakfast;
 
-/*     if (recipeFromAPI.image) {
+    if (recipeFromAPI.image) {
       console.log(recipeFromAPI);
       const image = await Storage.get(recipeFromAPI.image);
       recipeFromAPI.image = image;
-    } */
+    }
     setLoadedRecipe(recipeFromAPI);
   
   }

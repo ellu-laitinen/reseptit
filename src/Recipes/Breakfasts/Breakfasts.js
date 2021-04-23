@@ -12,8 +12,6 @@ import { listBreakfasts } from "../../graphql/queries";
 import { API, Storage } from "aws-amplify";
 import {
   deleteBreakfast as deleteBreakfastMutation,
-  createBreakfast as createBreakfastMutation,
-  updateBreakfast as updateBreakfastMutation
 } from "../../graphql/mutations";
 
 import FullRecipe from "../FullRecipe/FullRecipe";
@@ -43,7 +41,7 @@ const Breakfasts = () => {
 // console.log(apiData.data.listBreakfasts.nextToken)
       const breakfastFromAPI = apiData.data.listBreakfasts.items;
    //   console.log(breakfastFromAPI)
-/*       await Promise.all(
+      await Promise.all(
         breakfastFromAPI.map(async (recipe) => {
  
           if (recipe.image) {
@@ -52,8 +50,8 @@ const Breakfasts = () => {
                console.log(recipe.image);
                console.log(image)
           }
-        })
-      ); */
+       })
+       );
       setBreakfast(breakfastFromAPI);
 
 

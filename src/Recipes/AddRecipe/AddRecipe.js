@@ -1,19 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { API, Storage } from "aws-amplify";
 import {
-  Grid,
-  Card,
-  Typography,
-  InputLabel,
-  TextField,
-  TextareaAutosize,
-  Button,
-  makeStyles,
-} from "@material-ui/core";
-import {
-  deleteBreakfast as deleteBreakfastMutation,
   createBreakfast as createBreakfastMutation,
-  updateBreakfast as updateBreakfastMutation
 } from "../../graphql/mutations";
 import AddRecipeCard from "./AddRecipeCard";
 
@@ -53,7 +41,7 @@ const AddRecipe = () => {
       name:"ingredients",
       value: [...breakfastData.ingredients, ingredients.ingredients] 
     })
-/*     setIngredients({value:""}) */
+    setIngredients({value:""})
   }
 
   async function onChange(e) {
@@ -95,17 +83,18 @@ const AddRecipe = () => {
       !breakfastData.instructions
     )
       return;
-      if (breakfastData.image) {
-        console.log(breakfastData.image)
-        const image = await Storage.get(breakfastData.image);
-        breakfastData.image = image;
-        console.log(image)
-      }
-    
+  
+  
     let savedBreakfast = await API.graphql({
       query: createBreakfastMutation,
       variables: { input: breakfastData },  
     });
+    if (breakfastData.image) {
+      console.log(breakfastData.image)
+      const image = await Storage.get(breakfastData.image);
+      breakfastData.image = image;
+      console.log(image)
+    }
  
     console.log(breakfastData.image)
     console.log(savedBreakfast)
