@@ -14,8 +14,9 @@ import {
 } from "../../graphql/mutations";
 import RecipeCard from "../RecipeCard";
 
-import AddRecipe from "../AddRecipe";
-import FullRecipe from "../FullRecipe";
+import AddRecipe from "../AddRecipe/AddRecipe";
+
+import FullRecipe from "../FullRecipe/FullRecipe";
 import { Grid, Typography } from "@material-ui/core";
 
 const Dinner = () => {

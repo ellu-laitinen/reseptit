@@ -23,6 +23,9 @@ const useStyles = makeStyles(() => ({
   title: {
     color: "purple",
   },
+  toolbar: {
+    background: "lightgreen",
+  },
 }));
 
 const NavBar = () => {
@@ -36,7 +39,7 @@ const NavBar = () => {
   return (
     <div /* className={classes.root} */>
       <AppBar position="static">
-        <Toolbar className="toolbar">
+        <Toolbar className={classes.toolbar}>
           <Typography variant="h6" className={classes.title}>
             <Link to="/" className={classes.link}>
               Ellun reseptipankki

@@ -14,11 +14,11 @@ import {
 import { API, Storage } from "aws-amplify";
 import RecipeCard from "../RecipeCard";
 
-import FullRecipe from "../FullRecipe";
+
+import FullRecipe from "../FullRecipe/FullRecipe";
 
 import { Grid, Typography } from "@material-ui/core";
-
-import AddRecipe from "../AddRecipe";
+import AddRecipe from "../AddRecipe/AddRecipe";
 
 const Lunch = () => {
   const [lunch, setLunch] = useState([]);
