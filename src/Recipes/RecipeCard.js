@@ -28,18 +28,19 @@ const RecipeCard = ({ title, img, link, remove }) => {
     <Card>
       <Grid container spacing={2} direction="column">
         <Grid item xs={12}>
-          <Typography variant="h6">{title}</Typography>
+    
+          <Button>
+          <Link to={link} className={classes.link}>
+                  <Typography variant="h6">{title}</Typography>
+          </Link>
+          </Button>
         </Grid>
+  
+  
         <Grid item>
           <img src={img} alt={img} style={{ width: "75%" }} />
         </Grid>
-        <Grid item>
-          <Link to={link} className={classes.link}>
-            <Typography>
-              Resepti <ArrowForwardIcon />
-            </Typography>
-          </Link>
-        </Grid>
+    
         <Grid item>
           <Button onClick={remove} color="secondary" className={classes.button}>
             <DeleteOutlineIcon size="small" />

@@ -10,9 +10,7 @@ import {
 import RecipeCard from "../RecipeCard";
 import { listBreakfasts } from "../../graphql/queries";
 import { API, Storage } from "aws-amplify";
-import {
-  deleteBreakfast as deleteBreakfastMutation,
-} from "../../graphql/mutations";
+import { deleteBreakfast as deleteBreakfastMutation } from "../../graphql/mutations";
 
 import FullRecipe from "../FullRecipe/FullRecipe";
 import { Grid, Typography, Button } from "@material-ui/core";
@@ -21,56 +19,54 @@ import AddRecipe from "../AddRecipe/AddRecipe";
 const Breakfasts = () => {
   const [breakfast, setBreakfast] = useState([]);
 
-
   //TOKENS
-  const [nextToken, setNextToken] = useState(undefined)
-  const [newNextToken, setNewNextToken] = useState()
-  const [prevToken, setPrevToken] = useState([])
-  
+  const [nextToken, setNextToken] = useState(undefined);
+  const [newNextToken, setNewNextToken] = useState();
+  const [prevToken, setPrevToken] = useState([]);
+
   let match = useRouteMatch();
 
- 
   // get all brekfasts
   useEffect(() => {
-   async function fetchBreakfasts ()  {
-      const apiData = await API.graphql({ query: listBreakfasts, variables: {nextToken, limit:3 } });
-      setNewNextToken(apiData.data.listBreakfasts.nextToken)
-// console.log(apiData.data.listBreakfasts.nextToken)
+    async function fetchBreakfasts() {
+      const apiData = await API.graphql({
+        query: listBreakfasts,
+        variables: { nextToken, limit: 3 },
+      });
+      setNewNextToken(apiData.data.listBreakfasts.nextToken);
+      // console.log(apiData.data.listBreakfasts.nextToken)
       const breakfastFromAPI = apiData.data.listBreakfasts.items;
-   //   console.log(breakfastFromAPI)
+      //   console.log(breakfastFromAPI)
       await Promise.all(
         breakfastFromAPI.map(async (recipe) => {
- 
           if (recipe.image) {
             const image = await Storage.get(recipe.image);
             recipe.image = image;
-               console.log(recipe.image);
-               console.log(image)
+            console.log(recipe.image);
+            console.log(image);
           }
-       })
-       );
+        })
+      );
       setBreakfast(breakfastFromAPI);
-
-
-    };
+    }
     fetchBreakfasts();
   }, [nextToken]); // re-renders when nextToken changes
 
-  console.log(breakfast)
+  console.log(breakfast);
 
-const getNext = () => {
-  console.log("get next")
-  setPrevToken((prev) => [...prev, nextToken])
-  setNextToken(newNextToken)
-  setNewNextToken(null)
-}
+  const getNext = () => {
+    console.log("get next");
+    setPrevToken((prev) => [...prev, nextToken]);
+    setNextToken(newNextToken);
+    setNewNextToken(null);
+  };
 
-const getPrev = () => {
- // console.log("get previous")
-  setNextToken(prevToken.pop());
-setPrevToken([...prevToken])
-setNewNextToken(null)
-}
+  const getPrev = () => {
+    // console.log("get previous")
+    setNextToken(prevToken.pop());
+    setPrevToken([...prevToken]);
+    setNewNextToken(null);
+  };
 
   // delete a recipe
   async function deleteBreakfast({ id }) {
@@ -91,7 +87,6 @@ setNewNextToken(null)
   //console.log(breakfast)
 
   // UPDATE recipe
-
 
   return (
     <div>
@@ -123,11 +118,7 @@ setNewNextToken(null)
                 );
               })}
               <Grid item xs={12}>
-                <AddRecipe
-          
-              
-                />
-      
+                <AddRecipe />
               </Grid>
             </Grid>
           </Route>

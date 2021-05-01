@@ -1,6 +1,8 @@
 import React from 'react';
 import {Card, Grid, Button, InputLabel ,TextField, TextareaAutosize, Typography, makeStyles} from '@material-ui/core'
-
+import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
+import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOutlined';
+import RemoveCircleOutlineOutlinedIcon from '@material-ui/icons/RemoveCircleOutlineOutlined';
 const useStyles = makeStyles({
     button: {
       color: "black",
@@ -14,9 +16,9 @@ const AddRecipeCard = (  {recipeData,
     category,
     addIng,
     changeIngHandler,
-onChange,
-recipeHandler,
-removeIng}) => {
+    onChange,
+    recipeHandler,
+    removeIng}) => {
     const classes = useStyles();
     return (
         <Card style={{ margin: "2rem" }}>
@@ -51,15 +53,25 @@ removeIng}) => {
               value={ingredients.value}
               onChange={changeIngHandler}
             ></TextField>
-            <Button onClick={addIng}>Lisää listaan</Button>
+            <Button color="primary" onClick={addIng}><AddCircleOutlineOutlinedIcon/></Button>
           </Grid>
           <Typography>Lisätyt ainesosat:</Typography>
+          <Grid item xs={12}>
+        
                 {recipeData.ingredients && recipeData.ingredients.map((i) => (
-          <div>
-            <li value={i}>{i}</li>
-            <button onClick={() => removeIng(i)}>poista</button>
-          </div>
+                    <Grid container alignItems="center">
+             <Grid item xs={6}>
+    
+            <Typography key={i}>{i}</Typography>
+            </Grid>
+            <Grid item xs={6}>
+            <Button onClick={() => removeIng(i)} color="secondary"><RemoveCircleOutlineOutlinedIcon/></Button>
+          </Grid>
+           
+          </Grid>
         ))}
+        
+        </Grid>
           <Grid item>
             <InputLabel>Ohjeet</InputLabel>
             <TextareaAutosize

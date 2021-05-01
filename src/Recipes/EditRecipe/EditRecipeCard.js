@@ -1,5 +1,7 @@
 import React, {useState} from 'react';
 import {Grid, Card, Button, InputLabel, TextField, TextareaAutosize} from '@material-ui/core'
+import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOutlined';
+import RemoveCircleOutlineOutlinedIcon from '@material-ui/icons/RemoveCircleOutlineOutlined';
 
 const EditRecipeCard = ({loadedRecipe, recipeHandler, ingHandler, 
   addIngHandler, onChange, changeIngHandler, removeIngHandler, removeImg, saveRecipe,
@@ -7,19 +9,15 @@ const EditRecipeCard = ({loadedRecipe, recipeHandler, ingHandler,
 }) => {
 
   const[addIng, setAddIng] = useState(false)
-
   const addIngredient=()=> {
     setAddIng(!addIng)
   }
-
-
     return (
         <Card style={{ margin: "2rem" }}>
         <Grid
           container
           direction="column"
-          justify="center"
-          alignItems="center"
+ 
           spacing={2}
         >
           <Grid item></Grid>
@@ -50,13 +48,13 @@ const EditRecipeCard = ({loadedRecipe, recipeHandler, ingHandler,
                     value={i}
                     onChange={(e) => ingHandler(e, index)}
                   ></TextField>
-                  <Button onClick={()=>removeIngHandler(i)}>Poista</Button>
+                  <Button onClick={()=>removeIngHandler(i)} color="secondary"><RemoveCircleOutlineOutlinedIcon/></Button>
                   </Grid>
                 );
               })}
               <Button onClick={addIngredient}>Lisää uusi ainesosa</Button>
               {addIng && <Grid item> <TextField size="small" name="ingredient" onChange={ changeIngHandler}/>
-              <Button onClick={addIngHandler}>Lisää</Button>  </Grid>}
+              <Button onClick={addIngHandler}><AddCircleOutlineOutlinedIcon/></Button>  </Grid>}
   
             {/*            <Button onClick={addIng}>Lisää listaan</Button> */}
           </Grid>
@@ -91,8 +89,8 @@ const EditRecipeCard = ({loadedRecipe, recipeHandler, ingHandler,
           
             <Button
               onClick={saveRecipe}
-              /*        variant="outlined"
-              className={classes.button} */
+                variant="outlined"
+             /*       className={classes.button} */
             >
               Tallenna muutokset
             </Button>
