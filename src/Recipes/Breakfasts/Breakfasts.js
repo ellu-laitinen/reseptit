@@ -100,7 +100,7 @@ const Breakfasts = () => {
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <Typography variant="h5">Aamupalat</Typography>
-                <Grid item xs={12}>
+                <Grid item xs={12} style={{ marginLeft: "1rem" }}>
                   <Button onClick={getPrev}>Edelliset 3</Button>
                   <Button onClick={getNext}>Seuraavat 3</Button>
                 </Grid>

@@ -9,7 +9,7 @@ const EditRecipe = () => {
   let { id } = useParams();
   const [loadedRecipe, setLoadedRecipe] = useState("");
   const [ingredients, setIngredients] = useState([]);
-  const [newIngredient, setNewIngredient] = useState("")
+  const [newIngredient, setNewIngredient] = useState("");
 
   console.log(id);
   useEffect(() => {
@@ -25,14 +25,13 @@ const EditRecipe = () => {
     console.log(apiData);
     const recipeFromAPI = apiData.data.getBreakfast;
 
- /*    if (recipeFromAPI.image) {
+    /*    if (recipeFromAPI.image) {
       console.log(recipeFromAPI);
       const image = await Storage.get(recipeFromAPI.image);
       recipeFromAPI.image = image;
     } */
     setLoadedRecipe(recipeFromAPI);
     setIngredients(recipeFromAPI.ingredients);
-
   }
 
   const recipeHandler = (e) => {
@@ -47,84 +46,77 @@ const EditRecipe = () => {
     title: loadedRecipe.title,
     ingredients: ingredients,
     instructions: loadedRecipe.instructions,
-   image:loadedRecipe.image 
-
+    image: loadedRecipe.image,
   };
-  console.log(newRecipe)
+  console.log(newRecipe);
 
-  
   async function onChange(e) {
     console.log(loadedRecipe.image);
 
     if (!e.target.files[0]) return;
     console.log("saving new image1");
     const file = e.target.files[0];
-      setLoadedRecipe({ ...newRecipe, image: file.name});
+    setLoadedRecipe({ ...newRecipe, image: file.name });
     await Storage.put(file.name, file);
-/*      const img = await Storage.get(key.key)  */
+    /*      const img = await Storage.get(key.key)  */
   }
 
   const ingHandler = (e, index) => {
     loadedRecipe.ingredients[index] = e.target.value;
-    
 
     console.log(index);
     setIngredients([...loadedRecipe.ingredients]);
   };
 
-  const saveData = ({name, value}) => {
+  const saveData = ({ name, value }) => {
     setNewIngredient({
-    ...newIngredient,
-      [name]: value 
-    })
-  }
+      ...newIngredient,
+      [name]: value,
+    });
+  };
 
   const addIngHandler = () => {
     saveData({
-      name:"ingredients",
-      value:[...ingredients, newIngredient.ingredient]
- 
-    })
-    setIngredients([...ingredients, newIngredient.ingredient])
-  }
+      name: "ingredients",
+      value: [...ingredients, newIngredient.ingredient],
+    });
+    setIngredients([...ingredients, newIngredient.ingredient]);
+  };
 
   const changeIngHandler = (e) => {
-    console.log("changeIngHandler")
+    console.log("changeIngHandler");
     setNewIngredient({
-      [e.target.name]:e.target.value
-    })
-  }
+      [e.target.name]: e.target.value,
+    });
+  };
 
   const removeIngHandler = (id) => {
-    console.log("remove")
-  
-    console.log(id)
-    const newIngArray = ingredients.filter(
-      (item) => item !== id)
-    console.log(newIngArray)
+    console.log("remove");
+
+    console.log(id);
+    const newIngArray = ingredients.filter((item) => item !== id);
+    console.log(newIngArray);
     saveData({
-      name:"ingredients",
-      value: [...newIngArray] 
-    })
-    setIngredients(newIngArray)
-  }
+      name: "ingredients",
+      value: [...newIngArray],
+    });
+    setIngredients(newIngArray);
+  };
 
-  console.log("newingredient")
-  console.log(newIngredient)
-  console.log("ingredients")
-  console.log(ingredients)
-  console.log(newRecipe)
-
+  console.log("newingredient");
+  console.log(newIngredient);
+  console.log("ingredients");
+  console.log(ingredients);
+  console.log(newRecipe);
 
   async function saveRecipe() {
     console.log("new data saved");
 
-  
     await API.graphql({
       query: updateBreakfastMutation,
       variables: { input: newRecipe },
     });
-/* 
+    /* 
     if (newRecipe.image) {
       console.log("saving new img2");
       const image = await Storage.get(newRecipe.image);
@@ -132,31 +124,40 @@ const EditRecipe = () => {
       newRecipe.image = image;
       console.log(image);
     } */
-    console.log(newRecipe); 
-    console.log(newRecipe.image); 
+    console.log(newRecipe);
+    console.log(newRecipe.image);
 
     alert("tallenenttu!");
   }
-  
+
   //Remove image
 
-  async function removeImg () {
-  const img = await Storage.get(loadedRecipe.image);
+  async function removeImg() {
+    const img = await Storage.get(loadedRecipe.image);
 
-// image name/key is too long, must be shortened
-  const image = img.slice(0, 300)
-    
-   await Storage.remove(image)
-   setLoadedRecipe({ ...newRecipe, image:"" });
+    // image name/key is too long, must be shortened
+    const image = img.slice(0, 300);
 
+    await Storage.remove(image);
+    setLoadedRecipe({ ...newRecipe, image: "" });
   }
-  
-  console.log(loadedRecipe)
+
+  console.log(loadedRecipe);
 
   return (
-  <EditRecipeCard loadedRecipe={loadedRecipe} recipeHandler={recipeHandler} ingHandler={ingHandler} 
-  onChange={onChange} removeImg={removeImg} addIngHandler={addIngHandler} add saveRecipe={saveRecipe}
-  removeIngHandler={removeIngHandler} changeIngHandler={changeIngHandler} ingredients={ingredients} />
+    <EditRecipeCard
+      loadedRecipe={loadedRecipe}
+      recipeHandler={recipeHandler}
+      ingHandler={ingHandler}
+      onChange={onChange}
+      removeImg={removeImg}
+      addIngHandler={addIngHandler}
+      add
+      saveRecipe={saveRecipe}
+      removeIngHandler={removeIngHandler}
+      changeIngHandler={changeIngHandler}
+      ingredients={ingredients}
+    />
   );
 };
 

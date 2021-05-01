@@ -1,44 +1,53 @@
-import React, {useState} from 'react';
-import {Grid, Card, Button, InputLabel, TextField, TextareaAutosize} from '@material-ui/core'
-import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOutlined';
-import RemoveCircleOutlineOutlinedIcon from '@material-ui/icons/RemoveCircleOutlineOutlined';
+import React, { useState } from "react";
+import {
+  Grid,
+  Card,
+  Button,
+  InputLabel,
+  TextField,
+  TextareaAutosize,
+} from "@material-ui/core";
+import AddCircleOutlineOutlinedIcon from "@material-ui/icons/AddCircleOutlineOutlined";
+import RemoveCircleOutlineOutlinedIcon from "@material-ui/icons/RemoveCircleOutlineOutlined";
 
-const EditRecipeCard = ({loadedRecipe, recipeHandler, ingHandler, 
-  addIngHandler, onChange, changeIngHandler, removeIngHandler, removeImg, saveRecipe,
-  ingredients
+const EditRecipeCard = ({
+  loadedRecipe,
+  recipeHandler,
+  ingHandler,
+  addIngHandler,
+  onChange,
+  changeIngHandler,
+  removeIngHandler,
+  removeImg,
+  saveRecipe,
+  ingredients,
 }) => {
+  const [addIng, setAddIng] = useState(false);
+  const addIngredient = () => {
+    setAddIng(!addIng);
+  };
+  return (
+    <Card style={{ margin: "2rem" }}>
+      <Grid container direction="column" spacing={2}>
+        <Grid item></Grid>
+        <Grid item>
+          <InputLabel>Reseptin nimi</InputLabel>
+          <TextField
+            variant="outlined"
+            size="small"
+            type="text"
+            name="title"
+            value={loadedRecipe.title}
+            onChange={recipeHandler}
+          ></TextField>
+        </Grid>
+        <Grid item>
+          <InputLabel>Ainesosat</InputLabel>
 
-  const[addIng, setAddIng] = useState(false)
-  const addIngredient=()=> {
-    setAddIng(!addIng)
-  }
-    return (
-        <Card style={{ margin: "2rem" }}>
-        <Grid
-          container
-          direction="column"
- 
-          spacing={2}
-        >
-          <Grid item></Grid>
-          <Grid item>
-            <InputLabel>Reseptin nimi</InputLabel>
-            <TextField
-              variant="outlined"
-              size="small"
-              type="text"
-              name="title"
-              value={loadedRecipe.title}
-              onChange={recipeHandler}
-            ></TextField>
-          </Grid>
-          <Grid item>
-            <InputLabel>Ainesosat</InputLabel>
-  
-            {loadedRecipe &&
-             ingredients.map((i, index) => {
-                return (
-                  <Grid item>
+          {loadedRecipe &&
+            ingredients.map((i, index) => {
+              return (
+                <Grid item>
                   <TextField
                     key={index}
                     variant="outlined"
@@ -48,34 +57,47 @@ const EditRecipeCard = ({loadedRecipe, recipeHandler, ingHandler,
                     value={i}
                     onChange={(e) => ingHandler(e, index)}
                   ></TextField>
-                  <Button onClick={()=>removeIngHandler(i)} color="secondary"><RemoveCircleOutlineOutlinedIcon/></Button>
-                  </Grid>
-                );
-              })}
-              <Button onClick={addIngredient}>Lisää uusi ainesosa</Button>
-              {addIng && <Grid item> <TextField size="small" name="ingredient" onChange={ changeIngHandler}/>
-              <Button onClick={addIngHandler}><AddCircleOutlineOutlinedIcon/></Button>  </Grid>}
-  
-            {/*            <Button onClick={addIng}>Lisää listaan</Button> */}
-          </Grid>
-          {/*       {newRecipe.ingredients.map((i) => (
+                  <Button onClick={() => removeIngHandler(i)} color="secondary">
+                    <RemoveCircleOutlineOutlinedIcon />
+                  </Button>
+                </Grid>
+              );
+            })}
+          <Button onClick={addIngredient}>Lisää uusi ainesosa</Button>
+          {addIng && (
+            <Grid item>
+              {" "}
+              <TextField
+                size="small"
+                name="ingredient"
+                onChange={changeIngHandler}
+              />
+              <Button onClick={addIngHandler}>
+                <AddCircleOutlineOutlinedIcon />
+              </Button>{" "}
+            </Grid>
+          )}
+
+          {/*            <Button onClick={addIng}>Lisää listaan</Button> */}
+        </Grid>
+        {/*       {newRecipe.ingredients.map((i) => (
           <div>
             <li value={i.ingredients}>{i.ingredients}</li>
             <button onClick={() => removeIng(i.ingredients)}>poista</button>
           </div>
         ))} */}
-          <Grid item>
-            <InputLabel>Ohjeet</InputLabel>
-            <TextareaAutosize
-              style={{ width: 300 }}
-              rowsMin={10}
-              type="text"
-              name="instructions"
-              value={loadedRecipe.instructions}
-              onChange={recipeHandler}
-            ></TextareaAutosize>
-          </Grid>
-          {loadedRecipe.image ? <Grid item>
+        <Grid item>
+          <InputLabel>Ohjeet</InputLabel>
+          <TextareaAutosize
+            style={{ width: 300 }}
+            rowsMin={10}
+            type="text"
+            name="instructions"
+            value={loadedRecipe.instructions}
+            onChange={recipeHandler}
+          ></TextareaAutosize>
+        </Grid>
+        {/*           {loadedRecipe.image ? <Grid item>
             <img src={loadedRecipe.image} alt={loadedRecipe.title} />
         
   
@@ -83,21 +105,20 @@ const EditRecipeCard = ({loadedRecipe, recipeHandler, ingHandler,
             <InputLabel>Vaihda kuva</InputLabel>
           <input type="file" onChange={onChange} /></Grid>
           </Grid> : <Grid item> <InputLabel>Lisää kuva</InputLabel>
-          <input type="file" onChange={onChange} /> </Grid> }
-         
-          <Grid item>
-          
-            <Button
-              onClick={saveRecipe}
-                variant="outlined"
-             /*       className={classes.button} */
-            >
-              Tallenna muutokset
-            </Button>
-          </Grid>
+          <input type="file" onChange={onChange} /> </Grid> } */}
+
+        <Grid item>
+          <Button
+            onClick={saveRecipe}
+            variant="outlined"
+            /*       className={classes.button} */
+          >
+            Tallenna muutokset
+          </Button>
         </Grid>
-      </Card>
-    );
-}
+      </Grid>
+    </Card>
+  );
+};
 
 export default EditRecipeCard;
