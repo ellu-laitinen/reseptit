@@ -8,21 +8,21 @@ type Breakfast @model {
 type Lunch @model {
   id: ID!
   title: String!
-  ingredients: String
+  ingredients: [String]
   instructions: String
   image: String
 }
 type Snack @model {
   id: ID!
   title: String!
-  ingredients: String
+  ingredients: [String]
   instructions: String
   image: String
 }
 type Dinner @model {
   id: ID!
   title: String!
-  ingredients: String
+  ingredients: [String]
   instructions: String
   image: String
 }

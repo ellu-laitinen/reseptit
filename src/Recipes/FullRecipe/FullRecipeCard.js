@@ -6,13 +6,13 @@ import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 const FullRecipeCard = ({ loadedRecipe, link }) => {
   return (
     <Card>
-      <Grid container direction="column" spacing={4}>
+      <Grid container direction="column" spacing={3}>
         <Grid container>
-          <Grid item xs={11}>
+          <Grid item xs={9} sm={11}>
             <Typography variant="h4">{loadedRecipe.title}</Typography>
           </Grid>
-          <Grid item xs={1}>
-            <Button>
+          <Grid item xs={3} sm={1}>
+            <Button style={{ padding: "1rem" }}>
               {" "}
               <Link to={`${link}/edit/${loadedRecipe.id}`}>
                 <EditOutlinedIcon />
@@ -25,7 +25,7 @@ const FullRecipeCard = ({ loadedRecipe, link }) => {
             <img
               src={loadedRecipe.image}
               alt={loadedRecipe.title}
-              style={{ width: 400 }}
+              style={{ width: "90%" }}
             />
           </Grid>
         ) : (

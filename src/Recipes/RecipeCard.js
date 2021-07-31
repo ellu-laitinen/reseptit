@@ -25,22 +25,20 @@ const useStyles = makeStyles({
 const RecipeCard = ({ title, img, link, remove }) => {
   const classes = useStyles();
   return (
-    <Card>
+    <Card elevation={3}>
       <Grid container spacing={2} direction="column">
         <Grid item xs={12}>
-    
           <Button>
-          <Link to={link} className={classes.link}>
-                  <Typography variant="h6">{title}</Typography>
-          </Link>
+            <Link to={link} className={classes.link}>
+              <Typography variant="h6">{title}</Typography>
+            </Link>
           </Button>
         </Grid>
-  
-  
+
         <Grid item>
           <img src={img} alt={img} style={{ width: "75%" }} />
         </Grid>
-    
+
         <Grid item>
           <Button onClick={remove} color="secondary" className={classes.button}>
             <DeleteOutlineIcon size="small" />

@@ -26,7 +26,8 @@ theme.overrides = {
     root: {
       backgroundColor: green[50],
       margin: "1rem",
-      padding: "2rem",
+      padding: "1rem",
+      borderRadius: "10px",
     },
   },
   MuiTextField: {
@@ -44,6 +45,9 @@ theme.overrides = {
   MuiTypography: {
     h5: {
       marginLeft: "2rem",
+    },
+    h4: {
+      padding: "1rem",
     },
   },
 };

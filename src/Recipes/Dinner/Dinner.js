@@ -14,14 +14,14 @@ import {
 } from "../../graphql/mutations";
 import RecipeCard from "../RecipeCard";
 
-import AddRecipe from "../AddRecipe/AddRecipe";
+import AddDinner from "../AddRecipe/AddDinner";
 
 import FullRecipe from "../FullRecipe/FullRecipe";
 import { Grid, Typography } from "@material-ui/core";
 
 const Dinner = () => {
   const [dinner, setDinner] = useState([]);
-  const [ingredients, setIngredients] = useState([])
+  const [ingredients, setIngredients] = useState([]);
 
   let match = useRouteMatch();
 
@@ -32,51 +32,46 @@ const Dinner = () => {
   };
   const [dinnerData, setDinnerData] = useState(initialState);
 
-  const saveData = ({name, value}) => {
+  const saveData = ({ name, value }) => {
     setDinnerData({
       ...dinnerData,
-      [name]: value 
-    })
-  }
+      [name]: value,
+    });
+  };
 
   const changeIngHandler = (e) => {
     setIngredients({
-     
-      [e.target.name]:e.target.value
-    })
-  }
-  const addIng = (e) =>  {
-
+      [e.target.name]: e.target.value,
+    });
+  };
+  const addIng = (e) => {
     e.preventDefault();
     saveData({
-      name:"ingredients",
-      value: [...dinnerData.ingredients, ingredients.ingredients] 
-    })
-
-  }
+      name: "ingredients",
+      value: [...dinnerData.ingredients, ingredients.ingredients],
+    });
+  };
 
   useEffect(() => {
+    async function fetchDinners() {
+      const apiData = await API.graphql({ query: listDinners });
+      const dinnerFromAPI = apiData.data.listDinners.items;
+      await Promise.all(
+        dinnerFromAPI.map(async (recipe) => {
+          if (recipe.image) {
+            const image = await Storage.get(recipe.image);
+            recipe.image = image;
+            //      console.log(recipe.image);
+          }
+        })
+      );
+      setDinner(dinnerFromAPI);
+      //  console.log(breakfastFromAPI);
+    }
     fetchDinners();
   }, []);
-
-  async function fetchDinners() {
-    const apiData = await API.graphql({ query: listDinners });
-    const dinnerFromAPI = apiData.data.listDinners.items;
-    await Promise.all(
-      dinnerFromAPI.map(async (recipe) => {
-        if (recipe.image) {
-          const image = await Storage.get(recipe.image);
-          recipe.image = image;
-          //      console.log(recipe.image);
-        }
-      })
-    );
-    setDinner(dinnerFromAPI);
-    //  console.log(breakfastFromAPI);
-  }
-
   // DELETE dinner
-
+  console.log(dinner);
   async function deleteDinner({ id }) {
     const newDinnerArray = dinner.filter((recipe) => recipe.id !== id);
     setDinner(newDinnerArray);
@@ -132,14 +127,7 @@ const Dinner = () => {
                 );
               })}
               <Grid item xs={12}>
-                <AddRecipe
-                  recipeData={dinnerData}
-                  setRecipeData={setDinnerData}
-                  createRecipe={createDinner}
-                  category={"päiväruoka"}
-                  addIng={addIng}
-                  changeIngHandler={changeIngHandler}
-                />
+                <AddDinner category={"päiväruoca"} />
               </Grid>
             </Grid>
           </Route>

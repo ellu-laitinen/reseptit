@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useParams, Switch, useRouteMatch, Link, Route, BrowserRouter as Router } from "react-router-dom";
+import {
+  useParams,
+  Switch,
+  useRouteMatch,
+  Link,
+  Route,
+  BrowserRouter as Router,
+} from "react-router-dom";
 import { Card, Grid, Typography, Button } from "@material-ui/core";
 
 import * as queries from "../../graphql/queries";
@@ -10,7 +17,7 @@ import FullRecipeCard from "./FullRecipeCard";
 
 const FullRecipe = () => {
   const [loadedRecipe, setLoadedRecipe] = useState("");
-  let match= useRouteMatch();
+  let match = useRouteMatch();
 
   // useParams checks the parameters of the URL that match,
   // e.g.  /:category/:postId
@@ -48,7 +55,6 @@ const FullRecipe = () => {
       recipeFromAPI.image = image;
     }
     setLoadedRecipe(recipeFromAPI);
-  
   }
 
   async function fetchDinner() {
@@ -101,18 +107,17 @@ const FullRecipe = () => {
     console.log(apiData.data.getSnack);
   }
 
-
-console.log(match.url)
+  console.log(match.url);
   return (
     <Router>
       <Switch>
-        <Route path= {`${match.url}/edit/:id`}>
-<EditRecipe/>
+        <Route path={`${match.url}/edit/:id`}>
+          <EditRecipe />
         </Route>
         <Route path={match.path}>
-<FullRecipeCard link={match.url} loadedRecipe={loadedRecipe} />
-    </Route>
-    </Switch>
+          <FullRecipeCard link={match.url} loadedRecipe={loadedRecipe} />
+        </Route>
+      </Switch>
     </Router>
   );
 };

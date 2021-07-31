@@ -15,6 +15,8 @@ const useStyles = makeStyles({
   button: {
     color: "black",
     backgroundColor: "lightgrey",
+    boxShadow: "2px 2px  grey ",
+    borderRadius: "10px",
   },
 });
 
@@ -34,10 +36,10 @@ const AddRecipeCard = ({
     <div>
       <Card style={{ margin: "2rem" }}>
         <Grid container direction="column" spacing={2}>
-          <Grid item>
+          <Grid item xs={12}>
             <Typography variant="h6">Lisää {category}</Typography>
           </Grid>
-          <Grid item>
+          <Grid item xs={12}>
             <InputLabel>Reseptin nimi</InputLabel>
             <TextField
               variant="outlined"
@@ -46,21 +48,35 @@ const AddRecipeCard = ({
               name="title"
               value={recipeData.title}
               onChange={recipeHandler}
+              style={{ width: "100%" }}
             ></TextField>
           </Grid>
-          <Grid item>
+          <Grid item xs={12}>
             <InputLabel>Ainesosat</InputLabel>
-            <TextField
-              variant="outlined"
-              size="small"
-              type="text"
-              name="ingredients"
-              value={ingredients.value}
-              onChange={changeIngHandler}
-            ></TextField>
-            <Button color="primary" onClick={addIng}>
-              <AddCircleOutlineOutlinedIcon />
-            </Button>
+            <Grid container>
+              <Grid item xs={10} sm={11}>
+                <TextField
+                  variant="outlined"
+                  size="small"
+                  type="text"
+                  name="ingredients"
+                  value={ingredients.value}
+                  onChange={changeIngHandler}
+                  style={{ width: "100%" }}
+                ></TextField>
+              </Grid>
+              <Grid item xs={2} sm={1}>
+                <Button
+                  color="primary"
+                  onClick={addIng}
+                  style={{ paddingLef: 0 }}
+                >
+                  <AddCircleOutlineOutlinedIcon
+                    style={{ fontSize: "xx-large" }}
+                  />
+                </Button>
+              </Grid>
+            </Grid>
           </Grid>
           <Typography>Lisätyt ainesosat:</Typography>
           <Grid item xs={12}>
@@ -81,7 +97,7 @@ const AddRecipeCard = ({
           <Grid item>
             <InputLabel>Ohjeet</InputLabel>
             <TextareaAutosize
-              style={{ width: 300 }}
+              style={{ width: "90%" }}
               rowsMin={10}
               type="text"
               name="instructions"

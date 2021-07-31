@@ -107,7 +107,7 @@ const Breakfasts = () => {
               </Grid>
               {breakfast.map((item) => {
                 return (
-                  <Grid item xs={12} sm={4} key={item.id}>
+                  <Grid item xs={12} md={6} lg={4} key={item.id}>
                     <RecipeCard
                       title={item.title}
                       img={item.image}
@@ -118,7 +118,7 @@ const Breakfasts = () => {
                 );
               })}
               <Grid item xs={12}>
-                <AddRecipe />
+                <AddRecipe category="aamupala" />
               </Grid>
             </Grid>
           </Route>
