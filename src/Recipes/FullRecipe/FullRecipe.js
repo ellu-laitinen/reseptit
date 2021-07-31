@@ -22,6 +22,7 @@ const FullRecipe = () => {
   // useParams checks the parameters of the URL that match,
   // e.g.  /:category/:postId
   let { postId, category } = useParams();
+  console.log(category);
 
   // try switch case??
   useEffect(() => {

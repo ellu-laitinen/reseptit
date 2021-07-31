@@ -2,7 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Card, Typography, Grid, Button, makeStyles } from "@material-ui/core";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
-import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
 
 const useStyles = makeStyles({
   link: {

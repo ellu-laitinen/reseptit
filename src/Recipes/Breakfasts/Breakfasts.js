@@ -82,12 +82,6 @@ const Breakfasts = () => {
     });
   }
 
-  // create a new recipe
-
-  //console.log(breakfast)
-
-  // UPDATE recipe
-
   return (
     <div>
       <Router>

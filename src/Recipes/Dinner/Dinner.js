@@ -8,52 +8,21 @@ import {
 } from "react-router-dom";
 import { listDinners } from "../../graphql/queries";
 import { API, Storage } from "aws-amplify";
-import {
-  deleteDinner as deleteDinnerMutation,
-  createDinner as createDinnerMutation,
-} from "../../graphql/mutations";
+import { deleteDinner as deleteDinnerMutation } from "../../graphql/mutations";
 import RecipeCard from "../RecipeCard";
 
-import AddDinner from "../AddRecipe/AddDinner";
+import AddRecipe from "../AddRecipe/AddRecipe";
 
 import FullRecipe from "../FullRecipe/FullRecipe";
 import { Grid, Typography } from "@material-ui/core";
 
 const Dinner = () => {
   const [dinner, setDinner] = useState([]);
-  const [ingredients, setIngredients] = useState([]);
-
   let match = useRouteMatch();
-
-  const initialState = {
-    title: "",
-    ingredients: "",
-    instructions: "",
-  };
-  const [dinnerData, setDinnerData] = useState(initialState);
-
-  const saveData = ({ name, value }) => {
-    setDinnerData({
-      ...dinnerData,
-      [name]: value,
-    });
-  };
-
-  const changeIngHandler = (e) => {
-    setIngredients({
-      [e.target.name]: e.target.value,
-    });
-  };
-  const addIng = (e) => {
-    e.preventDefault();
-    saveData({
-      name: "ingredients",
-      value: [...dinnerData.ingredients, ingredients.ingredients],
-    });
-  };
 
   useEffect(() => {
     async function fetchDinners() {
+      ("fetching dinnahs");
       const apiData = await API.graphql({ query: listDinners });
       const dinnerFromAPI = apiData.data.listDinners.items;
       await Promise.all(
@@ -81,27 +50,6 @@ const Dinner = () => {
     });
   }
 
-  // create a new recipe
-  async function createDinner() {
-    if (
-      !dinnerData.title ||
-      !dinnerData.ingredients ||
-      !dinnerData.instructions
-    )
-      return;
-    let savedDinner = await API.graphql({
-      query: createDinnerMutation,
-      variables: { input: dinnerData },
-    });
-    if (dinnerData.image) {
-      const image = await Storage.get(dinnerData.image);
-      savedDinner.data.createDinner.image = image;
-    }
-    setDinner([...dinner, savedDinner.data.createDinner]);
-
-    setDinnerData(initialState);
-  }
-
   return (
     <div>
       <Router>
@@ -127,7 +75,7 @@ const Dinner = () => {
                 );
               })}
               <Grid item xs={12}>
-                <AddDinner category={"päiväruoca"} />
+                <AddRecipe category={"päiväruoca"} />
               </Grid>
             </Grid>
           </Route>

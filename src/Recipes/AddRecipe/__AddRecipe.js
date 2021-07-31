@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { API, Storage } from "aws-amplify";
-import { createDinner as createDinnerMutation } from "../../graphql/mutations";
+import { createBreakfast as createBreakfastMutation } from "../../graphql/mutations";
 import AddRecipeCard from "./AddRecipeCard";
 
-const AddDinner = ({ category }) => {
-  const [dinner, setDinner] = useState([]);
+const AddRecipe = ({ category }) => {
+  const [breakfast, setBreakfast] = useState([]);
   const [ingredients, setIngredients] = useState("");
 
   // FORM
@@ -14,16 +14,16 @@ const AddDinner = ({ category }) => {
     instructions: "",
   };
 
-  const [dinnerData, setDinnerData] = useState(initialState);
-  console.log(dinnerData);
+  const [breakfastData, setBreakfastData] = useState(initialState);
+  console.log(breakfastData);
 
   const saveData = ({ name, value }) => {
-    setDinnerData({
-      ...dinnerData,
+    setBreakfastData({
+      ...breakfastData,
       [name]: value,
     });
   };
-  console.log(dinnerData);
+  console.log(breakfastData);
 
   const changeIngHandler = (e) => {
     setIngredients({
@@ -34,7 +34,7 @@ const AddDinner = ({ category }) => {
   const addIng = (e) => {
     saveData({
       name: "ingredients",
-      value: [...dinnerData.ingredients, ingredients.ingredients],
+      value: [...breakfastData.ingredients, ingredients.ingredients],
     });
     setIngredients({ value: "" });
   };
@@ -42,14 +42,14 @@ const AddDinner = ({ category }) => {
   async function onChange(e) {
     if (!e.target.files[0]) return;
     const file = e.target.files[0];
-    setDinnerData({ ...dinnerData, image: file.name });
+    setBreakfastData({ ...breakfastData, image: file.name });
     await Storage.put(file.name, file);
     /*     fetchRecipes(); */
   }
 
   const recipeHandler = (e) => {
-    setDinnerData({
-      ...dinnerData,
+    setBreakfastData({
+      ...breakfastData,
       [e.target.name]: e.target.value,
     });
   };
@@ -57,7 +57,7 @@ const AddDinner = ({ category }) => {
   const removeIng = (id) => {
     console.log("remove ing");
     console.log(id);
-    const newIngArray = dinnerData.ingredients.filter((item) => item !== id);
+    const newIngArray = breakfastData.ingredients.filter((item) => item !== id);
     console.log(newIngArray);
     saveData({
       name: "ingredients",
@@ -65,42 +65,42 @@ const AddDinner = ({ category }) => {
     });
   };
 
-  async function createDinner() {
+  async function createBreakfast() {
     // required fields
     if (
-      !dinnerData.title ||
-      !dinnerData.ingredients ||
-      !dinnerData.instructions
+      !breakfastData.title ||
+      !breakfastData.ingredients ||
+      !breakfastData.instructions
     )
       return;
 
-    let savedDinner = await API.graphql({
-      query: createDinnerMutation,
-      variables: { input: dinnerData },
+    let savedBreakfast = await API.graphql({
+      query: createBreakfastMutation,
+      variables: { input: breakfastData },
     });
-    if (dinnerData.image) {
-      console.log(dinnerData.image);
-      const image = await Storage.get(dinnerData.image);
-      dinnerData.image = image;
+    if (breakfastData.image) {
+      console.log(breakfastData.image);
+      const image = await Storage.get(breakfastData.image);
+      breakfastData.image = image;
       console.log(image);
     }
 
-    console.log(dinnerData.image);
-    console.log(savedDinner);
-    setDinner([...dinner, savedDinner.data.createBreakfast]);
+    console.log(breakfastData.image);
+    console.log(savedBreakfast);
+    setBreakfast([...breakfast, savedBreakfast.data.createBreakfast]);
     // empty the form fields
     console.log("clear fields");
 
-    setDinnerData({ title: "", ingredients: "", instructions: "" });
+    setBreakfastData({ title: "", ingredients: "", instructions: "" });
 
-    console.log(dinnerData);
+    console.log(breakfastData);
   }
 
   return (
     <AddRecipeCard
-      recipeData={dinnerData}
-      setRecipeData={setDinnerData}
-      createRecipe={createDinner}
+      recipeData={breakfastData}
+      setRecipeData={setBreakfastData}
+      createRecipe={createBreakfast}
       category={category}
       addIng={addIng}
       changeIngHandler={changeIngHandler}
@@ -112,4 +112,4 @@ const AddDinner = ({ category }) => {
   );
 };
 
-export default AddDinner;
+export default AddRecipe;

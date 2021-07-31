@@ -7,13 +7,9 @@ import {
   BrowserRouter as Router,
 } from "react-router-dom";
 import { listLunchs } from "../../graphql/queries";
-import {
-  deleteLunch as deleteLunchMutation,
-  createLunch as createLunchMutation,
-} from "../../graphql/mutations";
+import { deleteLunch as deleteLunchMutation } from "../../graphql/mutations";
 import { API, Storage } from "aws-amplify";
 import RecipeCard from "../RecipeCard";
-
 
 import FullRecipe from "../FullRecipe/FullRecipe";
 
@@ -22,43 +18,9 @@ import AddRecipe from "../AddRecipe/AddRecipe";
 
 const Lunch = () => {
   const [lunch, setLunch] = useState([]);
-  const [ingredients, setIngredients] = useState([])
+
   let match = useRouteMatch();
-  const initialState = {
-    title: "",
-    ingredients: "",
-    instructions: "",
-  };
-  const [lunchData, setLunchData] = useState(initialState);
-  const saveData = ({name, value}) => {
-    setLunchData({
-      ...lunchData,
-      [name]: value 
-    })
-  }
-
-  const changeIngHandler = (e) => {
-    setIngredients({
-     
-      [e.target.name]:e.target.value
-    })
-  }
-  const addIng = (e) =>  {
-
-    e.preventDefault();
-    saveData({
-      name:"ingredients",
-      value: [...lunchData.ingredients, ingredients.ingredients]  
-    })
-
-  /*   const ings = breakfastData.ingredients.map((i) => {
-      return (
-        i.ingredients
-      )
-      
-    }) */
-
-  }
+  console.log(match);
 
   useEffect(() => {
     fetchLunches();
@@ -89,23 +51,6 @@ const Lunch = () => {
     });
   }
 
-  // create a new recipe
-  async function createLunch() {
-    if (!lunchData.title || !lunchData.ingredients || !lunchData.instructions)
-      return;
-    let savedLunch = await API.graphql({
-      query: createLunchMutation,
-      variables: { input: lunchData },
-    });
-    if (lunchData.image) {
-      const savedImage = await Storage.get(lunchData.image);
-      savedLunch.data.createLunch.image = savedImage;
-    }
-    setLunch([...lunch, savedLunch.data.createLunch]);
-
-    setLunchData(initialState);
-  }
-
   return (
     <div>
       <Router>
@@ -132,15 +77,7 @@ const Lunch = () => {
               })}
 
               <Grid item xs={12}>
-                <AddRecipe
-                  recipeData={lunchData}
-                  setRecipeData={setLunchData}
-                  createRecipe={createLunch}
-                  category={"lounas"}
-                  addIng={addIng}
-                  changeIngHandler={changeIngHandler}
-               
-                />
+                <AddRecipe category="lounas" />
               </Grid>
             </Grid>
           </Route>

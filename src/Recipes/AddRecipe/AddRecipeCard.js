@@ -39,7 +39,7 @@ const AddRecipeCard = ({
           <Grid item xs={12}>
             <Typography variant="h6">Lisää {category}</Typography>
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={12} md={6}>
             <InputLabel>Reseptin nimi</InputLabel>
             <TextField
               variant="outlined"
@@ -51,7 +51,7 @@ const AddRecipeCard = ({
               style={{ width: "100%" }}
             ></TextField>
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={12} md={6}>
             <InputLabel>Ainesosat</InputLabel>
             <Grid container>
               <Grid item xs={10} sm={11}>
