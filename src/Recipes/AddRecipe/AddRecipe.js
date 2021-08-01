@@ -8,7 +8,7 @@ import {
 } from "../../graphql/mutations";
 import AddRecipeCard from "./AddRecipeCard";
 import { Select, MenuItem, FormControl } from "@material-ui/core";
-import { username, password } from "./config";
+/* import { username, password } from "./config"; */
 
 const AddRecipe = ({ category }) => {
   const [imgFile, setImgFile] = useState(null);
@@ -223,16 +223,16 @@ const AddRecipe = ({ category }) => {
   };
   console.log(credentials);
 
-  const loginHandler = () => {
+  /*   const loginHandler = () => {
     console.log(credentials);
     credentials.username == username && credentials.password == password
       ? setIsAuthenticated(true)
       : setIsAuthenticated(false);
-  };
+  }; */
 
   return (
     <>
-      {!isAuthenticated ? (
+      {/*       {!isAuthenticated ? (
         <>
           <input
             placeholder="käyttäjä"
@@ -247,42 +247,42 @@ const AddRecipe = ({ category }) => {
           ></input>
           <button onClick={loginHandler}>Kirjaudu</button>
         </>
-      ) : (
-        <AddRecipeCard
-          recipeData={recipeData}
-          setRecipeData={setRecipeData}
-          createRecipe={
-            recipeCreator === 1 ? (
-              createBreakfast
-            ) : recipeCreator === 2 ? (
-              createLunch
-            ) : recipeCreator === 3 ? (
-              createSnack
-            ) : recipeCreator === 4 ? (
-              createDinner
-            ) : (
-              <h3>Food category doesn't exist, please check path</h3>
-            )
-          }
-          category={
-            <FormControl variant="outlined" size="small">
-              <Select onChange={selectCategory}>
-                <MenuItem value={1}>Aamupala</MenuItem>
-                <MenuItem value={2}>Lounas</MenuItem>
-                <MenuItem value={3}>Välipala</MenuItem>
-                <MenuItem value={4}>Päivällinen</MenuItem>
-              </Select>
-            </FormControl>
-          }
-          addIng={addIng}
-          changeIngHandler={changeIngHandler}
-          onChange={onChange}
-          recipeHandler={recipeHandler}
-          ingredients={ingredients}
-          removeIng={removeIng}
-          image={imgFile}
-        />
-      )}
+      ) : ( */}
+      <AddRecipeCard
+        recipeData={recipeData}
+        setRecipeData={setRecipeData}
+        createRecipe={
+          recipeCreator === 1 ? (
+            createBreakfast
+          ) : recipeCreator === 2 ? (
+            createLunch
+          ) : recipeCreator === 3 ? (
+            createSnack
+          ) : recipeCreator === 4 ? (
+            createDinner
+          ) : (
+            <h3>Food category doesn't exist, please check path</h3>
+          )
+        }
+        category={
+          <FormControl variant="outlined" size="small">
+            <Select onChange={selectCategory}>
+              <MenuItem value={1}>Aamupala</MenuItem>
+              <MenuItem value={2}>Lounas</MenuItem>
+              <MenuItem value={3}>Välipala</MenuItem>
+              <MenuItem value={4}>Päivällinen</MenuItem>
+            </Select>
+          </FormControl>
+        }
+        addIng={addIng}
+        changeIngHandler={changeIngHandler}
+        onChange={onChange}
+        recipeHandler={recipeHandler}
+        ingredients={ingredients}
+        removeIng={removeIng}
+        image={imgFile}
+      />
+      {/*  )} */}
     </>
   );
 };
