@@ -30,7 +30,9 @@ const AddRecipeCard = ({
   onChange,
   recipeHandler,
   removeIng,
+  image,
 }) => {
+  console.log(recipeData);
   const classes = useStyles();
   return (
     <div>
@@ -83,7 +85,7 @@ const AddRecipeCard = ({
             {recipeData.ingredients &&
               recipeData.ingredients.map((i) => (
                 <Grid container alignItems="center">
-                  <Grid item xs={3}>
+                  <Grid item xs={8}>
                     <Typography key={i}>{i}</Typography>
                   </Grid>
                   <Grid item>
@@ -97,7 +99,8 @@ const AddRecipeCard = ({
           <Grid item>
             <InputLabel>Ohjeet</InputLabel>
             <TextareaAutosize
-              style={{ width: "90%" }}
+              multiline
+              style={{ width: "90%", whiteSpace: "pre-wrap" }}
               rowsMin={10}
               type="text"
               name="instructions"
@@ -109,6 +112,13 @@ const AddRecipeCard = ({
             <InputLabel>Lisää kuva:</InputLabel>
 
             <input type="file" onChange={onChange} />
+            <Grid item>
+              <img
+                src={image}
+                alt={recipeData.title}
+                style={{ width: "80%", marginTop: "2rem" }}
+              />
+            </Grid>
           </Grid>
           <Grid item>
             <Button
@@ -118,9 +128,6 @@ const AddRecipeCard = ({
             >
               Lisää resepti
             </Button>
-            <Grid item>
-              <img src={recipeData.image} />
-            </Grid>
           </Grid>
         </Grid>
       </Card>

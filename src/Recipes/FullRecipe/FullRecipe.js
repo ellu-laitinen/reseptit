@@ -3,11 +3,9 @@ import {
   useParams,
   Switch,
   useRouteMatch,
-  Link,
   Route,
   BrowserRouter as Router,
 } from "react-router-dom";
-import { Card, Grid, Typography, Button } from "@material-ui/core";
 
 import * as queries from "../../graphql/queries";
 import { API, Storage } from "aws-amplify";

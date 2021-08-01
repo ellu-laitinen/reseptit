@@ -1,5 +1,5 @@
 import { createMuiTheme } from "@material-ui/core/styles";
-import { red, green } from "@material-ui/core/colors";
+import { green } from "@material-ui/core/colors";
 
 const theme = createMuiTheme({
   palette: "light",
@@ -14,10 +14,7 @@ theme.overrides = {
       backgroundColor: "green",
       color: "black",
     },
-    outlined: {
-      backgroundColor: "green",
-      color: "black",
-    },
+
     colorSecondary: {
       paddingLeft: 0,
     },

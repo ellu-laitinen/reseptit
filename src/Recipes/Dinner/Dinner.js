@@ -10,20 +10,25 @@ import { listDinners } from "../../graphql/queries";
 import { API, Storage } from "aws-amplify";
 import { deleteDinner as deleteDinnerMutation } from "../../graphql/mutations";
 import RecipeCard from "../RecipeCard";
-
-import AddRecipe from "../AddRecipe/AddRecipe";
-
 import FullRecipe from "../FullRecipe/FullRecipe";
 import { Grid, Typography } from "@material-ui/core";
+import Pagination from "../../Pagination";
 
 const Dinner = () => {
   const [dinner, setDinner] = useState([]);
   let match = useRouteMatch();
 
+  const [nextToken, setNextToken] = useState(undefined);
+  const [newNextToken, setNewNextToken] = useState();
+  const [prevToken, setPrevToken] = useState([]);
+
   useEffect(() => {
     async function fetchDinners() {
-      ("fetching dinnahs");
-      const apiData = await API.graphql({ query: listDinners });
+      const apiData = await API.graphql({
+        query: listDinners,
+        variables: { nextToken, limit: 10 },
+      });
+      setNewNextToken(apiData.data.listDinners.nextToken);
       const dinnerFromAPI = apiData.data.listDinners.items;
       await Promise.all(
         dinnerFromAPI.map(async (recipe) => {
@@ -38,7 +43,7 @@ const Dinner = () => {
       //  console.log(breakfastFromAPI);
     }
     fetchDinners();
-  }, []);
+  }, [nextToken]);
   // DELETE dinner
   console.log(dinner);
   async function deleteDinner({ id }) {
@@ -61,6 +66,14 @@ const Dinner = () => {
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <Typography variant="h5">Päiväruuat</Typography>
+                <Pagination
+                  nextToken={nextToken}
+                  setNextToken={setNextToken}
+                  newNextToken={newNextToken}
+                  setNewNextToken={setNewNextToken}
+                  prevToken={prevToken}
+                  setPrevToken={setPrevToken}
+                />
               </Grid>
               {dinner.map((item) => {
                 return (
@@ -74,9 +87,9 @@ const Dinner = () => {
                   </Grid>
                 );
               })}
-              <Grid item xs={12}>
+              {/*     <Grid item xs={12}>
                 <AddRecipe category={"päiväruoca"} />
-              </Grid>
+              </Grid> */}
             </Grid>
           </Route>
         </Switch>

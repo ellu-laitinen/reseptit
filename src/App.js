@@ -15,10 +15,13 @@ import Breakfasts from "./Recipes/Breakfasts/Breakfasts";
 import Snacks from "./Recipes/Snacks/Snacks";
 import Lunch from "./Recipes/Lunch/Lunch";
 import Dinner from "./Recipes/Dinner/Dinner";
+import AddRecipe from "./Recipes/AddRecipe/AddRecipe";
 
 import theme from "./Theme/theme";
+require("dotenv").config();
 
 function App() {
+  console.log(process.env);
   return (
     <ThemeProvider theme={theme}>
       <Router>
@@ -31,6 +34,7 @@ function App() {
           <Route path="/snacks" exact component={Snacks}></Route>
           <Route path="/lunch" exact component={Lunch}></Route>
           <Route path="/dinner" exact component={Dinner}></Route>
+          <Route path="/add" exact component={AddRecipe}></Route>
         </Switch>
       </Router>
     </ThemeProvider>

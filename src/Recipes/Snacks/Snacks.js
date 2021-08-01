@@ -1,30 +1,34 @@
 import React, { useEffect, useState } from "react";
 import RecipeCard from "../RecipeCard";
 import {
-  Link,
   useRouteMatch,
   Switch,
   Route,
   BrowserRouter as Router,
 } from "react-router-dom";
 import { listSnacks } from "../../graphql/queries";
-import {
-  deleteSnack as deleteSnacksMutation,
-  createSnack as createSnackMutation,
-} from "../../graphql/mutations";
+import { deleteSnack as deleteSnacksMutation } from "../../graphql/mutations";
 import { API, Storage } from "aws-amplify";
 import { Typography, Grid } from "@material-ui/core";
 
 import FullRecipe from "../FullRecipe/FullRecipe";
-import AddRecipe from "../AddRecipe/AddRecipe";
+import Pagination from "../../Pagination";
 
 const Snacks = () => {
   const [snacks, setSnacks] = useState([]);
   let match = useRouteMatch();
 
+  const [nextToken, setNextToken] = useState(undefined);
+  const [newNextToken, setNewNextToken] = useState();
+  const [prevToken, setPrevToken] = useState([]);
+
   useEffect(() => {
     async function fetchSnacks() {
-      const apiData = await API.graphql({ query: listSnacks });
+      const apiData = await API.graphql({
+        query: listSnacks,
+        variables: { nextToken, limit: 10 },
+      });
+      setNewNextToken(apiData.data.listSnacks.nextToken);
       const snackFromAPI = apiData.data.listSnacks.items;
       await Promise.all(
         snackFromAPI.map(async (recipe) => {
@@ -39,7 +43,7 @@ const Snacks = () => {
       console.log(apiData.data.listSnacks.items);
     }
     fetchSnacks();
-  }, []);
+  }, [nextToken]);
 
   async function deleteSnack({ id }) {
     const newSnackArray = snacks.filter((recipe) => recipe.id !== id);
@@ -61,6 +65,14 @@ const Snacks = () => {
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <Typography variant="h5">Ilta- ja välipalat</Typography>
+                <Pagination
+                  nextToken={nextToken}
+                  setNextToken={setNextToken}
+                  newNextToken={newNextToken}
+                  setNewNextToken={setNewNextToken}
+                  prevToken={prevToken}
+                  setPrevToken={setPrevToken}
+                />
               </Grid>
               {snacks.map((item) => {
                 return (
@@ -74,9 +86,9 @@ const Snacks = () => {
                   </Grid>
                 );
               })}
-              <Grid item xs={12}>
+              {/*       <Grid item xs={12}>
                 <AddRecipe category={"välipalainen"} />
-              </Grid>
+              </Grid> */}
             </Grid>
           </Route>
         </Switch>

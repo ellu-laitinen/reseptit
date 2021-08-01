@@ -7,36 +7,19 @@ import {
   createSnack as createSnackMutation,
 } from "../../graphql/mutations";
 import AddRecipeCard from "./AddRecipeCard";
-import { useParams, useRouteMatch } from "react-router";
+import { Select, MenuItem, FormControl } from "@material-ui/core";
+import { username, password } from "./config";
 
 const AddRecipe = ({ category }) => {
+  const [imgFile, setImgFile] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [credentials, setCredentials] = useState(null);
+
   const [recipe, setRecipe] = useState([]);
   const [ingredients, setIngredients] = useState("");
 
   const [recipeCreator, setRecipeCreator] = useState(null);
   console.log("ADD RECIPE");
-  const match = useRouteMatch();
-  console.log(match);
-  console.log(recipeCreator);
-  useEffect(() => {
-    if (match.path === "/dinner") {
-      console.log("dinner");
-      setRecipeCreator(1);
-    }
-    if (match.path === "/lunch") {
-      console.log("lunch");
-      setRecipeCreator(3);
-    }
-
-    if (match.path === "/breakfast") {
-      console.log("breakfast");
-      setRecipeCreator(2);
-    }
-    if (match.path === "/snacks") {
-      console.log("snacks");
-      setRecipeCreator(4);
-    }
-  }, []);
 
   // FORM
   const initialState = {
@@ -56,6 +39,7 @@ const AddRecipe = ({ category }) => {
   };
   console.log(recipeData);
 
+  //add ingredients
   const changeIngHandler = (e) => {
     setIngredients({
       [e.target.name]: e.target.value,
@@ -70,10 +54,15 @@ const AddRecipe = ({ category }) => {
     setIngredients({ value: "" });
   };
 
+  // add image
   async function onChange(e) {
     if (!e.target.files[0]) return;
     const file = e.target.files[0];
-    setRecipeData({ ...recipeData, image: file.name });
+    setRecipeData({
+      ...recipeData,
+      image: file.name,
+    });
+    setImgFile(URL.createObjectURL(e.target.files[0]));
     await Storage.put(file.name, file);
     /*     fetchRecipes(); */
   }
@@ -119,10 +108,12 @@ const AddRecipe = ({ category }) => {
     console.log(recipeData.image);
     console.log(savedBreakfast);
     setRecipe([...recipe, savedBreakfast.data.createBreakfast]);
+
     // empty the form fields
     console.log("clear fields");
 
     setRecipeData({ title: "", ingredients: "", instructions: "" });
+    setImgFile(null);
 
     console.log(recipeData);
   }
@@ -154,7 +145,7 @@ const AddRecipe = ({ category }) => {
     console.log("clear fields");
 
     setRecipeData({ title: "", ingredients: "", instructions: "" });
-
+    setImgFile(null);
     console.log(recipeData);
   }
 
@@ -185,7 +176,7 @@ const AddRecipe = ({ category }) => {
     console.log("clear fields");
 
     setRecipeData({ title: "", ingredients: "", instructions: "" });
-
+    setImgFile(null);
     console.log(recipeData);
   }
   async function createSnack() {
@@ -215,35 +206,84 @@ const AddRecipe = ({ category }) => {
     console.log("clear fields");
 
     setRecipeData({ title: "", ingredients: "", instructions: "" });
-
+    setImgFile(null);
     console.log(recipeData);
   }
 
+  const selectCategory = (e) => {
+    setRecipeCreator(e.target.value);
+  };
+  console.log(recipeCreator);
+
+  const authHandler = (e) => {
+    setCredentials({
+      ...credentials,
+      [e.target.name]: e.target.value,
+    });
+  };
+  console.log(credentials);
+
+  const loginHandler = () => {
+    console.log(credentials);
+    credentials.username == username && credentials.password == password
+      ? setIsAuthenticated(true)
+      : setIsAuthenticated(false);
+  };
+
   return (
-    <AddRecipeCard
-      recipeData={recipeData}
-      setRecipeData={setRecipeData}
-      createRecipe={
-        recipeCreator === 1 ? (
-          createDinner
-        ) : recipeCreator === 2 ? (
-          createBreakfast
-        ) : recipeCreator === 3 ? (
-          createLunch
-        ) : recipeCreator === 4 ? (
-          createSnack
-        ) : (
-          <h3>Food category doesn't exist, please check path</h3>
-        )
-      }
-      category={category}
-      addIng={addIng}
-      changeIngHandler={changeIngHandler}
-      onChange={onChange}
-      recipeHandler={recipeHandler}
-      ingredients={ingredients}
-      removeIng={removeIng}
-    />
+    <>
+      {!isAuthenticated ? (
+        <>
+          <input
+            placeholder="käyttäjä"
+            name="username"
+            onChange={authHandler}
+          ></input>
+          <input
+            type="password"
+            placeholder="salasana"
+            name="password"
+            onChange={authHandler}
+          ></input>
+          <button onClick={loginHandler}>Kirjaudu</button>
+        </>
+      ) : (
+        <AddRecipeCard
+          recipeData={recipeData}
+          setRecipeData={setRecipeData}
+          createRecipe={
+            recipeCreator === 1 ? (
+              createBreakfast
+            ) : recipeCreator === 2 ? (
+              createLunch
+            ) : recipeCreator === 3 ? (
+              createSnack
+            ) : recipeCreator === 4 ? (
+              createDinner
+            ) : (
+              <h3>Food category doesn't exist, please check path</h3>
+            )
+          }
+          category={
+            <FormControl variant="outlined" size="small">
+              <Select onChange={selectCategory}>
+                <MenuItem value={1}>Aamupala</MenuItem>
+                <MenuItem value={2}>Lounas</MenuItem>
+                <MenuItem value={3}>Välipala</MenuItem>
+                <MenuItem value={4}>Päivällinen</MenuItem>
+              </Select>
+            </FormControl>
+          }
+          addIng={addIng}
+          changeIngHandler={changeIngHandler}
+          onChange={onChange}
+          recipeHandler={recipeHandler}
+          ingredients={ingredients}
+          removeIng={removeIng}
+          image={imgFile}
+        />
+      )}
+    </>
   );
 };
 

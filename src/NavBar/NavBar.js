@@ -1,13 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
+import { AppBar, Toolbar, Typography, Button } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-
-import { AmplifySignOut } from "@aws-amplify/ui-react";
-
 import "./NavBar.css";
 import { Grid } from "@material-ui/core";
 
@@ -66,17 +61,21 @@ const NavBar = () => {
                 Päiväruuat
               </Link>
             </Grid>
+
             <ExpandMoreIcon onClick={openHandler} />
           </Grid>
         </Toolbar>{" "}
         {open ? (
-          <AmplifySignOut
-            className={classes.signOut}
-            style={{
-              width: 200,
-              alignSelf: "flex-end",
-            }}
-          />
+          <>
+            <Grid item>
+              <Link to="/add">
+                {" "}
+                <Button style={{ color: "white", textDecoration: "none" }}>
+                  Lisää resepti (vain Ellulle :) )
+                </Button>
+              </Link>
+            </Grid>
+          </>
         ) : (
           ""
         )}

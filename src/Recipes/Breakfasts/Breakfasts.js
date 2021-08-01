@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import {
-  useParams,
-  Link,
   useRouteMatch,
   Switch,
   Route,
@@ -13,8 +11,8 @@ import { API, Storage } from "aws-amplify";
 import { deleteBreakfast as deleteBreakfastMutation } from "../../graphql/mutations";
 
 import FullRecipe from "../FullRecipe/FullRecipe";
-import { Grid, Typography, Button } from "@material-ui/core";
-import AddRecipe from "../AddRecipe/AddRecipe";
+import { Grid, Typography } from "@material-ui/core";
+import Pagination from "../../Pagination";
 
 const Breakfasts = () => {
   const [breakfast, setBreakfast] = useState([]);
@@ -31,7 +29,7 @@ const Breakfasts = () => {
     async function fetchBreakfasts() {
       const apiData = await API.graphql({
         query: listBreakfasts,
-        variables: { nextToken, limit: 3 },
+        variables: { nextToken, limit: 10 },
       });
       setNewNextToken(apiData.data.listBreakfasts.nextToken);
       // console.log(apiData.data.listBreakfasts.nextToken)
@@ -53,20 +51,6 @@ const Breakfasts = () => {
   }, [nextToken]); // re-renders when nextToken changes
 
   console.log(breakfast);
-
-  const getNext = () => {
-    console.log("get next");
-    setPrevToken((prev) => [...prev, nextToken]);
-    setNextToken(newNextToken);
-    setNewNextToken(null);
-  };
-
-  const getPrev = () => {
-    // console.log("get previous")
-    setNextToken(prevToken.pop());
-    setPrevToken([...prevToken]);
-    setNewNextToken(null);
-  };
 
   // delete a recipe
   async function deleteBreakfast({ id }) {
@@ -94,10 +78,18 @@ const Breakfasts = () => {
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <Typography variant="h5">Aamupalat</Typography>
-                <Grid item xs={12} style={{ marginLeft: "1rem" }}>
-                  <Button onClick={getPrev}>Edelliset 3</Button>
-                  <Button onClick={getNext}>Seuraavat 3</Button>
-                </Grid>
+                <Pagination
+                  nextToken={nextToken}
+                  setNextToken={setNextToken}
+                  newNextToken={newNextToken}
+                  setNewNextToken={setNewNextToken}
+                  prevToken={prevToken}
+                  setPrevToken={setPrevToken}
+                />
+                {/*      <Grid item xs={12} style={{ marginLeft: "1rem" }}>
+                  <Button onClick={getPrev}>Edelliset 10</Button>
+                  <Button onClick={getNext}>Seuraavat 10</Button>
+                </Grid> */}
               </Grid>
               {breakfast.map((item) => {
                 return (
@@ -111,9 +103,9 @@ const Breakfasts = () => {
                   </Grid>
                 );
               })}
-              <Grid item xs={12}>
+              {/*     <Grid item xs={12}>
                 <AddRecipe category="aamupala" />
-              </Grid>
+              </Grid> */}
             </Grid>
           </Route>
         </Switch>

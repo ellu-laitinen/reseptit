@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 
 const FullRecipeCard = ({ loadedRecipe, link }) => {
+  const instructions = loadedRecipe.instructions;
   return (
     <Card>
       <Grid container direction="column" spacing={3}>
@@ -20,29 +21,41 @@ const FullRecipeCard = ({ loadedRecipe, link }) => {
             </Button>
           </Grid>
         </Grid>
-        {loadedRecipe.image ? (
-          <Grid item>
-            <img
-              src={loadedRecipe.image}
-              alt={loadedRecipe.title}
-              style={{ width: "90%" }}
-            />
-          </Grid>
-        ) : (
-          ""
-        )}
+        <Grid container spacing={4}>
+          {loadedRecipe.image ? (
+            <Grid item xs={12} sm={6}>
+              <img
+                src={loadedRecipe.image}
+                alt={loadedRecipe.title}
+                style={{ /* height: "15rem",  */ maxWidth: "15rem" }}
+              />
+            </Grid>
+          ) : (
+            ""
+          )}
 
-        <Grid item>
-          <Typography>Ainesosat:</Typography>
-          <ul>
-            {loadedRecipe &&
-              loadedRecipe.ingredients.map((i) => <li key={i}>{i}</li>)}
-          </ul>
-          <Typography></Typography>
+          <Grid item xs={12} sm={6}>
+            <Typography>Ainesosat:</Typography>
+            <ul style={{ listStyleType: "circle" }}>
+              {loadedRecipe &&
+                loadedRecipe.ingredients.map((i) => <li key={i}>{i}</li>)}
+            </ul>
+            <Typography></Typography>
+          </Grid>
         </Grid>
         <Grid item>
           <Typography>Ohje:</Typography>
-          <Typography>{loadedRecipe.instructions}</Typography>
+          <Typography>
+            {instructions &&
+              instructions.split("\n").map((item) => {
+                return (
+                  <span>
+                    {item}
+                    <br></br>
+                  </span>
+                );
+              })}
+          </Typography>
         </Grid>
       </Grid>
     </Card>

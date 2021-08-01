@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import {
-  Link,
   useRouteMatch,
   Switch,
   Route,
@@ -14,20 +13,28 @@ import RecipeCard from "../RecipeCard";
 import FullRecipe from "../FullRecipe/FullRecipe";
 
 import { Grid, Typography } from "@material-ui/core";
-import AddRecipe from "../AddRecipe/AddRecipe";
+import Pagination from "../../Pagination";
 
 const Lunch = () => {
   const [lunch, setLunch] = useState([]);
 
   let match = useRouteMatch();
+
+  const [nextToken, setNextToken] = useState(undefined);
+  const [newNextToken, setNewNextToken] = useState();
+  const [prevToken, setPrevToken] = useState([]);
   console.log(match);
 
   useEffect(() => {
     fetchLunches();
-  }, []);
+  }, [nextToken]);
 
   async function fetchLunches() {
-    const apiData = await API.graphql({ query: listLunchs });
+    const apiData = await API.graphql({
+      query: listLunchs,
+      variables: { nextToken, limit: 10 },
+    });
+    setNewNextToken(apiData.data.listLunchs.nextToken);
     const lunchFromAPI = apiData.data.listLunchs.items;
     console.log(apiData.data.listLunchs.items);
     await Promise.all(
@@ -62,6 +69,14 @@ const Lunch = () => {
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <Typography variant="h5">Lounaat</Typography>
+                <Pagination
+                  nextToken={nextToken}
+                  setNextToken={setNextToken}
+                  newNextToken={newNextToken}
+                  setNewNextToken={setNewNextToken}
+                  prevToken={prevToken}
+                  setPrevToken={setPrevToken}
+                />
               </Grid>
               {lunch.map((item) => {
                 return (
@@ -75,10 +90,6 @@ const Lunch = () => {
                   </Grid>
                 );
               })}
-
-              <Grid item xs={12}>
-                <AddRecipe category="lounas" />
-              </Grid>
             </Grid>
           </Route>
         </Switch>
