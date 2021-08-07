@@ -8,18 +8,18 @@ import { Grid } from "@material-ui/core";
 
 const useStyles = makeStyles(() => ({
   link: {
-    color: "purple",
+    color: "white",
     textDecoration: "none",
     textTransform: "uppercase",
     "&:hover": {
       textDecoration: "underline",
     },
   },
-  title: {
-    color: "purple",
-  },
+  /*   title: {
+    color: "white",
+  }, */
   toolbar: {
-    background: "lightgreen",
+    background: "purple",
   },
 }));
 

@@ -1,5 +1,5 @@
 import { createMuiTheme } from "@material-ui/core/styles";
-import { green } from "@material-ui/core/colors";
+import { green, deepPurple, purple } from "@material-ui/core/colors";
 
 const theme = createMuiTheme({
   palette: "light",
@@ -21,7 +21,7 @@ theme.overrides = {
   },
   MuiCard: {
     root: {
-      backgroundColor: green[50],
+      backgroundColor: purple[100],
       margin: "1rem",
       padding: "1rem",
       borderRadius: "10px",
