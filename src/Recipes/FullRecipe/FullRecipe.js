@@ -13,8 +13,11 @@ import { API, Storage } from "aws-amplify";
 import EditRecipe from "../EditRecipe/EditRecipe";
 import FullRecipeCard from "./FullRecipeCard";
 
+import Modal from "@material-ui/core/Modal";
+import RemoveModal from "../../components/RemoveModal";
 const FullRecipe = () => {
   const [loadedRecipe, setLoadedRecipe] = useState("");
+  const [showModal, setShowModal] = useState(false);
   let match = useRouteMatch();
 
   // useParams checks the parameters of the URL that match,
@@ -108,16 +111,28 @@ const FullRecipe = () => {
 
   console.log(match.url);
   return (
-    <Router>
-      <Switch>
-        <Route path={`${match.url}/edit/:id`}>
-          <EditRecipe />
-        </Route>
-        <Route path={match.path}>
-          <FullRecipeCard link={match.url} loadedRecipe={loadedRecipe} />
-        </Route>
-      </Switch>
-    </Router>
+    <>
+      <Modal open={showModal} onClose={() => setShowModal(false)}>
+        <>
+          <RemoveModal />
+        </>
+      </Modal>
+      <Router>
+        <Switch>
+          <Route path={`/edit/:category/:id`}>
+            <EditRecipe />
+          </Route>
+          <Route path={match.path}>
+            <FullRecipeCard
+              category={category}
+              link={match.url}
+              loadedRecipe={loadedRecipe}
+              remove={() => setShowModal(true)}
+            />
+          </Route>
+        </Switch>
+      </Router>
+    </>
   );
 };
 

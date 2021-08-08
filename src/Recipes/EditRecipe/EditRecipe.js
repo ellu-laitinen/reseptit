@@ -1,19 +1,58 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useRouteMatch } from "react-router-dom";
 import * as queries from "../../graphql/queries";
 import { API, Storage } from "aws-amplify";
-import { updateBreakfast as updateBreakfastMutation } from "../../graphql/mutations";
+import {
+  updateBreakfast as updateBreakfastMutation,
+  updateDinner as updateDinnerMutation,
+  updateLunch as updateLunchMutation,
+  updateSnack as updateSnackMutation,
+} from "../../graphql/mutations";
 import EditRecipeCard from "./EditRecipeCard";
 
 const EditRecipe = () => {
-  let { id } = useParams();
+  let { category, id } = useParams();
+  const { data } = useParams();
+  console.log(data);
+  console.log(category);
+  const match = useRouteMatch();
+  console.log(match);
   const [loadedRecipe, setLoadedRecipe] = useState("");
   const [ingredients, setIngredients] = useState([]);
   const [newIngredient, setNewIngredient] = useState("");
+  const [mutation, setMutation] = useState(null);
+
+  console.log(window.location.href);
 
   console.log(id);
-  useEffect(() => {
+  /*   useEffect(() => {
     fetchBreakfast();
+  }, []); */
+  useEffect(() => {
+    try {
+      if (category === "breakfast") {
+        console.log("this is a breakfast recipe");
+        setMutation(updateBreakfastMutation);
+        fetchBreakfast();
+      }
+      if (category === "lunch") {
+        console.log("this is lunch");
+        setMutation(updateLunchMutation);
+        fetchLunch();
+      }
+      if (category === "dinner") {
+        console.log("this is dinnah");
+        setMutation(updateDinnerMutation);
+        fetchDinner();
+      }
+      if (category === "snacks") {
+        console.log("this is snacks");
+        setMutation(updateSnackMutation);
+        fetchSnack();
+      }
+    } catch (err) {
+      console.log("Error happened", err);
+    }
   }, []);
 
   async function fetchBreakfast() {
@@ -24,6 +63,57 @@ const EditRecipe = () => {
     });
     console.log(apiData);
     const recipeFromAPI = apiData.data.getBreakfast;
+
+    /*    if (recipeFromAPI.image) {
+      console.log(recipeFromAPI);
+      const image = await Storage.get(recipeFromAPI.image);
+      recipeFromAPI.image = image;
+    } */
+    setLoadedRecipe(recipeFromAPI);
+    setIngredients(recipeFromAPI.ingredients);
+  }
+  async function fetchDinner() {
+    console.log("fetching dinners");
+    const apiData = await API.graphql({
+      query: queries.getDinner,
+      variables: { id: id },
+    });
+    console.log(apiData);
+    const recipeFromAPI = apiData.data.getDinner;
+
+    /*    if (recipeFromAPI.image) {
+      console.log(recipeFromAPI);
+      const image = await Storage.get(recipeFromAPI.image);
+      recipeFromAPI.image = image;
+    } */
+    setLoadedRecipe(recipeFromAPI);
+    setIngredients(recipeFromAPI.ingredients);
+  }
+  async function fetchLunch() {
+    console.log("fetching lunches");
+    const apiData = await API.graphql({
+      query: queries.getLunch,
+      variables: { id: id },
+    });
+    console.log(apiData);
+    const recipeFromAPI = apiData.data.getLunch;
+
+    /*    if (recipeFromAPI.image) {
+      console.log(recipeFromAPI);
+      const image = await Storage.get(recipeFromAPI.image);
+      recipeFromAPI.image = image;
+    } */
+    setLoadedRecipe(recipeFromAPI);
+    setIngredients(recipeFromAPI.ingredients);
+  }
+  async function fetchSnack() {
+    console.log("fetching snacks");
+    const apiData = await API.graphql({
+      query: queries.getSnack,
+      variables: { id: id },
+    });
+    console.log(apiData);
+    const recipeFromAPI = apiData.data.getSnack;
 
     /*    if (recipeFromAPI.image) {
       console.log(recipeFromAPI);
@@ -113,7 +203,7 @@ const EditRecipe = () => {
     console.log("new data saved");
 
     await API.graphql({
-      query: updateBreakfastMutation,
+      query: mutation,
       variables: { input: newRecipe },
     });
     /* 

@@ -1,9 +1,30 @@
 import React from "react";
-import { Grid, Card, Button, Typography } from "@material-ui/core";
-import { Link } from "react-router-dom";
+import { Grid, Card, Button, Typography, makeStyles } from "@material-ui/core";
+import { Link, useHistory } from "react-router-dom";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
+import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 
-const FullRecipeCard = ({ loadedRecipe, link }) => {
+const useStyles = makeStyles({
+  link: {
+    color: "black",
+    textDecoration: "none",
+    "&:hover": {
+      textDecoration: "underline",
+    },
+  },
+  button: {
+    textDecoration: "none",
+    marginTop: "2rem",
+    "&:hover": {
+      backgroundColor: "inherit",
+    },
+  },
+});
+
+const FullRecipeCard = ({ loadedRecipe, link, remove, category }) => {
+  const classes = useStyles();
+  const history = useHistory();
+
   const instructions = loadedRecipe.instructions;
   return (
     <Card>
@@ -12,22 +33,14 @@ const FullRecipeCard = ({ loadedRecipe, link }) => {
           <Grid item xs={9} sm={11}>
             <Typography variant="h4">{loadedRecipe.title}</Typography>
           </Grid>
-          <Grid item xs={3} sm={1}>
-            <Button style={{ padding: "1rem" }}>
-              {" "}
-              <Link to={`${link}/edit/${loadedRecipe.id}`}>
-                <EditOutlinedIcon />
-              </Link>
-            </Button>
-          </Grid>
         </Grid>
         <Grid container spacing={4}>
           {loadedRecipe.image ? (
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} md={6}>
               <img
                 src={loadedRecipe.image}
                 alt={loadedRecipe.title}
-                style={{ /* height: "15rem",  */ maxWidth: "15rem" }}
+                style={{ width: "100%" }}
               />
             </Grid>
           ) : (
@@ -56,6 +69,33 @@ const FullRecipeCard = ({ loadedRecipe, link }) => {
                 );
               })}
           </Typography>
+        </Grid>
+        <Grid container direction="row" spacing={2}>
+          <Grid item>
+            {/*    <Link
+              to={`${link}/edit/${loadedRecipe.id}`}
+              className={classes.button}
+            > */}
+            <Button
+              className={classes.button}
+              onClick={() =>
+                history.push(`/edit/${category}/${loadedRecipe.id}`)
+              }
+            >
+              {" "}
+              Muokkaa <EditOutlinedIcon />
+            </Button>
+            {/*  </Link> */}
+          </Grid>
+          {/*    <Grid item>
+            <Button
+              onClick={remove}
+              color="secondary"
+              className={classes.button}
+            >
+              Poista <DeleteOutlineIcon size="small" />
+            </Button>
+          </Grid> */}
         </Grid>
       </Grid>
     </Card>

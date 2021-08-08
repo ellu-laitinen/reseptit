@@ -18,10 +18,8 @@ import Dinner from "./Recipes/Dinner/Dinner";
 import AddRecipe from "./Recipes/AddRecipe/AddRecipe";
 
 import theme from "./Theme/theme";
-require("dotenv").config();
 
 function App() {
-  console.log(process.env);
   return (
     <ThemeProvider theme={theme}>
       <Router>

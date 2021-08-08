@@ -23,6 +23,7 @@ const useStyles = makeStyles({
 
 const RecipeCard = ({ title, img, link, remove }) => {
   const classes = useStyles();
+  console.log(link);
   return (
     <Card elevation={3}>
       <Grid container spacing={2} direction="column">
