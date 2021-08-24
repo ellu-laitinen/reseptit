@@ -46,12 +46,16 @@ const Snacks = () => {
   }, [nextToken]);
 
   async function deleteSnack({ id }) {
-    const newSnackArray = snacks.filter((recipe) => recipe.id !== id);
-    setSnacks(newSnackArray);
-    await API.graphql({
-      query: deleteSnacksMutation,
-      variables: { input: { id } },
-    });
+    if (window.confirm("poista resepti?")) {
+      const newSnackArray = snacks.filter((recipe) => recipe.id !== id);
+      setSnacks(newSnackArray);
+      await API.graphql({
+        query: deleteSnacksMutation,
+        variables: { input: { id } },
+      });
+    } else {
+      console.log("not removed");
+    }
   }
 
   return (

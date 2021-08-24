@@ -50,12 +50,16 @@ const Lunch = () => {
   }
 
   async function deleteLunch({ id }) {
-    const newLunchArray = lunch.filter((recipe) => recipe.id !== id);
-    setLunch(newLunchArray);
-    await API.graphql({
-      query: deleteLunchMutation,
-      variables: { input: { id } },
-    });
+    if (window.confirm("poista resepti?")) {
+      const newLunchArray = lunch.filter((recipe) => recipe.id !== id);
+      setLunch(newLunchArray);
+      await API.graphql({
+        query: deleteLunchMutation,
+        variables: { input: { id } },
+      });
+    } else {
+      console.log("not removed");
+    }
   }
 
   return (

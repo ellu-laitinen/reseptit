@@ -52,18 +52,26 @@ const Breakfasts = () => {
 
   console.log(breakfast);
 
+  const removeModal = () => {
+    return (
+      <div>
+        <button>poista resepti?</button>
+      </div>
+    );
+  };
   // delete a recipe
   async function deleteBreakfast({ id }) {
-    // filter: take every recipe from the existing array ->
-    // check if the id's match to the id of the chosen recipe ->
-    // if it's NOT a match, it's kept in the new array
-    const newBreakfastArray = breakfast.filter((recipe) => recipe.id !== id);
-    setBreakfast(newBreakfastArray);
-    //removes recipe from database
-    await API.graphql({
-      query: deleteBreakfastMutation,
-      variables: { input: { id } },
-    });
+    if (window.confirm("poista resepti?")) {
+      const newBreakfastArray = breakfast.filter((recipe) => recipe.id !== id);
+      setBreakfast(newBreakfastArray);
+      //removes recipe from database
+      await API.graphql({
+        query: deleteBreakfastMutation,
+        variables: { input: { id } },
+      });
+    } else {
+      console.log("not removed");
+    }
   }
 
   return (
