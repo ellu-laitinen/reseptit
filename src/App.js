@@ -6,6 +6,7 @@ import {
   Link,
   Redirect,
 } from "react-router-dom";
+
 import { withAuthenticator } from "@aws-amplify/ui-react";
 
 import { ThemeProvider } from "@material-ui/core/styles";
@@ -16,8 +17,11 @@ import Snacks from "./Recipes/Snacks/Snacks";
 import Lunch from "./Recipes/Lunch/Lunch";
 import Dinner from "./Recipes/Dinner/Dinner";
 import AddRecipe from "./Recipes/AddRecipe/AddRecipe";
+import Login from "./components/Login";
 
 import theme from "./Theme/theme";
+import ProtectedRoute from "./components/ProtectedRoute";
+import AllRecipes from "./components/AllRecipes";
 
 function App() {
   return (
@@ -32,7 +36,7 @@ function App() {
           <Route path="/snacks" exact component={Snacks}></Route>
           <Route path="/lunch" exact component={Lunch}></Route>
           <Route path="/dinner" exact component={Dinner}></Route>
-          <Route path="/add" exact component={AddRecipe}></Route>
+          <Route path="/admin" component={ProtectedRoute}></Route>
         </Switch>
       </Router>
     </ThemeProvider>

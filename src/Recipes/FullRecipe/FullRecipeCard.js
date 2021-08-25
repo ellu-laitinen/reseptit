@@ -1,5 +1,12 @@
 import React from "react";
-import { Grid, Card, Button, Typography, makeStyles } from "@material-ui/core";
+import {
+  Grid,
+  Card,
+  Button,
+  Typography,
+  makeStyles,
+  Divider,
+} from "@material-ui/core";
 import { Link, useHistory } from "react-router-dom";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
@@ -51,7 +58,12 @@ const FullRecipeCard = ({ loadedRecipe, link, remove, category }) => {
             <Typography>Ainesosat:</Typography>
             <ul style={{ listStyleType: "circle" }}>
               {loadedRecipe &&
-                loadedRecipe.ingredients.map((i) => <li key={i}>{i}</li>)}
+                loadedRecipe.ingredients.map((i) => (
+                  <>
+                    <li key={i}>{i}</li>
+                    <Divider style={{ width: "80%", marginBottom: "0.5rem" }} />
+                  </>
+                ))}
             </ul>
             <Typography></Typography>
           </Grid>

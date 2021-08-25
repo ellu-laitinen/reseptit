@@ -5,6 +5,7 @@ import { AppBar, Toolbar, Typography, Button } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import "./NavBar.css";
 import { Grid } from "@material-ui/core";
+import { AmplifySignOut } from "@aws-amplify/ui-react";
 
 const useStyles = makeStyles(() => ({
   link: {
@@ -68,13 +69,16 @@ const NavBar = () => {
         {open ? (
           <>
             <Grid item>
-              <Link to="/add">
+              <Link to="/admin">
                 {" "}
                 <Button style={{ color: "white", textDecoration: "none" }}>
                   Lisää resepti (vain Ellulle :) )
                 </Button>
               </Link>
             </Grid>
+            {/*  <Grid item>
+              <AmplifySignOut />
+            </Grid> */}
           </>
         ) : (
           ""

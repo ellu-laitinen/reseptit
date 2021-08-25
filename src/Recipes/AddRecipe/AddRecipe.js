@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { API, Storage } from "aws-amplify";
+import { Auth } from "aws-amplify";
 import {
   createBreakfast as createBreakfastMutation,
   createDinner as createDinnerMutation,
@@ -8,9 +9,11 @@ import {
 } from "../../graphql/mutations";
 import AddRecipeCard from "./AddRecipeCard";
 import { Select, MenuItem, FormControl } from "@material-ui/core";
+import Login from "../../components/Login";
+import AllRecipes from "../../components/AllRecipes";
 /* import { username, password } from "./config"; */
 
-const AddRecipe = ({ category }) => {
+const AddRecipe = ({ token }) => {
   const [imgFile, setImgFile] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [credentials, setCredentials] = useState(null);
@@ -20,6 +23,7 @@ const AddRecipe = ({ category }) => {
 
   const [recipeCreator, setRecipeCreator] = useState(null);
   console.log("ADD RECIPE");
+  console.log(token);
 
   // FORM
   const initialState = {
@@ -215,74 +219,46 @@ const AddRecipe = ({ category }) => {
   };
   console.log(recipeCreator);
 
-  const authHandler = (e) => {
-    setCredentials({
-      ...credentials,
-      [e.target.name]: e.target.value,
-    });
-  };
-  console.log(credentials);
-
-  /*   const loginHandler = () => {
-    console.log(credentials);
-    credentials.username == username && credentials.password == password
-      ? setIsAuthenticated(true)
-      : setIsAuthenticated(false);
-  }; */
-
   return (
     <>
-      {/*       {!isAuthenticated ? (
-        <>
-          <input
-            placeholder="käyttäjä"
-            name="username"
-            onChange={authHandler}
-          ></input>
-          <input
-            type="password"
-            placeholder="salasana"
-            name="password"
-            onChange={authHandler}
-          ></input>
-          <button onClick={loginHandler}>Kirjaudu</button>
-        </>
-      ) : ( */}
-      <AddRecipeCard
-        recipeData={recipeData}
-        setRecipeData={setRecipeData}
-        createRecipe={
-          recipeCreator === 1 ? (
-            createBreakfast
-          ) : recipeCreator === 2 ? (
-            createLunch
-          ) : recipeCreator === 3 ? (
-            createSnack
-          ) : recipeCreator === 4 ? (
-            createDinner
-          ) : (
-            <h3>Food category doesn't exist, please check path</h3>
-          )
-        }
-        category={
-          <FormControl variant="outlined" size="small">
-            <Select onChange={selectCategory}>
-              <MenuItem value={1}>Aamupala</MenuItem>
-              <MenuItem value={2}>Lounas</MenuItem>
-              <MenuItem value={3}>Välipala</MenuItem>
-              <MenuItem value={4}>Päivällinen</MenuItem>
-            </Select>
-          </FormControl>
-        }
-        addIng={addIng}
-        changeIngHandler={changeIngHandler}
-        onChange={onChange}
-        recipeHandler={recipeHandler}
-        ingredients={ingredients}
-        removeIng={removeIng}
-        image={imgFile}
-      />
-      {/*  )} */}
+      {token ? (
+        <AddRecipeCard
+          recipeData={recipeData}
+          setRecipeData={setRecipeData}
+          createRecipe={
+            recipeCreator === 1 ? (
+              createBreakfast
+            ) : recipeCreator === 2 ? (
+              createLunch
+            ) : recipeCreator === 3 ? (
+              createSnack
+            ) : recipeCreator === 4 ? (
+              createDinner
+            ) : (
+              <h3>Food category doesn't exist, please check path</h3>
+            )
+          }
+          category={
+            <FormControl variant="outlined" size="small">
+              <Select onChange={selectCategory}>
+                <MenuItem value={1}>Aamupala</MenuItem>
+                <MenuItem value={2}>Lounas</MenuItem>
+                <MenuItem value={3}>Välipala</MenuItem>
+                <MenuItem value={4}>Päivällinen</MenuItem>
+              </Select>
+            </FormControl>
+          }
+          addIng={addIng}
+          changeIngHandler={changeIngHandler}
+          onChange={onChange}
+          recipeHandler={recipeHandler}
+          ingredients={ingredients}
+          removeIng={removeIng}
+          image={imgFile}
+        />
+      ) : (
+        ""
+      )}
     </>
   );
 };
