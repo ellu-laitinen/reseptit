@@ -10,7 +10,7 @@ import {
 } from "../../graphql/mutations";
 import EditRecipeCard from "./EditRecipeCard";
 
-const EditRecipe = () => {
+const EditRecipe = ({ token }) => {
   let { category, id } = useParams();
   const { data } = useParams();
   console.log(data);
@@ -23,6 +23,7 @@ const EditRecipe = () => {
   const [mutation, setMutation] = useState(null);
 
   console.log(window.location.href);
+  console.log("");
 
   console.log(id);
   /*   useEffect(() => {
@@ -235,19 +236,25 @@ const EditRecipe = () => {
   console.log(loadedRecipe);
 
   return (
-    <EditRecipeCard
-      loadedRecipe={loadedRecipe}
-      recipeHandler={recipeHandler}
-      ingHandler={ingHandler}
-      onChange={onChange}
-      removeImg={removeImg}
-      addIngHandler={addIngHandler}
-      add
-      saveRecipe={saveRecipe}
-      removeIngHandler={removeIngHandler}
-      changeIngHandler={changeIngHandler}
-      ingredients={ingredients}
-    />
+    <>
+      {token ? (
+        <EditRecipeCard
+          loadedRecipe={loadedRecipe}
+          recipeHandler={recipeHandler}
+          ingHandler={ingHandler}
+          onChange={onChange}
+          removeImg={removeImg}
+          addIngHandler={addIngHandler}
+          add
+          saveRecipe={saveRecipe}
+          removeIngHandler={removeIngHandler}
+          changeIngHandler={changeIngHandler}
+          ingredients={ingredients}
+        />
+      ) : (
+        <h2>You are unauthorised</h2>
+      )}
+    </>
   );
 };
 

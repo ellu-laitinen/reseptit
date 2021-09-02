@@ -76,9 +76,9 @@ const NavBar = () => {
                 </Button>
               </Link>
             </Grid>
-            {/*  <Grid item>
+            <Grid item>
               <AmplifySignOut />
-            </Grid> */}
+            </Grid>
           </>
         ) : (
           ""

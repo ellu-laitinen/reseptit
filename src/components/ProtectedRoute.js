@@ -10,6 +10,7 @@ import {
 import Login from "./Login";
 import AddRecipe from "../Recipes/AddRecipe/AddRecipe";
 import AllRecipes from "./AllRecipes";
+import EditRecipe from "../Recipes/EditRecipe/EditRecipe";
 
 const ProtectedRoute = () => {
   const [username, setUsername] = useState();
@@ -19,7 +20,7 @@ const ProtectedRoute = () => {
     try {
       console.log("signing in?");
       const user = await Auth.signIn(username, password);
-      console.log(user);
+
       if (user) {
         console.log("recognised");
         setToken(true);
@@ -30,8 +31,8 @@ const ProtectedRoute = () => {
       console.log("error signing in", error);
     }
   }
-  console.log(token);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  /*   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -45,7 +46,7 @@ const ProtectedRoute = () => {
         setIsAuthenticated(false);
       }
     })();
-  });
+  }); */
   return (
     <div>
       <Router>
@@ -59,6 +60,9 @@ const ProtectedRoute = () => {
               </Route>
               <Route path="/delete">
                 <AllRecipes token={token} />
+              </Route>
+              <Route path="/edit/:category/:id">
+                <EditRecipe token={token} />
               </Route>
             </>
           ) : (

@@ -52,28 +52,6 @@ const Breakfasts = () => {
 
   console.log(breakfast);
 
-  const removeModal = () => {
-    return (
-      <div>
-        <button>poista resepti?</button>
-      </div>
-    );
-  };
-  // delete a recipe
-  async function deleteBreakfast({ id }) {
-    if (window.confirm("poista resepti?")) {
-      const newBreakfastArray = breakfast.filter((recipe) => recipe.id !== id);
-      setBreakfast(newBreakfastArray);
-      //removes recipe from database
-      await API.graphql({
-        query: deleteBreakfastMutation,
-        variables: { input: { id } },
-      });
-    } else {
-      console.log("not removed");
-    }
-  }
-
   return (
     <div>
       <Router>
@@ -106,7 +84,6 @@ const Breakfasts = () => {
                       title={item.title}
                       img={item.image}
                       link={`${match.url}/${item.id}`}
-                      remove={() => deleteBreakfast(item)}
                     />
                   </Grid>
                 );

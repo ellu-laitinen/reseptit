@@ -7,7 +7,7 @@ import {
   Redirect,
 } from "react-router-dom";
 
-import { withAuthenticator } from "@aws-amplify/ui-react";
+import { withAuthenticator, AmplifySignOut } from "@aws-amplify/ui-react";
 
 import { ThemeProvider } from "@material-ui/core/styles";
 
@@ -43,4 +43,4 @@ function App() {
   );
 }
 
-export default withAuthenticator(App);
+export default App;

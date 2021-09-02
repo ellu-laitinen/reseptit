@@ -46,18 +46,6 @@ const Dinner = () => {
   }, [nextToken]);
   // DELETE dinner
   console.log(dinner);
-  async function deleteDinner({ id }) {
-    if (window.confirm("poista resepti?")) {
-      const newDinnerArray = dinner.filter((recipe) => recipe.id !== id);
-      setDinner(newDinnerArray);
-      await API.graphql({
-        query: deleteDinnerMutation,
-        variables: { input: { id } },
-      });
-    } else {
-      console.log("not removed");
-    }
-  }
 
   return (
     <div>
@@ -81,12 +69,11 @@ const Dinner = () => {
               </Grid>
               {dinner.map((item) => {
                 return (
-                  <Grid item xs={12} sm={4}>
+                  <Grid item xs={12} md={6} lg={4} key={item.id}>
                     <RecipeCard
                       title={item.title}
                       img={item.image}
                       link={`${match.url}/${item.id}`}
-                      remove={() => deleteDinner(item)}
                     />
                   </Grid>
                 );

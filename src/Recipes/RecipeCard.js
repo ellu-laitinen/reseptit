@@ -1,7 +1,16 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Card, Typography, Grid, Button, makeStyles } from "@material-ui/core";
-import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
+import {
+  Card,
+  CardActionArea,
+  Typography,
+  Grid,
+  Button,
+  makeStyles,
+  CardMedia,
+  CardContent,
+  CardActions,
+} from "@material-ui/core";
 
 const useStyles = makeStyles({
   link: {
@@ -21,30 +30,29 @@ const useStyles = makeStyles({
   },
 });
 
-const RecipeCard = ({ title, img, link, remove }) => {
+const RecipeCard = ({ title, img, link }) => {
   const classes = useStyles();
   console.log(link);
   return (
     <Card elevation={3}>
-      <Grid container spacing={2} direction="column">
-        <Grid item xs={12}>
-          <Button>
-            <Link to={link} className={classes.link}>
-              <Typography variant="h6">{title}</Typography>
-            </Link>
-          </Button>
-        </Grid>
+      <CardActionArea>
+        <Link to={link} className={classes.link}>
+          <CardActions>
+            {/* <Grid container spacing={2} direction="column">
+            <Grid item xs={12}> */}
 
-        <Grid item>
-          <img src={img} alt={img} style={{ width: "75%" }} />
-        </Grid>
+            <Typography variant="h6">{title}</Typography>
 
-        <Grid item>
-          <Button onClick={remove} color="secondary" className={classes.button}>
-            <DeleteOutlineIcon size="small" />
-          </Button>
-        </Grid>
-      </Grid>
+            {/*       </Grid>
+          </Grid> */}
+          </CardActions>
+          <CardMedia>
+            {/*  <Grid item> */}
+            <img src={img} alt={img} style={{ width: "75%" }} />
+            {/* </Grid> */}
+          </CardMedia>
+        </Link>
+      </CardActionArea>
     </Card>
   );
 };

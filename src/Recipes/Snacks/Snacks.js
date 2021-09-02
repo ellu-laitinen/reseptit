@@ -45,19 +45,6 @@ const Snacks = () => {
     fetchSnacks();
   }, [nextToken]);
 
-  async function deleteSnack({ id }) {
-    if (window.confirm("poista resepti?")) {
-      const newSnackArray = snacks.filter((recipe) => recipe.id !== id);
-      setSnacks(newSnackArray);
-      await API.graphql({
-        query: deleteSnacksMutation,
-        variables: { input: { id } },
-      });
-    } else {
-      console.log("not removed");
-    }
-  }
-
   return (
     <div>
       <Router>
@@ -80,12 +67,11 @@ const Snacks = () => {
               </Grid>
               {snacks.map((item) => {
                 return (
-                  <Grid item xs={12} sm={4}>
+                  <Grid item xs={12} md={6} lg={4} key={item.id}>
                     <RecipeCard
                       title={item.title}
                       img={item.image}
                       link={`${match.url}/${item.id}`}
-                      remove={() => deleteSnack(item)}
                     />
                   </Grid>
                 );

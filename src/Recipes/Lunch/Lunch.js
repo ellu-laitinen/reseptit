@@ -49,19 +49,6 @@ const Lunch = () => {
     setLunch(lunchFromAPI);
   }
 
-  async function deleteLunch({ id }) {
-    if (window.confirm("poista resepti?")) {
-      const newLunchArray = lunch.filter((recipe) => recipe.id !== id);
-      setLunch(newLunchArray);
-      await API.graphql({
-        query: deleteLunchMutation,
-        variables: { input: { id } },
-      });
-    } else {
-      console.log("not removed");
-    }
-  }
-
   return (
     <div>
       <Router>
@@ -84,12 +71,11 @@ const Lunch = () => {
               </Grid>
               {lunch.map((item) => {
                 return (
-                  <Grid item xs={12} sm={4}>
+                  <Grid item xs={12} md={6} lg={4} key={item.id}>
                     <RecipeCard
                       title={item.title}
                       img={item.image}
                       link={`${match.url}/${item.id}`}
-                      remove={() => deleteLunch(item)}
                     />
                   </Grid>
                 );

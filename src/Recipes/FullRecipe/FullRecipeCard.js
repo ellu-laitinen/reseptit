@@ -8,8 +8,6 @@ import {
   Divider,
 } from "@material-ui/core";
 import { Link, useHistory } from "react-router-dom";
-import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
-import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 
 const useStyles = makeStyles({
   link: {
@@ -81,33 +79,6 @@ const FullRecipeCard = ({ loadedRecipe, link, remove, category }) => {
                 );
               })}
           </Typography>
-        </Grid>
-        <Grid container direction="row" spacing={2}>
-          <Grid item>
-            {/*    <Link
-              to={`${link}/edit/${loadedRecipe.id}`}
-              className={classes.button}
-            > */}
-            <Button
-              className={classes.button}
-              onClick={() =>
-                history.push(`/edit/${category}/${loadedRecipe.id}`)
-              }
-            >
-              {" "}
-              Muokkaa <EditOutlinedIcon />
-            </Button>
-            {/*  </Link> */}
-          </Grid>
-          {/*    <Grid item>
-            <Button
-              onClick={remove}
-              color="secondary"
-              className={classes.button}
-            >
-              Poista <DeleteOutlineIcon size="small" />
-            </Button>
-          </Grid> */}
         </Grid>
       </Grid>
     </Card>
