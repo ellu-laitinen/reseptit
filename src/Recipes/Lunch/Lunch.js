@@ -13,6 +13,7 @@ import RecipeCard from "../RecipeCard";
 import FullRecipe from "../FullRecipe/FullRecipe";
 
 import { Grid, Typography } from "@material-ui/core";
+import { Helmet } from "react-helmet";
 import Pagination from "../../Pagination";
 
 const Lunch = () => {
@@ -51,6 +52,17 @@ const Lunch = () => {
 
   return (
     <div>
+      <Helmet>
+        <title>Lounaat</title>
+        <meta name="description" content="lounaat" />
+
+        <meta property="og:type" content="lounaat" />
+        <meta property="og:description" content="lounasreseptit" />
+        <meta
+          property="og:image"
+          content="https://source.unsplash.com/dlfknldfkiSkw"
+        />
+      </Helmet>
       <Router>
         <Switch>
           <Route path={"/:category/:postId"}>
@@ -59,15 +71,17 @@ const Lunch = () => {
           <Route path={match.path}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
-                <Typography variant="h5">Lounaat</Typography>
-                <Pagination
-                  nextToken={nextToken}
-                  setNextToken={setNextToken}
-                  newNextToken={newNextToken}
-                  setNewNextToken={setNewNextToken}
-                  prevToken={prevToken}
-                  setPrevToken={setPrevToken}
-                />
+                <Typography variant="h4">Lounaat</Typography>
+                {newNextToken && (
+                  <Pagination
+                    nextToken={nextToken}
+                    setNextToken={setNextToken}
+                    newNextToken={newNextToken}
+                    setNewNextToken={setNewNextToken}
+                    prevToken={prevToken}
+                    setPrevToken={setPrevToken}
+                  />
+                )}
               </Grid>
               {lunch.map((item) => {
                 return (

@@ -22,6 +22,9 @@ const Dinner = () => {
   const [newNextToken, setNewNextToken] = useState();
   const [prevToken, setPrevToken] = useState([]);
 
+  console.log("dinners length", dinner);
+  console.log("next token", newNextToken);
+
   useEffect(() => {
     async function fetchDinners() {
       const apiData = await API.graphql({
@@ -57,15 +60,17 @@ const Dinner = () => {
           <Route path={match.path}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
-                <Typography variant="h5">Päiväruuat</Typography>
-                <Pagination
-                  nextToken={nextToken}
-                  setNextToken={setNextToken}
-                  newNextToken={newNextToken}
-                  setNewNextToken={setNewNextToken}
-                  prevToken={prevToken}
-                  setPrevToken={setPrevToken}
-                />
+                <Typography variant="h4">Päiväruuat</Typography>
+                {newNextToken && (
+                  <Pagination
+                    nextToken={nextToken}
+                    setNextToken={setNextToken}
+                    newNextToken={newNextToken}
+                    setNewNextToken={setNewNextToken}
+                    prevToken={prevToken}
+                    setPrevToken={setPrevToken}
+                  />
+                )}
               </Grid>
               {dinner.map((item) => {
                 return (

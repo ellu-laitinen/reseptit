@@ -53,7 +53,7 @@ const FullRecipeCard = ({ loadedRecipe, link, remove, category }) => {
           )}
 
           <Grid item xs={12} sm={6}>
-            <Typography>Ainesosat:</Typography>
+            <Typography variant="h5">Ainesosat:</Typography>
             <ul style={{ listStyleType: "circle" }}>
               {loadedRecipe &&
                 loadedRecipe.ingredients.map((i) => (
@@ -66,9 +66,11 @@ const FullRecipeCard = ({ loadedRecipe, link, remove, category }) => {
             <Typography></Typography>
           </Grid>
         </Grid>
+        <Typography variant="h5" style={{ marginTop: "1rem" }}>
+          Ohje:
+        </Typography>
         <Grid item>
-          <Typography>Ohje:</Typography>
-          <Typography>
+          <Typography style={{ marginLeft: "1rem" }}>
             {instructions &&
               instructions.split("\n").map((item) => {
                 return (

@@ -12,6 +12,7 @@ import { deleteBreakfast as deleteBreakfastMutation } from "../../graphql/mutati
 
 import FullRecipe from "../FullRecipe/FullRecipe";
 import { Grid, Typography } from "@material-ui/core";
+import { Helmet } from "react-helmet";
 import Pagination from "../../Pagination";
 
 const Breakfasts = () => {
@@ -50,7 +51,7 @@ const Breakfasts = () => {
     fetchBreakfasts();
   }, [nextToken]); // re-renders when nextToken changes
 
-  console.log(breakfast);
+  console.log(nextToken);
 
   return (
     <div>
@@ -63,15 +64,18 @@ const Breakfasts = () => {
           <Route path={match.path}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
-                <Typography variant="h5">Aamupalat</Typography>
-                <Pagination
-                  nextToken={nextToken}
-                  setNextToken={setNextToken}
-                  newNextToken={newNextToken}
-                  setNewNextToken={setNewNextToken}
-                  prevToken={prevToken}
-                  setPrevToken={setPrevToken}
-                />
+                <Typography variant="h4">Aamupalat</Typography>
+                {newNextToken && (
+                  <Pagination
+                    nextToken={nextToken}
+                    setNextToken={setNextToken}
+                    newNextToken={newNextToken}
+                    setNewNextToken={setNewNextToken}
+                    prevToken={prevToken}
+                    setPrevToken={setPrevToken}
+                  />
+                )}
+
                 {/*      <Grid item xs={12} style={{ marginLeft: "1rem" }}>
                   <Button onClick={getPrev}>Edelliset 10</Button>
                   <Button onClick={getNext}>Seuraavat 10</Button>

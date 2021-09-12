@@ -55,15 +55,17 @@ const Snacks = () => {
           <Route path={match.path}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
-                <Typography variant="h5">Ilta- ja välipalat</Typography>
-                <Pagination
-                  nextToken={nextToken}
-                  setNextToken={setNextToken}
-                  newNextToken={newNextToken}
-                  setNewNextToken={setNewNextToken}
-                  prevToken={prevToken}
-                  setPrevToken={setPrevToken}
-                />
+                <Typography variant="h4">Ilta- ja välipalat</Typography>
+                {newNextToken && (
+                  <Pagination
+                    nextToken={nextToken}
+                    setNextToken={setNextToken}
+                    newNextToken={newNextToken}
+                    setNewNextToken={setNewNextToken}
+                    prevToken={prevToken}
+                    setPrevToken={setPrevToken}
+                  />
+                )}
               </Grid>
               {snacks.map((item) => {
                 return (

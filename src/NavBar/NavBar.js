@@ -63,26 +63,26 @@ const NavBar = () => {
               </Link>
             </Grid>
 
-            <ExpandMoreIcon onClick={openHandler} />
+            {/*   <ExpandMoreIcon onClick={openHandler} /> */}
           </Grid>
         </Toolbar>{" "}
-        {open ? (
+        {/*    {open ? (
           <>
             <Grid item>
-              <Link to="/admin">
+              <Link to="/admin" style={{ textDecoration: "none" }}>
                 {" "}
-                <Button style={{ color: "white", textDecoration: "none" }}>
-                  Lisää resepti (vain Ellulle :) )
+                <Button style={{ color: "white", textTransform: "lowercase" }}>
+                  admin
                 </Button>
               </Link>
-            </Grid>
-            <Grid item>
+            </Grid> */}
+        {/*    <Grid item>
               <AmplifySignOut />
-            </Grid>
-          </>
+            </Grid> */}
+        {/*       </>
         ) : (
           ""
-        )}
+        )} */}
       </AppBar>
     </div>
   );
