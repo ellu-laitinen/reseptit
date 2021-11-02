@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Helmet } from "react-helmet";
 import {
   useRouteMatch,
   Switch,
@@ -12,7 +13,7 @@ import { deleteBreakfast as deleteBreakfastMutation } from "../../graphql/mutati
 
 import FullRecipe from "../FullRecipe/FullRecipe";
 import { Grid, Typography } from "@material-ui/core";
-import { Helmet } from "react-helmet";
+
 import Pagination from "../../Pagination";
 
 const Breakfasts = () => {
@@ -55,6 +56,18 @@ const Breakfasts = () => {
 
   return (
     <div>
+      <Helmet>
+        <title>aamupalaiset</title>
+
+        <meta name="theme-color" content="#e2e2e2" />
+        <meta name="description" content="reseptiappi" />
+        <meta property="og:type" content="aamupalat" />
+        <meta property="og:description" content="Aamupalareseptit" />
+        <meta
+          property="og:image"
+          content="https://source.unsplash.com/jw3GOzxiSkw"
+        />
+      </Helmet>
       <Router>
         <Switch>
           <Route path={"/:category/:postId"}>

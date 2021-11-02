@@ -1,10 +1,8 @@
 {
-    "identityPoolName": "reseptit53a69c08_identitypool_53a69c08",
-    "allowUnauthenticatedIdentities": true,
     "resourceNameTruncated": "resept53a69c08",
     "userPoolName": "reseptit53a69c08_userpool_53a69c08",
     "autoVerifiedAttributes": [
-        "phone_number"
+        "email"
     ],
     "mfaConfiguration": "OFF",
     "mfaTypes": [
@@ -14,7 +12,7 @@
     "smsVerificationMessage": "{####}",
     "emailVerificationSubject": "Your verification code",
     "emailVerificationMessage": "Your verification code is {####}",
-    "defaultPasswordPolicy": false,
+    "defaultPasswordPolicy": true,
     "passwordPolicyMinLength": 8,
     "passwordPolicyCharacters": [],
     "requiredAttributes": [
@@ -32,7 +30,7 @@
     "userpoolClientSetAttributes": false,
     "sharedId": "53a69c08",
     "resourceName": "reseptit53a69c08",
-    "authSelections": "identityPoolAndUserPool",
+    "authSelections": "userPoolOnly",
     "authRoleArn": {
         "Fn::GetAtt": [
             "AuthRole",
@@ -50,7 +48,6 @@
     "serviceName": "Cognito",
     "usernameCaseSensitive": false,
     "dependsOn": [],
-    "thirdPartyAuth": false,
     "userPoolGroups": false,
     "adminQueries": false,
     "triggers": "{}",
